@@ -33,8 +33,8 @@ public class RoleServiceImpl implements IRoleService {
     }
 
     @Override
-    public List<Role> getRoles() {
-        return _roleDao.selectRoles();
+    public List<Role> getAllRoles() {
+        return _roleDao.selectAllRoles();
     }
 
     @Override

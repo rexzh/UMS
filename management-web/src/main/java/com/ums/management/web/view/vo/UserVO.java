@@ -75,7 +75,17 @@ public class UserVO {
 
     public Role getRole(){ return role; }
 
+    private boolean enabled;
+
     public void setRole(Role role){
         this.role = role;
+    }
+
+    public boolean getEnabled() {
+        return enabled;
+    }
+
+    public void setEnabled(boolean enabled) {
+        this.enabled = enabled;
     }
 }

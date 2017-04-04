@@ -33,8 +33,8 @@ public class UserServiceImpl implements IUserService {
     }
 
     @Override
-    public List<User> getUsers() {
-        return _userDao.selectUsers();
+    public List<User> getAllUsers() {
+        return _userDao.selectAllUsers();
     }
 
     @Override

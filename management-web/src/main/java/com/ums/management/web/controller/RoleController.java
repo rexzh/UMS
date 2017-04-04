@@ -24,7 +24,7 @@ public class RoleController {
     @RequestMapping("/role.json")
     public ResponseVO getAllRoles(){
         ResponseVO response = ResponseVO.buildSuccessResponse();
-        response.addData("roles", this._svc.getRoles());
+        response.addData("roles", this._svc.getAllRoles());
         return response;
     }
 

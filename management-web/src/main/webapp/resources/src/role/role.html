@@ -23,6 +23,7 @@
                 <th>ID</th>
                 <th>名称</th>
                 <th>描述</th>
+                <th>激活</th>
                 <th>操作</th>
             </tr>
         </thead>
@@ -32,6 +33,7 @@
                 <td>{{role.id}}</td>
                 <td>{{role.name}}</td>
                 <td>{{role.description}}</td>
+                <td><div metro-checkbox ng-model="role.enabled" ng-disabled="true"></div></td>
                 <td class="center">
                     <a class="btn btn-primary btn-sm" ng-click="modify($index)">
                         <i class="icon-edit"></i> 修改

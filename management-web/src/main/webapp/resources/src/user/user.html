@@ -23,6 +23,7 @@
                 <th>ID</th>
                 <th>用户名</th>
                 <th>姓名</th>
+                <th>激活</th>
                 <th>操作</th>
             </tr>
         </thead>
@@ -32,7 +33,7 @@
                 <td>{{user.id}}</td>
                 <td>{{user.code}}</td>
                 <td>{{user.name}}</td>
-
+                <td><div metro-checkbox ng-model="user.enabled" ng-disabled="true"></div></td>
                 <td class="center">
                     <a class="btn btn-primary btn-sm" ng-click="modify($index)">
                         <i class="icon-edit"></i> 修改

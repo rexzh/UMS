@@ -10,7 +10,8 @@ import java.util.List;
  */
 public interface IRoleService {
     Role getRoleById(int id);
-    List<Role> getRoles();
+    List<Role> getAllRoles();
+
     void deleteById(int id);
     void create(Role role, List<RoleMenu> roleMenus);
     void update(Role role, List<RoleMenu> roleMenus);

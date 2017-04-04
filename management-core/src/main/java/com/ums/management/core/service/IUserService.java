@@ -10,7 +10,8 @@ import java.util.List;
  */
 public interface IUserService {
     User getUserById(long id);
-    List<User> getUsers();
+    List<User> getAllUsers();
+
     void deleteById(long id);
     void create(User user, Role role);
     void update(User user, Role role);

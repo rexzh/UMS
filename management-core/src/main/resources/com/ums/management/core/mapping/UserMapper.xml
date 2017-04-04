@@ -22,7 +22,7 @@
     -->
     id, code, name, salt, password, enabled
   </sql>
-  <select id="selectUsers" resultMap="BaseResultMap">
+  <select id="selectAllUsers" resultMap="BaseResultMap">
     select
     <include refid="Base_Column_List" />
     from user

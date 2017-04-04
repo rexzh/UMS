@@ -23,7 +23,7 @@ public class UserController {
     @RequestMapping("/user.json")
     public ResponseVO getAllUsers(){
         ResponseVO response = ResponseVO.buildSuccessResponse();
-        response.addData("users", this._svc.getUsers());
+        response.addData("users", this._svc.getAllUsers());
         return response;
     }
 
