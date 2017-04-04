@@ -10,7 +10,7 @@ app.controller('UserCtrl', function($scope, $location, $http, msgbox, $base_url)
     });
 
     $scope.remove = function(idx) {
-        msgbox.show().then(function(x){
+        msgbox.show({text: "删除当前记录?"}).then(function(x){
             if(x) {
                 var id = $scope.users[idx].id;
                 var url = $base_url + '/management/user.json/' + id;
@@ -29,4 +29,8 @@ app.controller('UserCtrl', function($scope, $location, $http, msgbox, $base_url)
     $scope.modify = function(idx) {
         $location.path("/userModify/" + $scope.users[idx].id);
     };
+
+    $scope.reset = function(idx) {
+        //TODO:call reset service and display it
+    }
 });

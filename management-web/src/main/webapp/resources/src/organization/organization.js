@@ -9,7 +9,7 @@ app.controller('OrganizationCtrl', function($scope, $location, $http, msgbox, $b
     });
 
     $scope.remove = function(idx) {
-        msgbox.show().then(function(x){
+        msgbox.show({text: "删除当前记录?"}).then(function(x){
             if(x) {
                 var id = $scope.organizations[idx].id;
                 var url = $base_url + '/management/organization.json/' + id;

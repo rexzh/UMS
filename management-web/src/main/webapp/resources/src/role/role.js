@@ -10,7 +10,7 @@ app.controller('RoleCtrl', function($scope, $location, $http, msgbox, $base_url)
     });
 
     $scope.remove = function(idx) {
-        msgbox.show().then(function(x){
+        msgbox.show({text: "删除当前记录?"}).then(function(x){
             if(x) {
                 var id = $scope.roles[idx].id;
                 var url = $base_url + '/management/role.json/' + id;

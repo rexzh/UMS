@@ -7,9 +7,11 @@ import com.ums.management.core.model.Role;
 import com.ums.management.core.model.User;
 import com.ums.management.core.model.UserRole;
 import com.ums.management.core.service.IUserService;
+import org.apache.commons.lang3.RandomStringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.apache.commons.codec.digest.DigestUtils;
 
 import java.util.List;
 
@@ -47,6 +49,9 @@ public class UserServiceImpl implements IUserService {
     @Override
     @Transactional
     public void create(User user, Role role) {
+        String salt = RandomStringUtils.randomNumeric(4);
+        user.setSalt(salt);
+
         _userDao.insert(user);
         UserRole ur = new UserRole();
         ur.setUserId(user.getId());
