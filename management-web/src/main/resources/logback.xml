@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+	<appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
+		<encoder>
+			<charset>UTF-8</charset>
+			<pattern>%date|%-5level|%logger{40}|%msg%n</pattern>
+		</encoder>
+	</appender>
+
+	<appender name="FILE"
+		class="ch.qos.logback.core.rolling.RollingFileAppender">
+		<file>/opt/logs/management.log</file>
+		<rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+			<fileNamePattern>/opt/logs/management.log.%d{yyyy-MM-dd}
+			</fileNamePattern>
+			<maxHistory>15</maxHistory>
+		</rollingPolicy>
+		<encoder>
+			<charset>UTF-8</charset>
+			<pattern>%date|%-5level|%logger{40}|%msg%n</pattern>
+		</encoder>
+	</appender>
+
+	<logger name="org.springframework">
+		<level value="WARN" />
+	</logger>
+
+	<logger name="java.sql">
+		<level value="ERROR" />
+	</logger>
+
+	<logger name="org.apache">
+		<level value="ERROR" />
+	</logger>
+
+	<logger name="org.eclipse.jetty">
+		<level value="INFO" />
+	</logger>
+
+	<root level="WARN">
+		<appender-ref ref="STDOUT" />
+		<appender-ref ref="FILE" />
+	</root>
+
+</configuration>

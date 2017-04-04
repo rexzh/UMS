@@ -1,0 +1,129 @@
+﻿<!DOCTYPE html>
+<html lang="en" id="ng-app" ng-app="AppModule">
+<head>    
+    <!-- start: Meta -->
+    <meta charset="utf-8">
+    <title>GP</title>
+    <meta name="description" content="GP">    
+    <meta name="keyword" content="GP">
+    <!-- end: Meta -->
+    
+    <!-- start: Mobile Specific -->
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- end: Mobile Specific -->
+    
+    <!-- start: CSS -->
+    <link id="bootstrap-style" href="css/bootstrap.css" rel="stylesheet">
+    <link href="css/bootstrap-responsive.css" rel="stylesheet">
+    <link id="base-style" href="css/style.css" rel="stylesheet">
+    <link id="base-style-responsive" href="css/style-responsive.css" rel="stylesheet">
+    <link href="css/preload.css" rel="stylesheet">
+    <!-- end: CSS -->
+        
+    <!-- start: Favicon -->
+    <!--
+    <link rel="shortcut icon" href="img/favicon.ico">
+    -->
+    <!-- end: Favicon -->
+    
+</head>
+
+<body>
+    <!-- start: Header -->
+    <div class="navbar" ng-controller="NavCtrl">
+        <div class="navbar-inner">
+            <div class="container-fluid">
+                <a class="btn btn-navbar" data-toggle="collapse" data-target=".top-nav.nav-collapse,.sidebar-nav.nav-collapse">
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </a>
+                <a class="brand"><img style="height: 36px" /><span>{{brand}}</span></a>
+            </div>
+        </div>
+    </div>
+    <!-- start: Header -->
+    
+    <div class="container-fluid-full">
+        <div class="row-fluid">
+                
+            <!-- start: Main Menu -->
+            <div id="sidebar-left" class="span2" ng-controller="MenuCtrl">
+                <div class="nav-collapse sidebar-nav">
+                    <div metro-menu menu-data="menus" ></div>
+                </div>
+            </div>
+            <!-- end: Main Menu -->
+
+            
+            
+            <!-- start: Content -->
+            <div id="content" class="span10">
+                <div ng-controller="SystemStatusCtrl">
+                    <div metro-wait ng-show="showWait"></div>
+
+                    <div class="alert alert-{{message.type}}" style="margin-top: -26px; margin-bottom: 30px;" ng-show="showMessage">
+                        <button type="button" class="close" ng-click="hide()">×</button>
+                        <h4 class="alert-heading">{{message.head}}</h4>
+                        <p>{{message.detail}}</p>
+                    </div>
+
+                </div>
+                <div ng-view></div>
+            
+            </div><!--/.fluid-container-->
+    
+            <!-- end: Content -->
+        </div><!--/#content.span10-->
+    </div><!--/fluid-row-->
+
+    
+    <!-- start: JavaScript Lib-->
+    <script src="lib/jquery-1.9.1.min.js"></script>
+    <script src="lib/jquery-migrate-1.0.0.min.js"></script>
+    <script src="lib/jquery-ui-1.10.0.custom.min.js"></script>
+
+    <script src="lib/modernizr.js"></script>
+    <script src="lib/bootstrap.min.js"></script>
+    
+    <script src="lib/excanvas.js"></script>
+    <script src="lib/jquery.flot.js"></script>
+    <script src="lib/jquery.flot.pie.js"></script>
+    <script src="lib/jquery.flot.stack.js"></script>
+    <script src="lib/jquery.flot.resize.min.js"></script>    
+    <script src="lib/jquery.uniform.min.js"></script>
+    <script src="lib/jquery.noty.js"></script>    
+    <script src="lib/jquery.uploadify-3.1.min.js"></script>
+    <script src="lib/jquery.gritter.min.js"></script>    
+    <script src="lib/jquery.knob.modified.js"></script>
+    <script src="lib/jquery.sparkline.min.js"></script>
+    
+    <script src="lib/angular.min.js"></script>
+    <script src="lib/angular-route.min.js"></script>
+    <script src="lib/angular-resource.min.js"></script>
+    <!-- end: JavaScript Lib-->
+    <script src="angular_modules/directives.js"></script>
+    <script src="angular_modules/service.js"></script>
+    <script src="angular_modules/l10n.js"></script>
+
+    <script src="res/en_us.js"></script>
+    <script src="res/zh_cn.js"></script>
+
+    <script src="src/app.js"></script>
+    <script src="src/controller.js"></script>
+
+
+
+    <script src="src/settings/controller.js"></script>
+    <script src="src/chgpwd/controller.js"></script>
+
+    <script src="src/about/about.js"></script>
+
+    <script src="src/submenu/submenu.js"></script>
+    <script src="src/submenu/submenuEdit.js"></script>
+    <script src="src/role/role.js"></script>
+    <script src="src/role/roleEdit.js"></script>
+    <script src="src/user/user.js"></script>
+    <script src="src/user/userEdit.js"></script>
+</body>
+</html>
