@@ -76,4 +76,14 @@ public class UserServiceImpl implements IUserService {
         Role role = _roleDao.selectByPrimaryKey(userRole.getRoleId());
         return role;
     }
+
+    @Override
+    public String resetPassword(long id) {
+        User user = _userDao.selectByPrimaryKey(id);
+        String password = RandomStringUtils.randomNumeric(6);
+        String hash = DigestUtils.md5Hex(password + user.getSalt());
+        user.setPassword(hash);
+        _userDao.updateByPrimaryKey(user);
+        return password;
+    }
 }

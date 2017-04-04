@@ -54,5 +54,6 @@ app.controller('UserEditCtrl', function($scope, $location, $window, $routeParams
                     $location.path('/user');
             });
         }
-    }
+    };
+
 });

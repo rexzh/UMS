@@ -17,4 +17,6 @@ public interface IUserService {
     void update(User user, Role role);
 
     Role getRoleByUser(User user);
+
+    String resetPassword(long id);
 }

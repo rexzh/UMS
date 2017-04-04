@@ -1,6 +1,6 @@
 'use strict';
 
-app.controller('UserCtrl', function($scope, $location, $http, msgbox, $base_url) {
+app.controller('UserCtrl', function($scope, $location, $http, msgbox, notify, $base_url) {
     
     $http.get($base_url + '/management/user.json').then(function(resp){
         if(resp.data.result) {
@@ -31,6 +31,12 @@ app.controller('UserCtrl', function($scope, $location, $http, msgbox, $base_url)
     };
 
     $scope.reset = function(idx) {
-        //TODO:call reset service and display it
+        var url = $base_url + '/management/user.json/reset/' + $scope.users[idx].id;
+        $http.put(url).then(function(resp){
+            if(resp.data.result) {
+                var pwd = resp.data.data.password;
+                msgbox.show({text: "密码重置为：" + pwd});
+            }
+        });
     }
 });

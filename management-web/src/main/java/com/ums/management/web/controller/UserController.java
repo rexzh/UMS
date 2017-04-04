@@ -63,12 +63,20 @@ public class UserController {
         return response;
     }
 
-
     @RequestMapping(value = "/user.json/{id}", method = RequestMethod.DELETE)
-    public ResponseVO deleteUser(@PathVariable("id") Integer id) {
+    public ResponseVO deleteUser(@PathVariable("id") long id) {
         this._svc.deleteById(id);
 
         ResponseVO response = ResponseVO.buildSuccessResponse();
+        return response;
+    }
+
+    @RequestMapping(value = "/user.json/reset/{id}", method = RequestMethod.PUT)
+    public ResponseVO resetUserPassword(@PathVariable("id") long id) {
+        String password = this._svc.resetPassword(id);
+
+        ResponseVO response = ResponseVO.buildSuccessResponse();
+        response.addData("password", password);
         return response;
     }
 }
