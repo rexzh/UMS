@@ -12,7 +12,9 @@
 			http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-4.0.xsd">
 
 	<context:annotation-config />
-	<context:component-scan base-package="com.ums.management.**" />
+	<context:component-scan base-package="com.ums.management.**">
+		<context:exclude-filter type="annotation" expression="org.springframework.stereotype.Service"/>
+	</context:component-scan>
 
 	<context:property-placeholder
 			ignore-unresolvable="true" location="classpath*:/application.properties" />
