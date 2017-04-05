@@ -2,6 +2,7 @@
 package com.ums.management.core.service;
 
 import com.ums.management.core.model.Organization;
+import com.ums.management.core.model.User;
 
 import java.util.List;
 

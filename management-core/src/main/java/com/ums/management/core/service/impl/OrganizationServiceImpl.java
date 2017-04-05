@@ -5,6 +5,7 @@ import java.util.List;
 
 import com.ums.management.core.dao.OrganizationMapper;
 import com.ums.management.core.model.Organization;
+import com.ums.management.core.model.User;
 import com.ums.management.core.service.IOrganizationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

@@ -1,5 +1,6 @@
 package com.ums.management.core.service;
 
+import com.ums.management.core.model.Organization;
 import com.ums.management.core.model.Role;
 import com.ums.management.core.model.User;
 
@@ -13,10 +14,11 @@ public interface IUserService {
     List<User> getAllUsers();
 
     void deleteById(long id);
-    void create(User user, Role role);
-    void update(User user, Role role);
+    void create(User user, Role role, List<Organization> orgs);
+    void update(User user, Role role, List<Organization> orgs);
 
     Role getRoleByUser(User user);
+    List<Organization> getOrganizationsByUser(User user);
 
     String resetPassword(long id);
 }

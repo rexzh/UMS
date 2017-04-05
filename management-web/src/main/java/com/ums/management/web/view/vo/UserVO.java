@@ -1,6 +1,10 @@
 package com.ums.management.web.view.vo;
 
+import com.ums.management.core.model.Organization;
 import com.ums.management.core.model.Role;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by Rex on 2017/4/3.
@@ -87,5 +91,15 @@ public class UserVO {
 
     public void setEnabled(boolean enabled) {
         this.enabled = enabled;
+    }
+
+    private List<Organization> organizations = new ArrayList<>();
+
+    public List<Organization> getOrganizations() {
+        return organizations;
+    }
+
+    public void setOrganizations(List<Organization> organizations) {
+        this.organizations = organizations;
     }
 }

@@ -4,7 +4,7 @@
 	<modelVersion>4.0.0</modelVersion>
 
 	<parent>
-		<groupId>com.quartzx.management</groupId>
+		<groupId>com.ums.management</groupId>
 		<artifactId>management-site</artifactId>
 		<version>0.0.1-SNAPSHOT</version>
 	</parent>
@@ -16,7 +16,7 @@
 
 	<dependencies>
 		<dependency>
-			<groupId>com.quartzx.management</groupId>
+			<groupId>com.ums.management</groupId>
 			<artifactId>management-core</artifactId>
 			<version>0.0.1-SNAPSHOT</version>
 		</dependency>
@@ -70,8 +70,7 @@
 			<groupId>org.apache.commons</groupId>
 			<artifactId>commons-lang3</artifactId>
 		</dependency>
-		
-		
+
 		<!-- servlet [provide] -->
 		<dependency>
 			<groupId>javax.servlet</groupId>

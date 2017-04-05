@@ -1,5 +1,6 @@
 package com.ums.management.web.controller;
 
+import com.ums.management.core.model.Organization;
 import com.ums.management.core.model.Role;
 import com.ums.management.core.model.RoleMenu;
 import com.ums.management.core.model.User;
@@ -33,10 +34,12 @@ public class UserController {
         ResponseVO response = ResponseVO.buildSuccessResponse();
         User user = this._svc.getUserById(userId);
         Role role = this._svc.getRoleByUser(user);
+        List<Organization> orgs = this._svc.getOrganizationsByUser(user);
 
         UserVO userVO = new UserVO();
         BeanUtils.copyProperties(user, userVO);
         userVO.setRole(role);
+        userVO.setOrganizations(orgs);
 
         response.addData("user", userVO);
         return response;
@@ -46,7 +49,7 @@ public class UserController {
     public ResponseVO updateUser(@RequestBody UserVO userVO) {
         User user = new User();
         BeanUtils.copyProperties(userVO, user);
-        this._svc.update(user, userVO.getRole());
+        this._svc.update(user, userVO.getRole(), userVO.getOrganizations());
 
         ResponseVO response = ResponseVO.buildSuccessResponse();
         return response;
@@ -57,7 +60,7 @@ public class UserController {
 
         User user = new User();
         BeanUtils.copyProperties(userVO, user);
-        this._svc.create(user, userVO.getRole());
+        this._svc.create(user, userVO.getRole(), userVO.getOrganizations());
 
         ResponseVO response = ResponseVO.buildSuccessResponse();
         return response;

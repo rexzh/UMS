@@ -1,0 +1,6 @@
+/.idea
+/management-core/target
+/management-web/target
+/management-site.iml
+/management-web/*.iml
+/management-core/*.iml

@@ -54,4 +54,6 @@ public interface OrganizationMapper {
     int updateByPrimaryKey(Organization record);
 
     List<Organization> selectOrganizations();
+
+    List<Organization> selectOrganizationsByUserId(long userId);
 }

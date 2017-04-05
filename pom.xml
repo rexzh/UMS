@@ -3,7 +3,7 @@
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 
-	<groupId>com.quartzx.management</groupId>
+	<groupId>com.ums.management</groupId>
 	<artifactId>management-site</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<packaging>pom</packaging>
@@ -128,12 +128,15 @@
 			</dependency>
 
 			<!-- javax ws -->
+            <!--
 			<dependency>
 				<groupId>javax.ws.rs</groupId>
 				<artifactId>javax.ws.rs-api</artifactId>
 				<version>${version.javax.ws.rs}</version>
 			</dependency>
+			-->
 			<!-- RESTEasy -->
+            <!--
 			<dependency>
 				<groupId>org.jboss.resteasy</groupId>
 				<artifactId>resteasy-jaxrs</artifactId>
@@ -154,6 +157,7 @@
 				<artifactId>resteasy-spring</artifactId>
 				<version>${version.resteasy}</version>
 			</dependency>
+			-->
 			<!-- only include under servlet 3 container -->
 			<dependency>
 				<groupId>org.jboss.resteasy</groupId>
