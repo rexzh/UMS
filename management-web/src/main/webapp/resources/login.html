@@ -33,29 +33,25 @@
                 <div class="row-fluid">
                     <div class="login-box">
                         <div class="icons">
-                            <a href="index.html"><i class="halflings-icon home"></i></a>
                             <a href="#"><i class="halflings-icon cog"></i></a>
                         </div>
-                        <h2>Login to your account</h2>
-                        <form class="form-horizontal" action="index.html" method="post">
+                        <h2>登录</h2>
+                        <form class="form-horizontal" id="form">
                             <fieldset>
-
-                                <div class="input-prepend" title="Username">
+                                <div class="input-prepend">
                                     <span class="add-on"><i class="halflings-icon user"></i></span>
-                                    <input class="input-large span10" name="username" id="username" type="text" placeholder="type username" />
+                                    <input class="input-large span10" name="username" id="username" type="text" placeholder="用户名" />
                                 </div>
                                 <div class="clearfix"></div>
 
-                                <div class="input-prepend" title="Password">
+                                <div class="input-prepend">
                                     <span class="add-on"><i class="halflings-icon lock"></i></span>
-                                    <input class="input-large span10" name="password" id="password" type="password" placeholder="type password" />
+                                    <input class="input-large span10" name="password" id="password" type="password" placeholder="密码" />
                                 </div>
                                 <div class="clearfix"></div>
-
-
 
                                 <div class="button-login">
-                                    <button type="submit" class="btn btn-primary">Login</button>
+                                    <button id="confirm" type="button" class="btn btn-primary">提交</button>
                                 </div>
                                 <div class="clearfix"></div>
                         </form>
@@ -83,7 +79,26 @@
         <script src="lib/jquery.uniform.min.js"></script>
         <script src="lib/jquery.noty.js"></script>
         <!-- end: JavaScript-->
-
+		<script>
+			$(document).ready(function(){
+				$('#confirm').on('click', function(){
+					var data = {
+						username: $('#username').get(0).value,
+						password: $('#password').get(0).value
+					}
+					$.ajax({
+						type: 'POST',
+						url: '/management/index.json',
+						data: data,
+						dataType: 'json',
+						contentType: 'application/json',
+						success: function(x) {
+							console.log(x);
+							//window.location.replace("/management/resources/index.html");
+						}
+					});
+				});
+			});
+		</script>
     </body>
-
 </html>
