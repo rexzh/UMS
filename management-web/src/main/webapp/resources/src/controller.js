@@ -1,5 +1,11 @@
 ﻿app.controller('NavCtrl', function ($scope, $L) {
     $scope.brand = $L("Generic Platform");
+
+    $scope.$on('login', function(msg, data){
+        $scope.user = data.user;
+        $scope.organizations = data.organizations;
+        $scope.currentOrganization = data.currentOrganization;
+    });
 });
 
 app.controller('SystemStatusCtrl', function ($scope, $timeout, $L) {

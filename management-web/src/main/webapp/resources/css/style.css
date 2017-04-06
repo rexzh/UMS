@@ -2114,9 +2114,9 @@ fieldset[disabled] .btn-link:focus {
 }
 
 .login-box .add-on i{
-	opacity: .1;
-	filter: alpha(opacity=10);
-	-ms-filter:"progid:DXImageTransform.Microsoft.Alpha(Opacity=10)";
+	opacity: .5;
+	filter: alpha(opacity=50);
+	-ms-filter:"progid:DXImageTransform.Microsoft.Alpha(Opacity=50)";
 }
 
 .login-box input[type="text"],
