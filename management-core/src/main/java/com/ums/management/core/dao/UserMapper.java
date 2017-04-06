@@ -54,4 +54,6 @@ public interface UserMapper {
     int updateByPrimaryKey(User record);
 
     List<User> selectAllUsers();
+
+    User selectByCode(String code);
 }

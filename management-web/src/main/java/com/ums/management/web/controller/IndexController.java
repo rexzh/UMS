@@ -2,7 +2,8 @@ package com.ums.management.web.controller;
 
 import javax.servlet.http.HttpSession;
 
-import com.ums.management.core.model.User;
+import com.ums.management.core.service.IUserService;
+import com.ums.management.web.view.vo.LoginVO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -21,14 +22,17 @@ import com.ums.management.web.view.vo.ResponseVO;
 @RestController
 public class IndexController {
 
-	public static final String DOCTOR_SESSION = "doctor";
+	public static final String USER_SESSION = "user";
 	public static final String IS_LOGIN = "islogin";
 
 	@Value("${app.env}")
 	private String env = null;
 
 	@Autowired
-	private IMenuService menuService = null;
+	private IMenuService _menuSvc = null;
+
+	@Autowired
+	private IUserService _userSvc = null;
 
 
 
@@ -46,13 +50,14 @@ public class IndexController {
             return ResponseVO.buildSuccessResponse();
         */
 		ResponseVO response = ResponseVO.buildSuccessResponse();
-		response.addData("menus", menuService.getAllMenusByRole(null));
+		response.addData("menus", _menuSvc.getAllMenusByRole(null));
 		return response;
     }
 
 
 	@RequestMapping(value = "/index.json", method = RequestMethod.POST)
-	public ResponseVO index(HttpSession httpSession, @RequestBody User user) {
+	public ResponseVO index(HttpSession httpSession, @RequestBody LoginVO login) {
+    	boolean loginSuccess = _userSvc.login(login.getUsername(), login.getPassword());
 
 
 		//List<Menu> userMenus = null;
@@ -69,7 +74,7 @@ public class IndexController {
 		*/
 		ResponseVO response = ResponseVO.buildSuccessResponse();
 		//response.addData("doctor", doctor);
-		response.addData("menus", menuService.getAllMenus());
+		response.addData("menus", _menuSvc.getAllMenus());
 		//response.addData("env", env);
 
 		return response;

@@ -35,12 +35,21 @@ public class UserServiceImpl implements IUserService {
 
     @Override
     public User getUserById(long id) {
-        return _userDao.selectByPrimaryKey(id);
+        User u = _userDao.selectByPrimaryKey(id);
+        u.setSalt(null);
+        u.setPassword(null);
+        return u;
     }
 
     @Override
     public List<User> getAllUsers() {
-        return _userDao.selectAllUsers();
+        List<User> users = _userDao.selectAllUsers();
+        for(User u : users) {
+            u.setSalt(null);
+            u.setPassword(null);
+        }
+
+        return users;
     }
 
     @Override
@@ -74,7 +83,7 @@ public class UserServiceImpl implements IUserService {
     @Override
     @Transactional
     public void update(User user, Role role, List<Organization> orgs) {
-        _userDao.updateByPrimaryKey(user);
+        _userDao.updateByPrimaryKeySelective(user);
         UserRole ur = _urDao.selectByPrimaryKey(user.getId());
         if(ur.getRoleId() != role.getId()) {
             ur.setRoleId(role.getId());
@@ -111,5 +120,14 @@ public class UserServiceImpl implements IUserService {
         user.setPassword(hash);
         _userDao.updateByPrimaryKey(user);
         return password;
+    }
+
+    @Override
+    public boolean login(String username, String password){
+        User user = _userDao.selectByCode(username);
+        if(user == null)
+            return false;
+        String hash = DigestUtils.md5Hex(password + user.getSalt());
+        return hash.equals(user.getPassword());
     }
 }

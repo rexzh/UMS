@@ -83,13 +83,13 @@
 			$(document).ready(function(){
 				$('#confirm').on('click', function(){
 					var data = {
-						username: $('#username').get(0).value,
-						password: $('#password').get(0).value
+						"username": $('#username').get(0).value,
+						"password": $('#password').get(0).value
 					}
 					$.ajax({
 						type: 'POST',
 						url: '/management/index.json',
-						data: data,
+						data: JSON.stringify(data),
 						dataType: 'json',
 						contentType: 'application/json',
 						success: function(x) {
