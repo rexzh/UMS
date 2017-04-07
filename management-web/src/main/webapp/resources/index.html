@@ -42,8 +42,8 @@
 
                 <div class="nav-no-collapse header-nav">
                     <ul class="nav pull-right">
-                        <li class="dropdown hidden-phone">
-                            <a class="btn dropdown-toggle" data-toggle="dropdown" href="#">
+                        <li class="dropdown hidden-phone" ng-show="organizations.length > 1">
+                            <a class="btn dropdown-toggle" data-toggle="dropdown">
                                 <i class="halflings-icon white list-alt"></i>{{user.currentOrg.name}}
                             </a>
                             <ul class="dropdown-menu notifications">

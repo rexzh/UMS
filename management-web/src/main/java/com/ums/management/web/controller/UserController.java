@@ -2,7 +2,6 @@ package com.ums.management.web.controller;
 
 import com.ums.management.core.model.Organization;
 import com.ums.management.core.model.Role;
-import com.ums.management.core.model.RoleMenu;
 import com.ums.management.core.model.User;
 import com.ums.management.core.service.IUserService;
 import com.ums.management.web.view.vo.ResponseVO;
@@ -51,7 +50,7 @@ public class UserController {
         BeanUtils.copyProperties(userVO, user);
 
         Role oldRole = _svc.getRoleByUser(user);
-        if(PermissionExtension.hasEnoughPower(httpSession, oldRole)) {
+        if(UserExtension.hasEnoughPower(httpSession, oldRole) && UserExtension.hasEnoughPower(httpSession, userVO.getRole())) {
             this._svc.update(user, userVO.getRole(), userVO.getOrganizations());
             return ResponseVO.buildSuccessResponse();
         } else {
@@ -65,7 +64,7 @@ public class UserController {
         BeanUtils.copyProperties(userVO, user);
 
         UserVO curUser = (UserVO)httpSession.getAttribute(IndexController.SESSION_USER);
-        if(PermissionExtension.hasEnoughPower(httpSession, userVO.getRole())){
+        if(UserExtension.hasEnoughPower(httpSession, userVO.getRole())){
             this._svc.create(user, userVO.getRole(), userVO.getOrganizations());
             return ResponseVO.buildSuccessResponse();
         } else {
@@ -78,7 +77,7 @@ public class UserController {
         User user = _svc.getUserById(id);
         Role role = _svc.getRoleByUser(user);
 
-        if(PermissionExtension.hasEnoughPower(httpSession, role)) {
+        if(UserExtension.hasEnoughPower(httpSession, role)) {
             this._svc.deleteById(id);
             return ResponseVO.buildSuccessResponse();
         } else {
@@ -91,7 +90,7 @@ public class UserController {
         User user = _svc.getUserById(id);
         Role role = _svc.getRoleByUser(user);
 
-        if(PermissionExtension.hasEnoughPower(httpSession, role)) {
+        if(UserExtension.hasEnoughPower(httpSession, role)) {
             String password = this._svc.resetPassword(id);
             ResponseVO response = ResponseVO.buildSuccessResponse();
             response.addData("password", password);

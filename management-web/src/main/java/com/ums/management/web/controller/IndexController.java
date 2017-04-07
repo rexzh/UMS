@@ -105,7 +105,7 @@ public class IndexController {
 		return ResponseVO.buildSuccessResponse();
 	}
 
-    @RequestMapping(value = "/logout.json", method = RequestMethod.POST)
+    @RequestMapping(value = "/currentOrg.json", method = RequestMethod.POST)
     public ResponseVO currentOrg(HttpSession httpSession, @RequestBody Organization org) {
         UserVO user = (UserVO)httpSession.getAttribute(IndexController.SESSION_USER);
         user.setCurrentOrganization(org);

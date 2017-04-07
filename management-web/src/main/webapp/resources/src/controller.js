@@ -26,8 +26,11 @@
     };
 
     $scope.select = function(idx) {
-        $scope.user.currentOrg = $scope.organizations[idx];
-        //TODO:Send to server??
+        var selectedOrg = $scope.organizations[idx];
+        $http.post($base_url + '/management/currentOrg.json', selectedOrg).success(function(x){
+            console.log(x.data);
+            $scope.user.currentOrg = selectedOrg;
+        });
     }
 });
 

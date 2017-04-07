@@ -47,7 +47,7 @@ public class RoleController {
         Role role = new Role();
         BeanUtils.copyProperties(roleVO, role);
 
-        if(PermissionExtension.hasEnoughPower(httpSession, role)) {
+        if(UserExtension.hasEnoughPower(httpSession, role)) {
             this._svc.update(role, roleVO.getRoleMenus());
             return ResponseVO.buildSuccessResponse();
         } else {
