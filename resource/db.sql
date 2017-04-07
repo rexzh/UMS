@@ -36,7 +36,7 @@ CREATE TABLE `menu` (
 
 LOCK TABLES `menu` WRITE;
 /*!40000 ALTER TABLE `menu` DISABLE KEYS */;
-INSERT INTO `menu` VALUES (1,'系统配置',90),(2,'用户管理',80),(3,'帮助',99);
+INSERT INTO `menu` VALUES (1,'System Configuration',90),(2,'User Management',80),(3,'Help',99),(4,'User Settings',95);
 /*!40000 ALTER TABLE `menu` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -124,7 +124,7 @@ CREATE TABLE `submenu` (
 
 LOCK TABLES `submenu` WRITE;
 /*!40000 ALTER TABLE `submenu` DISABLE KEYS */;
-INSERT INTO `submenu` VALUES (1,'用户','#/user',1,1,'icon-user'),(2,'角色','#/role',1,2,'icon-user-md'),(3,'关于','#/about',3,1,'icon-exclamation-sign'),(4,'组织','#/organization',1,1,'icon-sitemap'),(21,'菜单','#/submenu',1,2,'icon-list');
+INSERT INTO `submenu` VALUES (1,'User','#/user',2,1,'icon-user'),(2,'Role','#/role',1,2,'icon-user-md'),(3,'About','#/about',3,1,'icon-exclamation-sign'),(4,'Organization','#/organization',1,1,'icon-sitemap'),(21,'Menu','#/submenu',1,2,'icon-list'),(22,'Settings','#/settings',4,50,'icon-cog'),(23,'Password Setting','#/chgpwd',4,30,'icon-key');
 /*!40000 ALTER TABLE `submenu` ENABLE KEYS */;
 UNLOCK TABLES;
 
