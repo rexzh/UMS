@@ -1,13 +1,15 @@
 ﻿app.controller('NavCtrl', function ($scope, $L, $base_url, $http, $window, dataShare) {
     $scope.brand = $L("Generic Platform");
+    $scope.userRole = $L("UserRole");
+    $scope.logoutLabel = $L("Logout");
 
     $scope.$on('login', function(msg, data){
         //console.log(data.user, data.user.role, data.env, data.user.organizations);
         $scope.env = data.env;
         $scope.user = data.user;
         $scope.organizations = data.user.organizations;
-        if($scope.organizations.length > 0)
-            $scope.user.currentOrg = $scope.organizations[0];
+
+        $scope.user.currentOrg = data.user.currentOrganization;
 
         dataShare.setData('user', $scope.user);
     });
@@ -15,7 +17,7 @@
     $scope.logout = function(msg, data){
         $scope.user = {};
         $scope.organizations = [];
-        $scope.user.currentOrg = {name: "请选择"};
+        $scope.user.currentOrg = {name: $L('Please Select')};
         dataShare.setData('user', null);
 
         $http.get($base_url + '/management/logout.json').success(function(x){
@@ -36,7 +38,7 @@ app.controller('SystemStatusCtrl', function ($scope, $timeout, $L) {
     $scope.message = {
         type: 'success',
         head: 'Attention',
-        detail: '成功'
+        detail: $L('Success')
     }
 
     $scope.hide = function() {
@@ -82,7 +84,7 @@ app.controller('SystemStatusCtrl', function ($scope, $timeout, $L) {
     $scope.$on('serviceFailure', function(evt, resp) {
         $scope.message = {
             type: 'error',
-            head: '错误',
+            head: $L('Error'),
             detail: JSON.stringify(resp)
         }
         $scope.showMessage = true;

@@ -44,8 +44,6 @@ public class IndexController {
 	@Autowired
 	private IUserService _userSvc = null;
 
-
-
     @RequestMapping(value = "/index.json")
     public ResponseVO index(HttpSession httpSession) {
 
@@ -64,7 +62,6 @@ public class IndexController {
 		return response;
     }
 
-
 	@RequestMapping(value = "/index.json", method = RequestMethod.POST)
 	public ResponseVO index(HttpSession httpSession, @RequestBody LoginVO login) {
 		ResponseVO response = ResponseVO.buildSuccessResponse();
@@ -75,8 +72,15 @@ public class IndexController {
     		Role role = _userSvc.getRoleByUser(loginUser);
     		userVO.setRole(role);
     		List<Organization> orgs = _userSvc.getOrganizationsByUser(loginUser);
-    		userVO.setOrganizations(orgs);
-    		//TODO: clean disabled orgs.
+            List<Organization> filteredOrgs = new ArrayList<>();
+            for(Organization org : orgs){
+                if(org.getEnabled())
+                    filteredOrgs.add(org);
+            }
+    		userVO.setOrganizations(filteredOrgs);
+            if(filteredOrgs.size() > 0)
+                userVO.setCurrentOrganization(filteredOrgs.get(0));
+
     		httpSession.setAttribute(SESSION_USER, userVO);
 
     		if(role.getEnabled()) {
@@ -100,4 +104,11 @@ public class IndexController {
 		httpSession.removeAttribute(SESSION_MENU);
 		return ResponseVO.buildSuccessResponse();
 	}
+
+    @RequestMapping(value = "/logout.json", method = RequestMethod.POST)
+    public ResponseVO currentOrg(HttpSession httpSession, @RequestBody Organization org) {
+        UserVO user = (UserVO)httpSession.getAttribute(IndexController.SESSION_USER);
+        user.setCurrentOrganization(org);
+        return ResponseVO.buildSuccessResponse();
+    }
 }

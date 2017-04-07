@@ -102,4 +102,14 @@ public class UserVO {
     public void setOrganizations(List<Organization> organizations) {
         this.organizations = organizations;
     }
+
+    private Organization currentOrganization;
+
+    public Organization getCurrentOrganization() {
+        return currentOrganization;
+    }
+
+    public void setCurrentOrganization(Organization currentOrganization) {
+        this.currentOrganization = currentOrganization;
+    }
 }

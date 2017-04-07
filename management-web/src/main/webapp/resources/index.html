@@ -73,9 +73,9 @@
                             </a>
                             <ul class="dropdown-menu">
                                 <li class="dropdown-menu-title">
-                                    <span>角色: {{user.role.name}}</span>
+                                    <span>{{userRole}}: {{user.role.name}}</span>
                                 </li>
-                                <li><a ng-click="logout()"><i class="halflings-icon off"></i> 注销</a></li>
+                                <li><a ng-click="logout()"><i class="halflings-icon off"></i> {{logoutLabel}}</a></li>
                             </ul>
                         </li>
                         <!-- end: User Dropdown -->
