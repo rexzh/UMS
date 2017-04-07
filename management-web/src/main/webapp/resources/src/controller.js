@@ -2,6 +2,7 @@
     $scope.brand = $L("Generic Platform");
     $scope.userRole = $L("UserRole");
     $scope.logoutLabel = $L("Logout");
+    $scope.selectOrg = $L("Select Organization");
 
     $scope.$on('login', function(msg, data){
         //console.log(data.user, data.user.role, data.env, data.user.organizations);
