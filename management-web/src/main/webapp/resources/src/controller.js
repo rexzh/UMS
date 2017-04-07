@@ -72,7 +72,7 @@ app.controller('SystemStatusCtrl', function ($scope, $timeout, $L) {
             console.log(resp.data);
             $scope.message = {
                 type: 'error',
-                head: resp.data.data.error,
+                head: $L(resp.data.data.error),
                 detail: JSON.stringify(resp.data.data.stack)
             }
             $scope.showMessage = true;

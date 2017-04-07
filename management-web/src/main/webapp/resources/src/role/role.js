@@ -15,8 +15,8 @@ app.controller('RoleCtrl', function($scope, $location, $http, msgbox, $base_url)
                 var id = $scope.roles[idx].id;
                 var url = $base_url + '/management/role.json/' + id;
                 $http.delete(url).then(function(resp){
-                    console.log(resp);
-                    $scope.roles.splice(idx, 1);
+                    if(resp.result)
+                        $scope.roles.splice(idx, 1);
                 });
             }
         });

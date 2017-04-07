@@ -15,8 +15,8 @@ app.controller('UserCtrl', function($scope, $location, $http, msgbox, notify, $b
                 var id = $scope.users[idx].id;
                 var url = $base_url + '/management/user.json/' + id;
                 $http.delete(url).then(function(resp){
-                    console.log(resp);
-                    $scope.users.splice(idx, 1);
+                    if(resp.result)
+                        $scope.users.splice(idx, 1);
                 });
             }
         });
