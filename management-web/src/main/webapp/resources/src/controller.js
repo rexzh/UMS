@@ -1,11 +1,32 @@
-﻿app.controller('NavCtrl', function ($scope, $L) {
+﻿app.controller('NavCtrl', function ($scope, $L, $base_url, $http, $window, dataShare) {
     $scope.brand = $L("Generic Platform");
 
     $scope.$on('login', function(msg, data){
+        //console.log(data.user, data.user.role, data.env, data.user.organizations);
+        $scope.env = data.env;
         $scope.user = data.user;
-        $scope.organizations = data.organizations;
-        $scope.currentOrganization = data.currentOrganization;
+        $scope.organizations = data.user.organizations;
+        if($scope.organizations.length > 0)
+            $scope.user.currentOrg = $scope.organizations[0];
+
+        dataShare.setData('user', $scope.user);
     });
+
+    $scope.logout = function(msg, data){
+        $scope.user = {};
+        $scope.organizations = [];
+        $scope.user.currentOrg = {name: "请选择"};
+        dataShare.setData('user', null);
+
+        $http.get($base_url + '/management/logout.json').success(function(x){
+            $window.location.assign("/management/resources/login.html");
+        });
+    };
+
+    $scope.select = function(idx) {
+        $scope.user.currentOrg = $scope.organizations[idx];
+        //TODO:Send to server??
+    }
 });
 
 app.controller('SystemStatusCtrl', function ($scope, $timeout, $L) {
@@ -68,7 +89,7 @@ app.controller('SystemStatusCtrl', function ($scope, $timeout, $L) {
     });
 });
 
-app.controller('MenuCtrl', function ($rootScope, $scope, $timeout, $L, $http, $base_url) {
+app.controller('MenuCtrl', function ($rootScope, $scope, $window, $http, $L, $base_url) {
 
     $http.get($base_url + '/management/index.json').success(function(x){
         if(x.result) {
@@ -84,7 +105,11 @@ app.controller('MenuCtrl', function ($rootScope, $scope, $timeout, $L, $http, $b
             }
 
             $scope.menus = menus;
+            $rootScope.$broadcast('login', x.data);
+        } else {
+            if(x.data.error && x.data.error == 'NotLogin') {
+                $window.location.assign("/management/resources/login.html");
+            }
         }
     });
-
 });

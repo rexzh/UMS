@@ -33,11 +33,11 @@ public class MenuServiceImpl implements IMenuService {
 	}
 	
 	private List<Menu> getMenus(Role role) {
-		//List<RoleMenu> roleMenus = _roleMenuDao.selectByRoleId(role.getId());
+		List<RoleMenu> roleMenus = _roleMenuDao.selectByRoleId(role.getId());
 		List<Menu> menus = _menuDao.selectMenus();
 		List<Submenu> submenus = _submenuDao.selectSubmenus();
 
-		/*
+
 		List<Submenu> filteredSubmenus = new ArrayList<>();
 		for(Submenu s : submenus) {
 			for(RoleMenu rm : roleMenus) {
@@ -46,10 +46,9 @@ public class MenuServiceImpl implements IMenuService {
 				}
 			}
 		}
-		*/
 
 		for(Menu m : menus) {
-			for(Submenu sub : submenus/*filtered*/) {
+			for(Submenu sub : filteredSubmenus) {
 				if(sub.getParentId() == m.getId()) {
 					m.addSubmenu(sub);
 				}

@@ -5,6 +5,12 @@ app.controller('OrganizationEditCtrl', function($scope, $location, $window, $rou
     $scope.isModify = (path != '/organizationAdd/');
     var id = 0;
 
+    if(!$scope.isModify) {
+        $scope.organization = {
+            enabled: true
+        };
+    }
+
     $http.get($base_url + '/management/organization.json').then(function(resp){
         $scope.organizations = resp.data.data.organizations;
         if($scope.isModify) {

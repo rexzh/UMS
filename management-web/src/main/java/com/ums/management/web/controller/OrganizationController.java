@@ -4,15 +4,26 @@ package com.ums.management.web.controller;
 import com.ums.management.core.model.Organization;
 import com.ums.management.core.service.IOrganizationService;
 import com.ums.management.web.view.vo.ResponseVO;
+import com.ums.management.web.view.vo.UserVO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpSession;
 
 
 @RestController
 public class OrganizationController {
 	@Autowired
 	private IOrganizationService _svc = null;
+
+    @RequestMapping("/organization.json/byUser")
+    public ResponseVO getOrganizationsByUser(HttpSession httpSession) {
+        UserVO user = (UserVO)httpSession.getAttribute(IndexController.SESSION_USER);
+
+        ResponseVO response = ResponseVO.buildSuccessResponse();
+        response.addData("organizations", _svc.getOrganizations());
+        return response;
+    }
 
 	@RequestMapping("/organization.json")
 	public ResponseVO getOrganizations() {

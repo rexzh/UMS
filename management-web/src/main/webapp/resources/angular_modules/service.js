@@ -39,30 +39,15 @@
     'use strict';
     var svc = angular.module('common', []);
 
-    svc.factory('regEx', function () {
-        return function(pattern, string) {
-            pattern = pattern.toString();
-            var result = [];
-            var groupRX = /\(\<(.*?)\>\s(.*?)\)/;
-            while (groupRX.test(pattern)) {
-                var match = groupRX.exec(pattern);
-                result.push({
-                    name : match[1],
-                    pattern : match[2],
-                    value : null
-                });
-                pattern = pattern.replace(groupRX, '('+match[2]+')');
+    svc.factory('dataShare', function () {
+        var data = {};
+        return {
+            getData: function(key) {
+                return data[key];
+            },
+            setData: function(key, val) {
+                data[key] = val;
             }
-             
-            var finalMatch=(new RegExp(pattern)).exec(string);
-            if(finalMatch) {
-                for (var i = 0, len = result.length; i < len; i++) {
-                    if(finalMatch[(i + 1)] !== false) {
-                        result[i].value = finalMatch[(i + 1)];
-                    }
-                }
-            }
-            return result;
-        };
+        }
     });
 })();

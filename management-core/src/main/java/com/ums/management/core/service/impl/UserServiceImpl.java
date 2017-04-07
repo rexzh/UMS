@@ -72,6 +72,8 @@ public class UserServiceImpl implements IUserService {
         ur.setRoleId(role.getId());
         _urDao.insert(ur);
 
+        //TODO: limit to my org list
+
         for(Organization org : orgs) {
             UserOrg uo = new UserOrg();
             uo.setOrgId(org.getId());
@@ -90,6 +92,7 @@ public class UserServiceImpl implements IUserService {
             _urDao.updateByPrimaryKey(ur);
         }
 
+        //TODO: limit to my org list
         //TODO:Optimize
         _userOrgDao.deleteByUserId(user.getId());
         for(Organization org : orgs) {
@@ -123,11 +126,15 @@ public class UserServiceImpl implements IUserService {
     }
 
     @Override
-    public boolean login(String username, String password){
+    public User login(String username, String password){
         User user = _userDao.selectByCode(username);
-        if(user == null)
-            return false;
+        if(user == null || user.getEnabled() == false)
+            return null;
         String hash = DigestUtils.md5Hex(password + user.getSalt());
-        return hash.equals(user.getPassword());
+        if(!hash.equals(user.getPassword()))
+            return null;
+        user.setSalt(null);
+        user.setPassword(null);
+        return user;
     }
 }

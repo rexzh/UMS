@@ -21,5 +21,5 @@ public interface IUserService {
     List<Organization> getOrganizationsByUser(User user);
 
     String resetPassword(long id);
-    boolean login(String username, String password);
+    User login(String username, String password);
 }

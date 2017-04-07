@@ -5,6 +5,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.ums.management.web.controller.IndexController;
+import com.ums.management.web.view.vo.UserVO;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.web.servlet.ModelAndView;
@@ -18,23 +19,10 @@ public class LoginInterceptor extends HandlerInterceptorAdapter {
     private final Logger log = LoggerFactory.getLogger(LoginInterceptor.class);
     private static final String LOGIN_PAGE = "/login.html";
 
-    /**
-     * 在业务处理器处理请求之前被调用
-     * 如果返回false
-     * 从当前的拦截器往回执行所有拦截器的afterCompletion(),再退出拦截器链
-     * 如果返回true
-     * 执行下一个拦截器,直到所有的拦截器都执行完毕
-     * 再执行被拦截的Controller
-     * 然后进入拦截器链,
-     * 从最后一个拦截器往回执行所有的postHandle()
-     * 接着再从最后一个拦截器往回执行所有的afterCompletion()
-     */
-    @Override
+
     public boolean preHandle(HttpServletRequest request,
                              HttpServletResponse response, Object handler) throws Exception {
-
         /*
-        log.info("==============执行顺序: 1、preHandle================");
         String requestUri = request.getRequestURI();
         String contextPath = request.getContextPath();
         String url = requestUri.substring(contextPath.length());
@@ -42,17 +30,14 @@ public class LoginInterceptor extends HandlerInterceptorAdapter {
         log.info("requestUri:" + requestUri);
         log.info("contextPath:" + contextPath);
         log.info("url:" + url);
-
-        Boolean loginFlag = (Boolean) request.getSession().getAttribute(IndexController.IS_LOGIN);
-        if (loginFlag == null || !loginFlag) {
-            log.info("Interceptor：跳转到login页面！");
-            //request.getRequestDispatcher(LOGIN_PAGE).forward(request, response);
+        */
+        UserVO loginUser = (UserVO) request.getSession().getAttribute(IndexController.SESSION_USER);
+        if (loginUser == null) {
+            
             response.setStatus(401);
             return false;
         } else
             return true;
-        */
-        return true;
     }
 
     /**

@@ -1,11 +1,17 @@
 'use strict';
 
-app.controller('UserEditCtrl', function($scope, $location, $window, $routeParams, $http, notify, $base_url) {
+app.controller('UserEditCtrl', function($scope, $location, $window, $routeParams, $http, dataShare, notify, $base_url) {
     var path = $location.path();
     $scope.isModify = (path != '/userAdd/');
     var id = 0;
 
-    $http.get($base_url + '/management/organization.json').then(function(resp){
+    if(!$scope.isModify) {
+        $scope.user = {
+            enabled: true
+        };
+    }
+
+    $http.get($base_url + '/management/organization.json/byUser').then(function(resp){
         $scope.orgs = resp.data.data.organizations;
 
         $http.get($base_url + '/management/role.json').then(function(resp){
@@ -53,14 +59,14 @@ app.controller('UserEditCtrl', function($scope, $location, $window, $routeParams
         }
         $scope.user.role = $scope.role;
 
-        //*************
+
         $scope.user.organizations = [];
         for(var i = 0; i < $scope.orgs.length; i++) {
             var org = $scope.orgs[i];
             if(org.checked)
                 $scope.user.organizations.push(org);
         }
-        //*************
+
 
         var url = $base_url + '/management/user.json';
         if($scope.isModify) {
