@@ -2,6 +2,7 @@
 package com.ums.management.web.controller;
 
 import com.ums.management.core.model.Organization;
+import com.ums.management.core.model.Role;
 import com.ums.management.core.service.IOrganizationService;
 import com.ums.management.web.view.vo.ResponseVO;
 import com.ums.management.web.view.vo.UserVO;
@@ -21,7 +22,10 @@ public class OrganizationController {
         UserVO user = (UserVO)httpSession.getAttribute(IndexController.SESSION_USER);
 
         ResponseVO response = ResponseVO.buildSuccessResponse();
-        response.addData("organizations", _svc.getOrganizations());
+        if(user.getRole().getName().equals(Role.ADMIN))
+            response.addData("organizations", _svc.getOrganizations());
+        else
+            response.addData("organizations", user.getOrganizations());
         return response;
     }
 

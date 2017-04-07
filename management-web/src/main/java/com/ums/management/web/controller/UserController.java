@@ -11,6 +11,7 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpSession;
 import java.util.List;
 
 /**
@@ -27,7 +28,6 @@ public class UserController {
         response.addData("users", this._svc.getAllUsers());
         return response;
     }
-
 
     @RequestMapping("/user.json/{id}")
     public ResponseVO getUserById(@PathVariable("id") Integer userId) {
@@ -46,40 +46,58 @@ public class UserController {
     }
 
     @RequestMapping(value = "/user.json", method = RequestMethod.PUT)
-    public ResponseVO updateUser(@RequestBody UserVO userVO) {
+    public ResponseVO updateUser(HttpSession httpSession, @RequestBody UserVO userVO) {
         User user = new User();
         BeanUtils.copyProperties(userVO, user);
-        this._svc.update(user, userVO.getRole(), userVO.getOrganizations());
 
-        ResponseVO response = ResponseVO.buildSuccessResponse();
-        return response;
+        Role oldRole = _svc.getRoleByUser(user);
+        if(PermissionExtension.hasEnoughPower(httpSession, oldRole)) {
+            this._svc.update(user, userVO.getRole(), userVO.getOrganizations());
+            return ResponseVO.buildSuccessResponse();
+        } else {
+            return ResponseVO.buildErrorResponse("Can't edit Admin user");
+        }
     }
 
     @RequestMapping(value = "/user.json", method = RequestMethod.POST)
-    public ResponseVO createUser(@RequestBody UserVO userVO) {
-
+    public ResponseVO createUser(HttpSession httpSession, @RequestBody UserVO userVO) {
         User user = new User();
         BeanUtils.copyProperties(userVO, user);
-        this._svc.create(user, userVO.getRole(), userVO.getOrganizations());
 
-        ResponseVO response = ResponseVO.buildSuccessResponse();
-        return response;
+        UserVO curUser = (UserVO)httpSession.getAttribute(IndexController.SESSION_USER);
+        if(PermissionExtension.hasEnoughPower(httpSession, userVO.getRole())){
+            this._svc.create(user, userVO.getRole(), userVO.getOrganizations());
+            return ResponseVO.buildSuccessResponse();
+        } else {
+            return ResponseVO.buildErrorResponse("Can't create Admin user");
+        }
     }
 
     @RequestMapping(value = "/user.json/{id}", method = RequestMethod.DELETE)
-    public ResponseVO deleteUser(@PathVariable("id") long id) {
-        this._svc.deleteById(id);
+    public ResponseVO deleteUser(HttpSession httpSession, @PathVariable("id") long id) {
+        User user = _svc.getUserById(id);
+        Role role = _svc.getRoleByUser(user);
 
-        ResponseVO response = ResponseVO.buildSuccessResponse();
-        return response;
+        if(PermissionExtension.hasEnoughPower(httpSession, role)) {
+            this._svc.deleteById(id);
+            return ResponseVO.buildSuccessResponse();
+        } else {
+            return ResponseVO.buildErrorResponse("Can't delete Admin user");
+        }
     }
 
     @RequestMapping(value = "/user.json/reset/{id}", method = RequestMethod.PUT)
-    public ResponseVO resetUserPassword(@PathVariable("id") long id) {
-        String password = this._svc.resetPassword(id);
+    public ResponseVO resetUserPassword(HttpSession httpSession, @PathVariable("id") long id) {
+        User user = _svc.getUserById(id);
+        Role role = _svc.getRoleByUser(user);
 
-        ResponseVO response = ResponseVO.buildSuccessResponse();
-        response.addData("password", password);
-        return response;
+        if(PermissionExtension.hasEnoughPower(httpSession, role)) {
+            String password = this._svc.resetPassword(id);
+            ResponseVO response = ResponseVO.buildSuccessResponse();
+            response.addData("password", password);
+            return response;
+        } else {
+            return ResponseVO.buildErrorResponse("Can't reset password for Admin user");
+        }
     }
 }

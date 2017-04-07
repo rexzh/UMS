@@ -10,6 +10,7 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpSession;
 import java.util.List;
 
 /**
@@ -18,8 +19,7 @@ import java.util.List;
 @RestController
 public class RoleController {
     @Autowired
-    private IRoleService _svc;
-
+    private IRoleService _svc = null;
 
     @RequestMapping("/role.json")
     public ResponseVO getAllRoles(){
@@ -27,7 +27,6 @@ public class RoleController {
         response.addData("roles", this._svc.getAllRoles());
         return response;
     }
-
 
     @RequestMapping("/role.json/{id}")
     public ResponseVO getRoleById(@PathVariable("id") Integer roleId) {
@@ -44,12 +43,16 @@ public class RoleController {
     }
 
     @RequestMapping(value = "/role.json", method = RequestMethod.PUT)
-    public ResponseVO updateRole(@RequestBody RoleVO roleVO) {
+    public ResponseVO updateRole(HttpSession httpSession, @RequestBody RoleVO roleVO) {
         Role role = new Role();
         BeanUtils.copyProperties(roleVO, role);
-        this._svc.update(role, roleVO.getRoleMenus());
-        ResponseVO response = ResponseVO.buildSuccessResponse();
-        return response;
+
+        if(PermissionExtension.hasEnoughPower(httpSession, role)) {
+            this._svc.update(role, roleVO.getRoleMenus());
+            return ResponseVO.buildSuccessResponse();
+        } else {
+            return ResponseVO.buildErrorResponse("Can't edit Admin role");
+        }
     }
 
     @RequestMapping(value = "/role.json", method = RequestMethod.POST)
@@ -61,11 +64,14 @@ public class RoleController {
         return response;
     }
 
-
     @RequestMapping(value = "/role.json/{id}", method = RequestMethod.DELETE)
     public ResponseVO deleteRole(@PathVariable("id") Integer id) {
+        Role role = this._svc.getRoleById(id);
+        if(role.getName().equals(Role.ADMIN)) {
+            return ResponseVO.buildErrorResponse("Admin role can't be removed");
+        }
+
         this._svc.deleteById(id);
-        ResponseVO response = ResponseVO.buildSuccessResponse();
-        return response;
+        return ResponseVO.buildSuccessResponse();
     }
 }
