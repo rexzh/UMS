@@ -4,7 +4,7 @@ app.constant('resetMenu', function () {
     console.log("reset!");
     var mn = $("#sidebar-left").first();
     mn.find("a").each(function () {
-        if ($(this).attr('href') == '#/dashboard/')
+        if ($(this).attr('href') == '#/home')
             $(this).parent().addClass('active');
         else
             $(this).parent().removeClass('active');

@@ -44,6 +44,7 @@ app.controller('SystemStatusCtrl', function ($scope, $location, $L, $timeout, da
         if(path[path.length - 1] == '/') path = path.substr(0, path.length - 1);
 
         var menus = dataShare.getData('menus');
+
         for(var i = 0; i < menus.length; i++) {
             var m = menus[i];
             for(var j = 0; j < m.submenus.length; j++) {
@@ -53,6 +54,8 @@ app.controller('SystemStatusCtrl', function ($scope, $location, $L, $timeout, da
                 }
             }
         }
+        if(!$scope.breadcrumb)
+            $scope.breadcrumb = '404';
     });
 
     $scope.showWait = false;
@@ -85,7 +88,8 @@ app.controller('SystemStatusCtrl', function ($scope, $location, $L, $timeout, da
 
         $scope.message = {
             type: msg.type,
-            detail: msg.text
+            detail: msg.text,
+            head: $L('Attention')
         }
         $scope.showMessage = true;
         if(msg.type == "success") {

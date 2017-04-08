@@ -48,6 +48,7 @@ l10n.addResource('en_us', {
     "Success": "Success",
     "Error": "Error",
     "Warning": "Warning",
+    "Attention": "Attention",
     "Unknown": "Unknown",
     "ms": "ms",
     "TimeZone": "Time Zone",

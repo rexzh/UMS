@@ -49,6 +49,7 @@ l10n.addResource('zh_cn', {
     "Success": "成功",
     "Error": "错误",
     "Warning": "异常",
+    "Attention": "注意",
     "Unknown": "未知",
     "ms": "毫秒",
     "TimeZone": "时区",
