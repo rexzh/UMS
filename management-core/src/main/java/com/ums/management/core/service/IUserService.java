@@ -22,4 +22,5 @@ public interface IUserService {
 
     String resetPassword(long id);
     User login(String username, String password);
+    boolean changePassword(long id, String oldPassword, String newPassword);
 }

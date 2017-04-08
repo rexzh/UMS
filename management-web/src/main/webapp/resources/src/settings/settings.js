@@ -1,5 +1,5 @@
 ﻿app.controller('SettingsCtrl', function ($scope, $window, $interval, $L) {
-    $scope.home = $L("Home");
+
     $scope.settings = $L("Settings");
     $scope.language = $L("Language");
     $scope.timezone = $L("TimeZone");

@@ -137,4 +137,17 @@ public class UserServiceImpl implements IUserService {
         user.setPassword(null);
         return user;
     }
+
+    @Override
+    public boolean changePassword(long id, String oldPassword, String newPassword){
+        User user = _userDao.selectByPrimaryKey(id);
+        if(user.getPassword().equals(DigestUtils.md5Hex(oldPassword + user.getSalt()))) {
+            String digest = DigestUtils.md5Hex(newPassword + user.getSalt());
+            user.setPassword(digest);
+            _userDao.updateByPrimaryKey(user);
+            return true;
+        } else {
+            return false;
+        }
+    }
 }

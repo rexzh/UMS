@@ -34,7 +34,7 @@
     }
 });
 
-app.controller('SystemStatusCtrl', function ($scope, $location, $L, dataShare, resetMenu) {
+app.controller('SystemStatusCtrl', function ($scope, $location, $L, $timeout, dataShare, resetMenu) {
     $scope.resetMenu = resetMenu;
     $scope.home = $L("Home");
 

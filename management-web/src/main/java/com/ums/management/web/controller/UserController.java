@@ -4,8 +4,10 @@ import com.ums.management.core.model.Organization;
 import com.ums.management.core.model.Role;
 import com.ums.management.core.model.User;
 import com.ums.management.core.service.IUserService;
+import com.ums.management.web.view.vo.ChangePasswordVO;
 import com.ums.management.web.view.vo.ResponseVO;
 import com.ums.management.web.view.vo.UserVO;
+import org.apache.commons.codec.digest.DigestUtils;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -97,6 +99,16 @@ public class UserController {
             return response;
         } else {
             return ResponseVO.buildErrorResponse("Can't reset password for Admin user");
+        }
+    }
+
+    @RequestMapping(value = "/user.json/chgpwd", method = RequestMethod.PUT)
+    public ResponseVO changeUserPassword(@RequestBody ChangePasswordVO chgpwd) {
+        boolean result = _svc.changePassword(chgpwd.getId(), chgpwd.getOldPassword(), chgpwd.getNewPassword());
+        if(result) {
+            return ResponseVO.buildSuccessResponse();
+        } else {
+            return ResponseVO.buildErrorResponse("Password not correct");
         }
     }
 }
