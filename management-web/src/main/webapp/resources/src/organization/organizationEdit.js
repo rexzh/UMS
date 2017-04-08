@@ -26,7 +26,10 @@ app.controller('OrganizationEditCtrl', function($scope, $location, $window, $rou
     };
 
     $scope.submit = function(){
-        //TODO:Verify
+        if(!$scope.organization.name) {
+            notify.error('名称不能为空');
+            return;
+        }
 
         var url = $base_url + '/management/organization.json';
         if($scope.isModify) {

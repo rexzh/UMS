@@ -23,12 +23,12 @@ app.constant('resize', function(){
     var contentHeight = $("#content").height();
 
     if (winHeight) {
-        console.log("resize to winHeight");
+        //console.log("resize to winHeight");
         $("#content").css("min-height", winHeight/* - 41 * 2 - 6*/);
     }
 
     if (contentHeight) {
-        console.log("resize to contentHeight");
+        //console.log("resize to contentHeight");
         $("#sidebar-left2").css("height", contentHeight);
     }
 });
