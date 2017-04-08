@@ -122,7 +122,7 @@ app.controller('SystemStatusCtrl', function ($scope, $location, $L, $timeout, da
     });
 });
 
-app.controller('MenuCtrl', function ($rootScope, $scope, $window, $http, $L, $base_url, dataShare) {
+app.controller('MenuCtrl', function ($rootScope, $scope, $window, $timeout, $http, $L, $base_url, resetMenu, dataShare) {
 
     $http.get($base_url + '/management/index.json').success(function(x){
         if(x.result) {
@@ -140,6 +140,9 @@ app.controller('MenuCtrl', function ($rootScope, $scope, $window, $http, $L, $ba
             $scope.menus = menus;
             dataShare.setData('menus', menus);
             $rootScope.$broadcast('login', x.data);
+            $timeout(function(){
+                resetMenu();
+            }, 0);
         } else {
             if(x.data.error && x.data.error == 'NotLogin') {
                 $window.location.assign("/management/resources/login.html");

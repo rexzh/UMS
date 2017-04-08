@@ -1,18 +1,20 @@
 var app = angular.module('AppModule', ['ngRoute', 'http.service', 'common', 'metro.directive', 'l10n']);
 
+//app.constant('$base_url', 'http://localhost:8000/management');
+app.constant('$base_url', '');
+
 app.constant('resetMenu', function () {
-    console.log("reset!");
+    var path = window.location.hash;
+    if(path[path.length - 1] == '/') path = path.substr(0, path.length - 1);
+
     var mn = $("#sidebar-left").first();
     mn.find("a").each(function () {
-        if ($(this).attr('href') == '#/home')
+        if ($(this).attr('href') == path)
             $(this).parent().addClass('active');
         else
             $(this).parent().removeClass('active');
     });
 });
-
-//app.constant('$base_url', 'http://localhost:8000/management');
-app.constant('$base_url', '');
 
 app.constant('resize', function(){
     var winHeight = $(window).height();
