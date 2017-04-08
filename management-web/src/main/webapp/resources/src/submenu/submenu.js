@@ -1,7 +1,4 @@
-﻿app.controller('SubmenuCtrl', function ($scope, $http, $L, resetMenu, $location, msgbox, $base_url) {
-
-    $scope.resetMenu = resetMenu;
-    
+﻿app.controller('SubmenuCtrl', function ($scope, $http, $L, $location, msgbox, $base_url) {
     $scope.remove = function(idx) {
         msgbox.show({text: "删除当前记录?"}).then(function(x){
             if(x){

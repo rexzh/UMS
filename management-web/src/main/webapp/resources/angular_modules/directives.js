@@ -352,7 +352,7 @@
         }
     });
 
-    metro.directive('metroMenu', function($timeout){
+    metro.directive('metroMenu', function($timeout, $rootScope){
         return {
             restrict: 'AE',
             replace: true,
@@ -393,7 +393,8 @@
                 },
 
                 $scope.handle = function(itm, $event) {
-                    
+                    $rootScope.$broadcast('menuChange', itm);
+
                     $event.stopPropagation();
                     $($element).find('li').removeClass('active');
                     $($event.currentTarget).addClass('active');

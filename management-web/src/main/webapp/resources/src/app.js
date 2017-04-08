@@ -1,6 +1,7 @@
 var app = angular.module('AppModule', ['ngRoute', 'http.service', 'common', 'metro.directive', 'l10n']);
 
 app.constant('resetMenu', function () {
+    console.log("reset!");
     var mn = $("#sidebar-left").first();
     mn.find("a").each(function () {
         if ($(this).attr('href') == '#/dashboard/')

@@ -5,7 +5,6 @@
     $scope.selectOrg = $L("Select Organization");
 
     $scope.$on('login', function(msg, data){
-        //console.log(data.user, data.user.role, data.env, data.user.organizations);
         $scope.env = data.env;
         $scope.user = data.user;
         $scope.organizations = data.user.organizations;
@@ -35,7 +34,27 @@
     }
 });
 
-app.controller('SystemStatusCtrl', function ($scope, $timeout, $L) {
+app.controller('SystemStatusCtrl', function ($scope, $location, $L, dataShare, resetMenu) {
+    $scope.resetMenu = resetMenu;
+    $scope.home = $L("Home");
+
+    $scope.$on('login', function() {
+        var path = $location.path();
+        if(path[0] == '/') path = '#' + path;
+        if(path[path.length - 1] == '/') path = path.substr(0, path.length - 1);
+
+        var menus = dataShare.getData('menus');
+        for(var i = 0; i < menus.length; i++) {
+            var m = menus[i];
+            for(var j = 0; j < m.submenus.length; j++) {
+                var sub = m.submenus[j];
+                if(path == sub.link) {
+                    $scope.breadcrumb = sub.name;
+                }
+            }
+        }
+    });
+
     $scope.showWait = false;
     $scope.showMessage = false;
 
@@ -43,11 +62,15 @@ app.controller('SystemStatusCtrl', function ($scope, $timeout, $L) {
         type: 'success',
         head: 'Attention',
         detail: $L('Success')
-    }
+    };
 
     $scope.hide = function() {
         $scope.showMessage = false;
-    }
+    };
+
+    $scope.$on('menuChange', function(evt, data){
+        $scope.breadcrumb = data.name;
+    });
 
     $scope.$on('ajaxStart', function(){
         $scope.showWait = true;
@@ -95,7 +118,7 @@ app.controller('SystemStatusCtrl', function ($scope, $timeout, $L) {
     });
 });
 
-app.controller('MenuCtrl', function ($rootScope, $scope, $window, $http, $L, $base_url) {
+app.controller('MenuCtrl', function ($rootScope, $scope, $window, $http, $L, $base_url, dataShare) {
 
     $http.get($base_url + '/management/index.json').success(function(x){
         if(x.result) {
@@ -111,6 +134,7 @@ app.controller('MenuCtrl', function ($rootScope, $scope, $window, $http, $L, $ba
             }
 
             $scope.menus = menus;
+            dataShare.setData('menus', menus);
             $rootScope.$broadcast('login', x.data);
         } else {
             if(x.data.error && x.data.error == 'NotLogin') {
