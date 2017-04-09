@@ -33,10 +33,7 @@ public class IndexController {
 
 	public static final String SESSION_USER = "user";
 	public static final String SESSION_MENU = "menus";
-	public static final String SESSION_ENVIRONMENT = "env";
 
-	@Value("${app.env}")
-	private String env = null;
 
 	@Autowired
 	private IMenuService _menuSvc = null;
@@ -54,7 +51,6 @@ public class IndexController {
             response = ResponseVO.buildSuccessResponse();
             response.addData(SESSION_USER, httpSession.getAttribute(SESSION_USER));
             response.addData(SESSION_MENU, httpSession.getAttribute(SESSION_MENU));
-			response.addData(SESSION_ENVIRONMENT, env);
         } else {
             response = ResponseVO.buildErrorResponse("NotLogin");
         }
@@ -89,7 +85,6 @@ public class IndexController {
 				httpSession.setAttribute(SESSION_MENU, new ArrayList<Menu>());
 			}
 
-			httpSession.setAttribute(SESSION_ENVIRONMENT, env);
     		response.addData("login", true);
 		} else {
 			response.addData("login", false);
