@@ -5,6 +5,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.ums.management.web.controller.IndexController;
+import com.ums.management.web.controller.UserExtension;
 import com.ums.management.web.view.vo.UserVO;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -31,7 +32,7 @@ public class LoginInterceptor extends HandlerInterceptorAdapter {
         log.info("contextPath:" + contextPath);
         log.info("url:" + url);
         */
-        UserVO loginUser = (UserVO) request.getSession().getAttribute(IndexController.SESSION_USER);
+        UserVO loginUser = UserExtension.getCurrentUser(request.getSession());
         if (loginUser == null) {
             
             response.setStatus(401);

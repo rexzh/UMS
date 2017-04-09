@@ -11,7 +11,7 @@ import javax.servlet.http.HttpSession;
  */
 public class UserExtension {
     public static boolean hasEnoughPower(HttpSession session, Role roleToEdit) {
-        UserVO user = (UserVO)session.getAttribute(IndexController.SESSION_USER);
+        UserVO user = getCurrentUser(session);
         if((!user.getRole().getName().equals(Role.ADMIN)) && roleToEdit.getName().equals(Role.ADMIN))
             return false;
         else

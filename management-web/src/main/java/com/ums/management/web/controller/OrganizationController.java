@@ -19,7 +19,7 @@ public class OrganizationController {
 
     @RequestMapping("/organization.json/byUser")
     public ResponseVO getOrganizationsByUser(HttpSession httpSession) {
-        UserVO user = (UserVO)httpSession.getAttribute(IndexController.SESSION_USER);
+        UserVO user = UserExtension.getCurrentUser(httpSession);
 
         ResponseVO response = ResponseVO.buildSuccessResponse();
         if(user.getRole().getName().equals(Role.ADMIN))

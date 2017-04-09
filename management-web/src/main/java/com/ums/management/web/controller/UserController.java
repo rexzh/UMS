@@ -74,7 +74,7 @@ public class UserController {
         User user = new User();
         BeanUtils.copyProperties(userVO, user);
 
-        UserVO curUser = (UserVO)httpSession.getAttribute(IndexController.SESSION_USER);
+        UserVO curUser = UserExtension.getCurrentUser(httpSession);
         if(UserExtension.hasEnoughPower(httpSession, userVO.getRole())){
             this._svc.create(user, userVO.getRole(), userVO.getOrganizations());
             return ResponseVO.buildSuccessResponse();

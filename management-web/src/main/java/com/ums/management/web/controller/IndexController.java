@@ -44,7 +44,7 @@ public class IndexController {
     @RequestMapping(value = "/index.json")
     public ResponseVO index(HttpSession httpSession) {
 
-        UserVO user = (UserVO) httpSession.getAttribute(SESSION_USER);
+        UserVO user = UserExtension.getCurrentUser(httpSession);
 		ResponseVO response = null;
 
         if(user != null){
@@ -102,7 +102,7 @@ public class IndexController {
 
     @RequestMapping(value = "/currentOrg.json", method = RequestMethod.POST)
     public ResponseVO currentOrg(HttpSession httpSession, @RequestBody Organization org) {
-        UserVO user = (UserVO)httpSession.getAttribute(IndexController.SESSION_USER);
+        UserVO user = UserExtension.getCurrentUser(httpSession);
         user.setCurrentOrganization(org);
         return ResponseVO.buildSuccessResponse();
     }
