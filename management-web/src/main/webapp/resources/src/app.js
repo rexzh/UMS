@@ -1,8 +1,5 @@
 var app = angular.module('AppModule', ['ngRoute', 'http.service', 'common', 'dataService', 'metro.directive', 'l10n']);
 
-//app.constant('$base_url', 'http://localhost:8000/management');
-app.constant('$base_url', '');
-
 app.constant('resetMenu', function () {
     var path = window.location.hash;
     if(path[path.length - 1] == '/') path = path.substr(0, path.length - 1);

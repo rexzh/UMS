@@ -1,14 +1,14 @@
-app.controller('SubmenuEditCtrl', function($scope, $location, $routeParams, $window, $http, notify, $base_url) {
+app.controller('SubmenuEditCtrl', function($scope, $location, $routeParams, $window, rest, notify) {
     var path = $location.path();
     $scope.isModify = (path != '/submenuAdd/');
     var id = 0;
 
-    $http.get($base_url + '/management/menu.json').then(function(resp){
-        $scope.lv1menus = resp.data.data.menus;
+    rest.endpoint('/menu.json').get().then(function(x){
+        $scope.lv1menus = x.data.menus;
         if($scope.isModify) {
             id = $routeParams.id;
-            $http.get($base_url + '/management/submenu.json/' + id).then(function(resp){
-                $scope.submenu = resp.data.data.submenu;
+            rest.endpoint('/submenu.json/' + id).get().then(function(resp){
+                $scope.submenu = resp.data.submenu;
 
                 for(var i = 0; i < $scope.lv1menus.length; i++) {
                     if($scope.lv1menus[i].id == $scope.submenu.parentId) {
@@ -50,17 +50,15 @@ app.controller('SubmenuEditCtrl', function($scope, $location, $routeParams, $win
             return;
         }
 
-        notify.info();
 
-        var url = $base_url + '/management/submenu.json';
         if($scope.isModify) {
-            $http.put(url, $scope.submenu).then(function(x){
-                if(x.data.result)
+            rest.endpoint('/submenu.json').put($scope.submenu).then(function(x){
+                if(x.result)
                     $location.path('/submenu');
             });
         } else {
-            $http.post(url, $scope.submenu).then(function(x){
-                if(x.data.result)
+            rest.endpoint('/submenu.json').post($scope.submenu).then(function(x){
+                if(x.result)
                     $location.path('/submenu');
             });
         }

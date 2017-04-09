@@ -1,6 +1,6 @@
 'use strict';
 
-app.controller('RoleEditCtrl', function($scope, $location, $window, $routeParams, $http, msgbox, $base_url) {
+app.controller('RoleEditCtrl', function($scope, $location, $window, $routeParams, rest, notify) {
     var path = $location.path();
     $scope.isModify = (path != '/roleAdd/');
     var id = 0;
@@ -11,12 +11,12 @@ app.controller('RoleEditCtrl', function($scope, $location, $window, $routeParams
         };
     }
 
-    $http.get($base_url + '/management/submenu.json').then(function(resp){
-        $scope.submenus = resp.data.data.submenus;
+    rest.endpoint('/submenu.json').get().then(function(resp){
+        $scope.submenus = resp.data.submenus;
         if($scope.isModify) {
             id = $routeParams.id;
-            $http.get($base_url + '/management/role.json/' + id).then(function(resp){
-                $scope.role = resp.data.data.role;
+            rest.endpoint('/role.json/' + id).get().then(function(resp){
+                $scope.role = resp.data.role;
 
                 var role_menu = $scope.role.roleMenus;
 
@@ -38,7 +38,7 @@ app.controller('RoleEditCtrl', function($scope, $location, $window, $routeParams
 
     $scope.submit = function(){
         if(!$scope.role.name) {
-            msgbox.error('角色名称不能为空');
+            notify.error('角色名称不能为空');
             return;
         }
 
@@ -52,15 +52,15 @@ app.controller('RoleEditCtrl', function($scope, $location, $window, $routeParams
         console.log($scope.role);
 
 
-        var url = $base_url + '/management/role.json';
+        var endpoint = rest.endpoint('/role.json');
         if($scope.isModify) {
-            $http.put(url, $scope.role).then(function(x){
-                if(x.data.result)
+            endpoint.put($scope.role).then(function(x){
+                if(x.result)
                     $location.path('/role');
             });
         } else {
-            $http.post(url, $scope.role).then(function(x){
-                if(x.data.result)
+            endpoint.post($scope.role).then(function(x){
+                if(x.result)
                     $location.path('/role');
             });
         }

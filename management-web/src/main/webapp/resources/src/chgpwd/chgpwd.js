@@ -1,4 +1,4 @@
-﻿app.controller('ChgpwdCtrl', function ($scope, $http, $L, $base_url, notify, dataShare) {
+﻿app.controller('ChgpwdCtrl', function ($scope, $http, $L, rest, notify, dataShare) {
 
     $scope.chgpwd = $L("Password Setting");
     $scope.save = $L("Save");
@@ -19,13 +19,12 @@
             return;
         }
 
-        var url = $base_url + '/management/user.json/chgpwd';
-        $http.put(url, {
+        rest.endpoint('user.json/chgpwd').put({
             id: dataShare.getData('user').id,
             oldPassword: $scope.oldPwd,
             newPassword: $scope.newPwd1
         }).then(function(x) {
-            if(x.data.result)
+            if(x.result)
                 notify.info($L("Save success"));
         });
     }

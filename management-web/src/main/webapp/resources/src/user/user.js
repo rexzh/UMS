@@ -7,9 +7,9 @@ app.controller('UserCtrl', function($scope, $location, msgbox, notify, rest) {
 
     $scope.pageChange = function(p) {
         rest.endpoint('/user.json').get({}, p, $scope.page.recordsPerPage).then(function(resp){
-            if(resp.data.result) {
-                $scope.users = resp.data.data.users;
-                $scope.page.total = resp.data.data.count;
+            if(resp.result) {
+                $scope.users = resp.data.users;
+                $scope.page.total = resp.data.count;
             }
         });
     }
@@ -19,7 +19,7 @@ app.controller('UserCtrl', function($scope, $location, msgbox, notify, rest) {
             if(x) {
                 var id = $scope.users[idx].id;
                 rest.endpoint('user.json', id).delete().then(function(resp){
-                    if(resp.data.result)
+                    if(resp.result)
                         $scope.users.splice(idx, 1);
                 });
             }
@@ -36,8 +36,8 @@ app.controller('UserCtrl', function($scope, $location, msgbox, notify, rest) {
 
     $scope.reset = function(idx) {
         rest.endpoint('user.json/reset/', $scope.users[idx].id).put().then(function(resp){
-            if(resp.data.result) {
-                var pwd = resp.data.data.password;
+            if(resp.result) {
+                var pwd = resp.data.password;
                 msgbox.show({text: "密码重置为：" + pwd});
             }
         });

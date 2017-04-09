@@ -1,4 +1,4 @@
-﻿app.controller('NavCtrl', function ($scope, $L, $base_url, $http, $window, dataShare) {
+﻿app.controller('NavCtrl', function ($scope, $L, rest, $window, dataShare) {
     $scope.brand = $L("Generic Platform");
     $scope.userRole = $L("UserRole");
     $scope.logoutLabel = $L("Logout");
@@ -20,14 +20,14 @@
         $scope.user.currentOrg = {name: $L('Please Select')};
         dataShare.setData('user', null);
 
-        $http.get($base_url + '/management/logout.json').success(function(x){
+        rest.endpoint('logout.json').get().then(function(x){
             $window.location.assign("/management/resources/login.html");
         });
     };
 
     $scope.select = function(idx) {
         var selectedOrg = $scope.organizations[idx];
-        $http.post($base_url + '/management/currentOrg.json', selectedOrg).success(function(x){
+        rest.endpoint('/currentOrg.json').post(selectedOrg).success(function(x){
             console.log(x.data);
             $scope.user.currentOrg = selectedOrg;
         });
@@ -122,9 +122,9 @@ app.controller('SystemStatusCtrl', function ($scope, $location, $L, $timeout, da
     });
 });
 
-app.controller('MenuCtrl', function ($rootScope, $scope, $window, $timeout, $http, $L, $base_url, resetMenu, dataShare) {
+app.controller('MenuCtrl', function ($rootScope, $scope, $window, $timeout, $L, rest, resetMenu, dataShare) {
 
-    $http.get($base_url + '/management/index.json').success(function(x){
+    rest.endpoint('/index.json').get().then(function(x){
         if(x.result) {
             var menus = x.data.menus;
 

@@ -12,14 +12,14 @@ app.controller('UserEditCtrl', function($scope, $location, $window, $routeParams
     }
 
     rest.endpoint('/organization.json/byUser').get().then(function(resp){
-        $scope.orgs = resp.data.data.organizations;
+        $scope.orgs = resp.data.organizations;
 
         rest.endpoint('/role.json').get().then(function(resp){
-            $scope.roles = resp.data.data.roles;
+            $scope.roles = resp.data.roles;
             if($scope.isModify) {
                 id = $routeParams.id;
                 rest.endpoint('/user.json/' + id).get().then(function(resp){
-                    $scope.user = resp.data.data.user;
+                    $scope.user = resp.data.user;
 
                     var role = $scope.user.role;
 
@@ -69,12 +69,12 @@ app.controller('UserEditCtrl', function($scope, $location, $window, $routeParams
 
         if($scope.isModify) {
             rest.endpoint('user.json').put($scope.user).then(function(x){
-                if(x.data.result)
+                if(x.result)
                     $location.path('/user');
             });
         } else {
             rest.endpoint('user.json').post($scope.user).then(function(x){
-                if(x.data.result)
+                if(x.result)
                     $location.path('/user');
             });
         }

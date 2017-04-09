@@ -1,11 +1,11 @@
 'use strict';
 
-app.controller('RoleCtrl', function($scope, $location, $http, msgbox, $base_url) {
+app.controller('RoleCtrl', function($scope, $location, rest, msgbox) {
     
-    $http.get($base_url + '/management/role.json').then(function(resp){
-        if(resp.data.result) {
+    rest.endpoint('/role.json').get().then(function(resp){
+        if(resp.result) {
             //console.log(resp.data);
-            $scope.roles = resp.data.data.roles;
+            $scope.roles = resp.data.roles;
         }
     });
 
@@ -13,8 +13,7 @@ app.controller('RoleCtrl', function($scope, $location, $http, msgbox, $base_url)
         msgbox.show({text: "删除当前记录?"}).then(function(x){
             if(x) {
                 var id = $scope.roles[idx].id;
-                var url = $base_url + '/management/role.json/' + id;
-                $http.delete(url).then(function(resp){
+                rest.endpoint('role.json/' + id).delete().then(function(resp){
                     if(resp.result)
                         $scope.roles.splice(idx, 1);
                 });

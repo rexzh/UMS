@@ -1,10 +1,10 @@
 //generator
-app.controller('OrganizationCtrl', function($scope, $location, $http, msgbox, $base_url) {
+app.controller('OrganizationCtrl', function($scope, $location, rest, msgbox) {
     
-    $http.get($base_url + '/management/organization.json').then(function(resp){
-        if(resp.data.result) {
+    rest.endpoint('/organization.json').get().then(function(resp){
+        if(resp.result) {
             //console.log(resp.data);
-            $scope.organizations = resp.data.data.organizations;
+            $scope.organizations = resp.data.organizations;
         }
     });
 
@@ -12,10 +12,10 @@ app.controller('OrganizationCtrl', function($scope, $location, $http, msgbox, $b
         msgbox.show({text: "删除当前记录?"}).then(function(x){
             if(x) {
                 var id = $scope.organizations[idx].id;
-                var url = $base_url + '/management/organization.json/' + id;
-                $http.delete(url).then(function(resp){
-                    console.log(resp);
-                    $scope.organizations.splice(idx, 1);
+
+                rest.endpoint('/organization.json/' + id).delete().then(function(resp){
+                    if(resp.result)
+                        $scope.organizations.splice(idx, 1);
                 });
             }
         });
