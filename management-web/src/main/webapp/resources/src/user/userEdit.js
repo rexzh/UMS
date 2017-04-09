@@ -1,6 +1,6 @@
 'use strict';
 
-app.controller('UserEditCtrl', function($scope, $location, $window, $routeParams, $http, dataShare, notify, $base_url) {
+app.controller('UserEditCtrl', function($scope, $location, $window, $routeParams, rest, dataShare, notify) {
     var path = $location.path();
     $scope.isModify = (path != '/userAdd/');
     var id = 0;
@@ -11,14 +11,14 @@ app.controller('UserEditCtrl', function($scope, $location, $window, $routeParams
         };
     }
 
-    $http.get($base_url + '/management/organization.json/byUser').then(function(resp){
+    rest.endpoint('/organization.json/byUser').get().then(function(resp){
         $scope.orgs = resp.data.data.organizations;
 
-        $http.get($base_url + '/management/role.json').then(function(resp){
+        rest.endpoint('/role.json').get().then(function(resp){
             $scope.roles = resp.data.data.roles;
             if($scope.isModify) {
                 id = $routeParams.id;
-                $http.get($base_url + '/management/user.json/' + id).then(function(resp){
+                rest.endpoint('/user.json/' + id).get().then(function(resp){
                     $scope.user = resp.data.data.user;
 
                     var role = $scope.user.role;
@@ -67,15 +67,13 @@ app.controller('UserEditCtrl', function($scope, $location, $window, $routeParams
                 $scope.user.organizations.push(org);
         }
 
-
-        var url = $base_url + '/management/user.json';
         if($scope.isModify) {
-            $http.put(url, $scope.user).then(function(x){
+            rest.endpoint('user.json').put($scope.user).then(function(x){
                 if(x.data.result)
                     $location.path('/user');
             });
         } else {
-            $http.post(url, $scope.user).then(function(x){
+            rest.endpoint('user.json').post($scope.user).then(function(x){
                 if(x.data.result)
                     $location.path('/user');
             });
