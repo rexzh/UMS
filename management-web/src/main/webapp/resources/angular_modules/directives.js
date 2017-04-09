@@ -555,6 +555,8 @@
 
                     scope.$watchGroup(['totalRecords', 'numberPerPage', 'currentPage'], recalc);
                     scope.$watch('range', recalc, true);
+
+                    scope.pageChanged && scope.pageChanged({page: scope.currentPage});//init fire page 1
                 }
             }
         }

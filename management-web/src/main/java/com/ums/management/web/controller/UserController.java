@@ -24,9 +24,18 @@ public class UserController {
     private IUserService _svc = null;
 
     @RequestMapping("/user.json")
-    public ResponseVO getAllUsers(){
+    public ResponseVO getAllUsers(@RequestParam(value = "code", required = false) String code,
+                                  @RequestParam(value = "name", required = false) String name,
+                                  @RequestParam(value = "enabled", required = false) Boolean enabled,
+                                  @RequestParam(value = "page", required = false) Long page,
+                                  @RequestParam(value = "rows", required = false) Integer rows){
         ResponseVO response = ResponseVO.buildSuccessResponse();
-        response.addData("users", this._svc.getAllUsers());
+        Long start = null;
+        if(page != null && rows != null) {
+            start = (page - 1) * rows;
+        }
+        response.addData("users", this._svc.getAllUsers(code, name, enabled, start, rows));
+        response.addData("count", this._svc.countAllUsers(code, name, enabled));
         return response;
     }
 

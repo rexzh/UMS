@@ -11,7 +11,9 @@ import java.util.List;
  */
 public interface IUserService {
     User getUserById(long id);
-    List<User> getAllUsers();
+
+    List<User> getAllUsers(String code, String name, Boolean enabled, Long start, Integer rows);
+    long countAllUsers(String code, String name, Boolean enabled);
 
     void deleteById(long id);
     void create(User user, Role role, List<Organization> orgs);

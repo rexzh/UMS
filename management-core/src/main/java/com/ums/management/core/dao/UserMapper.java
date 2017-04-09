@@ -3,6 +3,7 @@ package com.ums.management.core.dao;
 import com.ums.management.core.model.User;
 
 import java.util.List;
+import java.util.Map;
 
 public interface UserMapper {
     /**
@@ -53,7 +54,8 @@ public interface UserMapper {
      */
     int updateByPrimaryKey(User record);
 
-    List<User> selectAllUsers();
+    List<User> selectAllUsers(Map<String, Object> queryMap);
+    long countAllUsers(Map<String, Object> queryMap);
 
     User selectByCode(String code);
 }

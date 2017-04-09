@@ -11,7 +11,9 @@ import org.apache.commons.codec.digest.DigestUtils;
 
 
 import java.util.Collection;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by Rex on 2017/4/2.
@@ -42,14 +44,32 @@ public class UserServiceImpl implements IUserService {
     }
 
     @Override
-    public List<User> getAllUsers() {
-        List<User> users = _userDao.selectAllUsers();
+    public List<User> getAllUsers(String code, String name, Boolean enabled, Long start, Integer rows) {
+        Map<String, Object> queryMap = new HashMap<>();
+		queryMap.put("code", code);
+		queryMap.put("name", name);
+		queryMap.put("enabled", enabled);
+
+		queryMap.put("start", start);
+		queryMap.put("rows", rows);
+
+        List<User> users = _userDao.selectAllUsers(queryMap);
         for(User u : users) {
             u.setSalt(null);
             u.setPassword(null);
         }
 
         return users;
+    }
+
+    @Override
+    public long countAllUsers(String code, String name, Boolean enabled) {
+        Map<String, Object> queryMap = new HashMap<>();
+        queryMap.put("code", code);
+        queryMap.put("name", name);
+        queryMap.put("enabled", enabled);
+
+        return _userDao.countAllUsers(queryMap);
     }
 
     @Override

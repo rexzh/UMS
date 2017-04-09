@@ -36,4 +36,10 @@
             </tr>
         </tbody>
     </table>
+
+    <div metro-pagination
+         pg-total-records="{{page.total}}"
+         pg-number-per-page="{{page.recordsPerPage}}"
+         pg-changed="pageChange(page)">
+    </div>
 </div>
