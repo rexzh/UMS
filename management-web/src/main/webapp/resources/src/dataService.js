@@ -46,6 +46,8 @@
                         var deferred = $q.defer();
                         $http.get(path).then(function(resp){
                             deferred.resolve(resp.data);
+                        }, function(err){
+                            deferred.reject(err);
                         });
                         return deferred.promise;
                     },
