@@ -26,7 +26,7 @@ app.constant('resize', function(){
 
     if (contentHeight) {
         //console.log("resize to contentHeight");
-        $("#sidebar-left2").css("height", contentHeight);
+        $("#sidebar-left").css("height", (winHeight > contentHeight) ? winHeight : contentHeight);
     }
 });
 
@@ -107,5 +107,6 @@ app.config(function ($routeProvider, $LProvider) {
 }).config(['$httpProvider', function($httpProvider) {
 	$httpProvider.interceptors.push('ajaxInterceptor');
 }]).run(function(resize) {
+    resize();
     $(window).bind("resize", resize);
 });
