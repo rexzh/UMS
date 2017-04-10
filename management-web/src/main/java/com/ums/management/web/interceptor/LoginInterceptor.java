@@ -12,9 +12,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
 
-/**
- * Created by Ocean on 2016/10/11.
- */
+
 public class LoginInterceptor extends HandlerInterceptorAdapter {
 
     private final Logger log = LoggerFactory.getLogger(LoginInterceptor.class);

@@ -21,11 +21,6 @@ import javax.servlet.http.HttpSession;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * 
- * @author Giggs
- *
- */
 @RestController
 public class AboutController {
 	@Value("${app.env}")

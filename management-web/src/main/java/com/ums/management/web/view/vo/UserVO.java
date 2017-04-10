@@ -6,9 +6,7 @@ import com.ums.management.core.model.Role;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * Created by Rex on 2017/4/3.
- */
+
 public class UserVO {
 
     private long id;

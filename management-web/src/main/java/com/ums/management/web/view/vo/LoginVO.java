@@ -1,8 +1,6 @@
 package com.ums.management.web.view.vo;
 
-/**
- * Created by Rex on 2017/4/6.
- */
+
 public class LoginVO {
     private String username;
 

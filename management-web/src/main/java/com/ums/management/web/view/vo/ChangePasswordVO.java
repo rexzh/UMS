@@ -1,8 +1,6 @@
 package com.ums.management.web.view.vo;
 
-/**
- * Created by Rex on 2017/4/8.
- */
+
 public class ChangePasswordVO {
     private long id;
     private String oldPassword;

@@ -7,9 +7,7 @@ import com.ums.management.web.view.vo.ResponseVO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-/**
- * Created by Rex on 2016/9/4.
- */
+
 @RestController
 public class SubmenuController {
     @Autowired

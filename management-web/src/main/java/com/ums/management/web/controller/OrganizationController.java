@@ -1,4 +1,3 @@
-//generate==
 package com.ums.management.web.controller;
 
 import com.ums.management.core.model.Organization;

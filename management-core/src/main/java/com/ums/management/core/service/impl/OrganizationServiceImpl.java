@@ -1,4 +1,3 @@
-//generator==
 package com.ums.management.core.service.impl;
 
 import java.util.List;

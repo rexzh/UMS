@@ -27,7 +27,7 @@
     <include refid="Base_Column_List" />
     from submenu
     where 1=1
-    order by parent_id
+    order by id
   </select>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
     <!--

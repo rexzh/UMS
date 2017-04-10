@@ -23,11 +23,6 @@ import com.ums.management.web.view.vo.ResponseVO;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * 
- * @author Giggs
- *
- */
 @RestController
 public class IndexController {
 

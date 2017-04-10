@@ -1,4 +1,3 @@
-//generator==
 package com.ums.management.core.service;
 
 import com.ums.management.core.model.Organization;

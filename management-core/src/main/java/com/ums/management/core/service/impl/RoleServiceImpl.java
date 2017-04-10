@@ -11,9 +11,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
-/**
- * Created by Rex on 2016/9/4.
- */
 @Service
 public class RoleServiceImpl implements IRoleService {
     @Autowired

@@ -15,9 +15,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-/**
- * Created by Rex on 2017/4/2.
- */
 @Service
 public class UserServiceImpl implements IUserService {
     @Autowired

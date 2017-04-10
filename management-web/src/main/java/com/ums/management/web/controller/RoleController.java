@@ -13,9 +13,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.servlet.http.HttpSession;
 import java.util.List;
 
-/**
- * Created by Rex on 2016/9/2.
- */
+
 @RestController
 public class RoleController {
     @Autowired

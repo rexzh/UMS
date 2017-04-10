@@ -4,9 +4,7 @@ import com.ums.management.core.model.RoleMenu;
 
 import java.util.List;
 
-/**
- * Created by Rex on 2016/9/15.
- */
+
 public class RoleVO {
     private Integer id;
 

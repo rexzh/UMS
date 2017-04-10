@@ -15,9 +15,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.servlet.http.HttpSession;
 import java.util.List;
 
-/**
- * Created by Rex on 2017/4/2.
- */
+
 @RestController
 public class UserController {
     @Autowired
@@ -30,6 +28,7 @@ public class UserController {
                                   @RequestParam(value = "page", required = false) Long page,
                                   @RequestParam(value = "rows", required = false) Integer rows){
         ResponseVO response = ResponseVO.buildSuccessResponse();
+        //TODO:extract method
         Long start = null;
         if(page != null && rows != null) {
             start = (page - 1) * rows;

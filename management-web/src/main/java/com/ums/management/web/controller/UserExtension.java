@@ -6,9 +6,7 @@ import com.ums.management.web.view.vo.UserVO;
 
 import javax.servlet.http.HttpSession;
 
-/**
- * Created by zling on 2017-04-07.
- */
+
 public class UserExtension {
     public static boolean hasEnoughPower(HttpSession session, Role roleToEdit) {
         UserVO user = getCurrentUser(session);

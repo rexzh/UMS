@@ -5,9 +5,7 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 
-/**
- * Created by Rex on 2016/9/13.
- */
+
 public class DatetimeUtil {
     private static SimpleDateFormat fmt = new SimpleDateFormat("yyyyMMddHHmmss");
 
