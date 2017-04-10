@@ -4,10 +4,11 @@ import com.ums.management.core.model.Organization;
 import com.ums.management.core.model.Role;
 import com.ums.management.core.model.User;
 import com.ums.management.core.service.IUserService;
+import com.ums.management.web.utility.PageExtension;
+import com.ums.management.web.utility.UserExtension;
 import com.ums.management.web.view.vo.ChangePasswordVO;
 import com.ums.management.web.view.vo.ResponseVO;
 import com.ums.management.web.view.vo.UserVO;
-import org.apache.commons.codec.digest.DigestUtils;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -28,11 +29,7 @@ public class UserController {
                                   @RequestParam(value = "page", required = false) Long page,
                                   @RequestParam(value = "rows", required = false) Integer rows){
         ResponseVO response = ResponseVO.buildSuccessResponse();
-        //TODO:extract method
-        Long start = null;
-        if(page != null && rows != null) {
-            start = (page - 1) * rows;
-        }
+        Long start = PageExtension.calcStart(page, rows);
         response.addData("users", this._svc.getAllUsers(code, name, enabled, start, rows));
         response.addData("count", this._svc.countAllUsers(code, name, enabled));
         return response;

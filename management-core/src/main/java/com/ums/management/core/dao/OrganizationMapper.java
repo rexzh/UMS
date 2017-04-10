@@ -3,6 +3,7 @@ package com.ums.management.core.dao;
 import com.ums.management.core.model.Organization;
 
 import java.util.List;
+import java.util.Map;
 
 public interface OrganizationMapper {
     /**
@@ -53,7 +54,9 @@ public interface OrganizationMapper {
      */
     int updateByPrimaryKey(Organization record);
 
-    List<Organization> selectOrganizations();
+    List<Organization> selectOrganizations(Map<String, Object> queryMap);
+
+    int countOrganizations(Map<String, Object> queryMap);
 
     List<Organization> selectOrganizationsByUserId(long userId);
 }

@@ -1,12 +1,33 @@
 //generator
 app.controller('OrganizationCtrl', function($scope, $location, rest, msgbox) {
-    
-    rest.endpoint('/organization.json').get().then(function(resp){
-        if(resp.result) {
-            //console.log(resp.data);
-            $scope.organizations = resp.data.organizations;
-        }
-    });
+    $scope.page = {
+        recordsPerPage: 10
+    };
+
+    $scope.criteria = {
+
+    };
+
+    function renderList(page) {
+        rest.endpoint('/organization.json').get($scope.criteria, page, $scope.page.recordsPerPage).then(function(resp){
+            if(resp.result) {
+                $scope.organizations = resp.data.organizations;
+                $scope.page.total = resp.data.count;
+            }
+        });
+    };
+
+    $scope.pageChange = function(p) {
+        renderList(p);
+    };
+
+    $scope.search = function() {
+        renderList(1);
+    };
+
+    $scope.reset = function() {
+        $scope.criteria = {};
+    };
 
     $scope.remove = function(idx) {
         msgbox.show({text: "删除当前记录?"}).then(function(x){

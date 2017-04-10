@@ -4,6 +4,7 @@ package com.ums.management.web.controller;
 import com.ums.management.core.model.Role;
 import com.ums.management.core.model.RoleMenu;
 import com.ums.management.core.service.IRoleService;
+import com.ums.management.web.utility.UserExtension;
 import com.ums.management.web.view.vo.ResponseVO;
 import com.ums.management.web.view.vo.RoleVO;
 import org.springframework.beans.BeanUtils;

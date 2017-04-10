@@ -3,6 +3,8 @@ package com.ums.management.web.controller;
 import com.ums.management.core.model.Organization;
 import com.ums.management.core.model.Role;
 import com.ums.management.core.service.IOrganizationService;
+import com.ums.management.web.utility.PageExtension;
+import com.ums.management.web.utility.UserExtension;
 import com.ums.management.web.view.vo.ResponseVO;
 import com.ums.management.web.view.vo.UserVO;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,20 +20,26 @@ public class OrganizationController {
 
     @RequestMapping("/organization.json/byUser")
     public ResponseVO getOrganizationsByUser(HttpSession httpSession) {
+
         UserVO user = UserExtension.getCurrentUser(httpSession);
 
         ResponseVO response = ResponseVO.buildSuccessResponse();
         if(user.getRole().getName().equals(Role.ADMIN))
-            response.addData("organizations", _svc.getOrganizations());
+            response.addData("organizations", _svc.getOrganizations(null, null, null, null));
         else
             response.addData("organizations", user.getOrganizations());
         return response;
     }
 
 	@RequestMapping("/organization.json")
-	public ResponseVO getOrganizations() {
+	public ResponseVO getOrganizations(@RequestParam(value = "name", required = false) String name,
+                                       @RequestParam(value = "enabled", required = false) Boolean enabled,
+                                       @RequestParam(value = "page", required = false) Integer page,
+                                       @RequestParam(value = "rows", required = false) Integer rows) {
+        Integer start = PageExtension.calcStart(page, rows);
 		ResponseVO response = ResponseVO.buildSuccessResponse();
-        response.addData("organizations", _svc.getOrganizations());
+        response.addData("organizations", _svc.getOrganizations(name, enabled, start, rows));
+        response.addData("count", _svc.countOrganizations(name, enabled));
         return response;
 	}
 

@@ -22,6 +22,14 @@ app.controller('UserCtrl', function($scope, $location, msgbox, notify, rest) {
         renderList(p);
     };
 
+    $scope.search = function() {
+        renderList(1);
+    };
+
+    $scope.reset = function() {
+        $scope.criteria = {};
+    };
+
     $scope.remove = function(idx) {
         msgbox.show({text: "删除当前记录?"}).then(function(x){
             if(x) {
@@ -32,14 +40,6 @@ app.controller('UserCtrl', function($scope, $location, msgbox, notify, rest) {
                 });
             }
         });
-    };
-
-    $scope.search = function() {
-        renderList(1);
-    };
-
-    $scope.reset = function() {
-        $scope.criteria = {};
     };
 
     $scope.add = function() {

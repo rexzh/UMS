@@ -1,6 +1,8 @@
 package com.ums.management.core.service.impl;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import com.ums.management.core.dao.OrganizationMapper;
 import com.ums.management.core.model.Organization;
@@ -21,8 +23,22 @@ public class OrganizationServiceImpl implements IOrganizationService {
 	}
 
 	@Override
-    public List<Organization> getOrganizations(){
-		return _dao.selectOrganizations();
+    public List<Organization> getOrganizations(String name, Boolean enabled, Integer start, Integer rows){
+		Map<String, Object> queryMap = new HashMap<>();
+		queryMap.put("name", name);
+		queryMap.put("enabled", enabled);
+
+		queryMap.put("start", start);
+		queryMap.put("rows", rows);
+		return _dao.selectOrganizations(queryMap);
+	}
+
+	@Override
+	public int countOrganizations(String name, Boolean enabled){
+		Map<String, Object> queryMap = new HashMap<>();
+		queryMap.put("name", name);
+		queryMap.put("enabled", enabled);
+		return _dao.countOrganizations(queryMap);
 	}
 
 	@Override

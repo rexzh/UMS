@@ -1,7 +1,8 @@
-package com.ums.management.web.controller;
+package com.ums.management.web.utility;
 
 import com.ums.management.core.model.Role;
 import com.ums.management.core.model.User;
+import com.ums.management.web.controller.IndexController;
 import com.ums.management.web.view.vo.UserVO;
 
 import javax.servlet.http.HttpSession;
