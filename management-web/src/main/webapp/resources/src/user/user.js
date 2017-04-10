@@ -9,14 +9,18 @@ app.controller('UserCtrl', function($scope, $location, msgbox, notify, rest) {
         enabled: true
     };
 
-    $scope.pageChange = function(p) {
-        rest.endpoint('/user.json').get($scope.criteria, p, $scope.page.recordsPerPage).then(function(resp){
+    function renderList(page) {
+        rest.endpoint('/user.json').get($scope.criteria, page, $scope.page.recordsPerPage).then(function(resp){
             if(resp.result) {
                 $scope.users = resp.data.users;
                 $scope.page.total = resp.data.count;
             }
         });
-    }
+    };
+
+    $scope.pageChange = function(p) {
+        renderList(p);
+    };
 
     $scope.remove = function(idx) {
         msgbox.show({text: "删除当前记录?"}).then(function(x){
@@ -28,15 +32,10 @@ app.controller('UserCtrl', function($scope, $location, msgbox, notify, rest) {
                 });
             }
         });
-    }
+    };
 
     $scope.search = function() {
-        rest.endpoint('/user.json').get($scope.criteria, 1, $scope.page.recordsPerPage).then(function(resp){
-            if(resp.result) {
-                $scope.users = resp.data.users;
-                $scope.page.total = resp.data.count;
-            }
-        });
+        renderList(1);
     };
 
     $scope.add = function() {
