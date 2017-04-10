@@ -424,7 +424,7 @@
         }
     });
 
-    metro.directive('metroPagination', function () {
+    metro.directive('metroPagination', function ($L) {
         return {
             restrict: 'AE',
             replace: true,
@@ -442,12 +442,16 @@
                                 '<li ng-class="{disabled: disableNext}"><a ng-click="goLast()">&raquo;</a></li>' +
                             '</ul>' +
                             '<div>' +
-                                '<div style="display:inline">&nbsp;Total <span class="pagination-indicator">{{totalRecords}}</span> item(s), <span class="pagination-indicator">{{totalPages}}</span> page(s)</div>' +
+                                '<div style="display:inline">&nbsp;{{totalLabel}} <span class="pagination-indicator">{{totalRecords}}</span> {{itemLabel}}, <span class="pagination-indicator">{{totalPages}}</span> {{pageLabel}}</div>' +
                                 '<div style="display:inline; margin-left: 10px;"><input style="vertical-align: baseline; width: 20px" size="4" type="text"/></div>' +
-                                '<a style="vertical-align: baseline;padding: 4px 12px;" class="btn btn-primary btn-sm" ng-click="goInput()">Go</a>' +
+                                '<a style="vertical-align: baseline;padding: 4px 12px;" class="btn btn-primary btn-sm" ng-click="goInput()">{{jumpLabel}}</a>' +
                             '</div>' +
                         '</div>',
             controller: function ($scope, $element) {
+                $scope.totalLabel = $L('Total');
+                $scope.itemLabel = $L('Item(s)');
+                $scope.pageLabel = $L('Page(s)');
+                $scope.jumpLabel = $L('Go');
                 var inp = $element.find("input[type=text]").eq(0);
                 inp.val(1);
                 $scope.goFirst = function () {
