@@ -920,3 +920,15 @@ legend + .control-group {
 .form-horizontal .form-actions {
   padding-left: 190px;
 }
+
+.control-search {
+  display:inline-block;
+}
+
+.checkbox.control-search {
+  vertical-align:top;
+}
+
+.btn.control-search {
+  margin-top: -8px;
+}

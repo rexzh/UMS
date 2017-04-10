@@ -37,6 +37,7 @@ l10n.addResource('zh_cn', {
     "Apply": "应用",
     "OK": "确认",
     "Cancel": "取消",
+    "Can't create Admin user": "不能创建管理员",
     "Can't edit Admin user": "不能编辑管理员",
     "Can't delete Admin user": "不能删除管理员",
     "Can't reset password for Admin user": "不能重置管理员密码",

@@ -21,7 +21,7 @@
 
             responseError: function(response) {
                 if(response.status == 401) {
-                    //TODO:Auth
+                    $rootScope.$broadcast('logout');
                 } else {
                     $rootScope.$broadcast("serviceFailure", response);
                 }

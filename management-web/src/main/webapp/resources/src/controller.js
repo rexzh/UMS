@@ -34,7 +34,7 @@
     }
 });
 
-app.controller('SystemStatusCtrl', function ($scope, $location, $L, $timeout, dataShare, resetMenu) {
+app.controller('SystemStatusCtrl', function ($scope, $location, $window, $L, $timeout, dataShare, resetMenu) {
     $scope.resetMenu = resetMenu;
     $scope.home = $L("Home");
 
@@ -120,6 +120,11 @@ app.controller('SystemStatusCtrl', function ($scope, $location, $L, $timeout, da
         }
         $scope.showMessage = true;
     });
+
+    $scope.$on('logout', function(){
+
+        $window.location.assign("/management/resources/login.html");
+    })
 });
 
 app.controller('MenuCtrl', function ($rootScope, $scope, $window, $timeout, $L, rest, resetMenu, dataShare) {

@@ -30,7 +30,7 @@
     <if test="code != null">
       and code like CONCAT('%', #{code}, '%')
     </if>
-    <if test="userName != null">
+    <if test="name != null">
       and name like CONCAT('%', #{name}, '%')
     </if>
     <if test="enabled != null">
@@ -48,7 +48,7 @@
     <if test="code != null">
       and code like CONCAT('%', #{code}, '%')
     </if>
-    <if test="userName != null">
+    <if test="name != null">
       and name like CONCAT('%', #{name}, '%')
     </if>
     <if test="enabled != null">

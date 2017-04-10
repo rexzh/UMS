@@ -37,6 +37,7 @@ l10n.addResource('en_us', {
     "Apply": "Apply",
     "OK": "OK",
     "Cancel": "Cancel",
+    "Can't create Admin user": "Can't create Admin user",
     "Can't edit Admin user": "Can't edit Admin user",
     "Can't delete Admin user": "Can't delete Admin user",
     "Can't reset password for Admin user": "Can't reset password for Admin user",

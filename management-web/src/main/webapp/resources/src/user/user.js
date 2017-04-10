@@ -5,8 +5,12 @@ app.controller('UserCtrl', function($scope, $location, msgbox, notify, rest) {
         recordsPerPage: 10
     };
 
+    $scope.criteria = {
+        enabled: true
+    };
+
     $scope.pageChange = function(p) {
-        rest.endpoint('/user.json').get({}, p, $scope.page.recordsPerPage).then(function(resp){
+        rest.endpoint('/user.json').get($scope.criteria, p, $scope.page.recordsPerPage).then(function(resp){
             if(resp.result) {
                 $scope.users = resp.data.users;
                 $scope.page.total = resp.data.count;
@@ -25,6 +29,15 @@ app.controller('UserCtrl', function($scope, $location, msgbox, notify, rest) {
             }
         });
     }
+
+    $scope.search = function() {
+        rest.endpoint('/user.json').get($scope.criteria, 1, $scope.page.recordsPerPage).then(function(resp){
+            if(resp.result) {
+                $scope.users = resp.data.users;
+                $scope.page.total = resp.data.count;
+            }
+        });
+    };
 
     $scope.add = function() {
         $location.path("/userAdd");
