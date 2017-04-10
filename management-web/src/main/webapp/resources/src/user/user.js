@@ -6,7 +6,7 @@ app.controller('UserCtrl', function($scope, $location, msgbox, notify, rest) {
     };
 
     $scope.criteria = {
-        enabled: true
+
     };
 
     function renderList(page) {
@@ -38,6 +38,10 @@ app.controller('UserCtrl', function($scope, $location, msgbox, notify, rest) {
         renderList(1);
     };
 
+    $scope.reset = function() {
+        $scope.criteria = {};
+    };
+
     $scope.add = function() {
         $location.path("/userAdd");
     };
@@ -46,7 +50,7 @@ app.controller('UserCtrl', function($scope, $location, msgbox, notify, rest) {
         $location.path("/userModify/" + $scope.users[idx].id);
     };
 
-    $scope.reset = function(idx) {
+    $scope.resetPwd = function(idx) {
         rest.endpoint('user.json/reset/', $scope.users[idx].id).put().then(function(resp){
             if(resp.result) {
                 var pwd = resp.data.password;

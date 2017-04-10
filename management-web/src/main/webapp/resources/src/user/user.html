@@ -13,6 +13,9 @@
                         <div metro-checkbox ng-model="criteria.enabled"></div>
                     </div>
                 </div>
+                <a class="btn control-search" ng-click="reset()">
+                    <i class="icon-refresh"></i> 清空
+                </a>
                 <a class="btn btn-primary control-search" ng-click="search()">
                     <i class="icon-search"></i> 查询
                 </a>
@@ -54,7 +57,7 @@
                     <a class="btn btn-danger btn-sm" ng-click="remove($index)">
                         <i class="icon-trash"></i> 删除
                     </a>
-                    <a class="btn btn-info btn-sm" ng-click="reset($index)">
+                    <a class="btn btn-info btn-sm" ng-click="resetPwd($index)">
                         <i class="icon-refresh"></i> 重置密码
                     </a>
                 </td>
