@@ -27,7 +27,7 @@
         
         <td>{{dictType.name}}</td>
         
-        <td>{{dictType.global}}</td>
+        <td><div metro-checkbox ng-model="dictType.global" ng-disabled="true"></div></td>
         
         <td class="center">
           <a class="btn btn-primary btn-sm" ng-click="modify($index)">
