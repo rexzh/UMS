@@ -363,7 +363,7 @@
                         '<li class="dropdown" ng-repeat="mn in menus" ng-click="toggle(mn, $event)">' +
                             '<a><i class="icon-chevron-right"></i><span class="hidden-tablet">{{mn.name}}</span></a>' +
                             '<ul>' +
-                                '<li ng-repeat="item in mn.submenus" ng-click="handle(item, $event)">' +
+                                '<li ng-repeat="item in mn.submenus" ng-click="handle(item, $event)" class="sub-menu">' +
                                     '<a href="{{item.link}}">' +
                                         '<i class="icon-nothing"></i>' +
                                         '<i class="{{item.icon}}"></i>' +

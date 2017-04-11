@@ -1107,3 +1107,7 @@
     overflow: visible !important;
   }
 }
+
+li.sub-menu {
+    background-color: #3A3A3A;
+}

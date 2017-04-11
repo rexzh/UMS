@@ -452,10 +452,6 @@ a.brand span {
 	border-radius: 0px;		
 }
 
-.nav-tabs.nav-stacked > li:last-child > a {
-  	border-bottom: 1px solid transparent;		
-}
-
 .nav-tabs.nav-stacked > li > ul > li > a{
 	padding: 15px 10px 14px 10px;
 	display: block;
