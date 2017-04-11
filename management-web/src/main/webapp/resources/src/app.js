@@ -98,6 +98,18 @@ app.config(function ($routeProvider, $LProvider) {
             templateUrl: './src/submenu/submenuEdit.html',
             controller: 'SubmenuEditCtrl'
         }).
+        when('/dictType/', {
+            templateUrl: './src/dictType/dictType.html',
+            controller: 'DictTypeCtrl'
+        }).
+        when('/dictTypeAdd/', {
+            templateUrl: './src/dictType/dictTypeEdit.html',
+            controller: 'DictTypeEditCtrl'
+        }).
+        when('/dictTypeModify/:id', {
+            templateUrl: './src/dictType/dictTypeEdit.html',
+            controller: 'DictTypeEditCtrl'
+        }).
         when('/404/', {
             templateUrl: './src/404.html'
         }).
