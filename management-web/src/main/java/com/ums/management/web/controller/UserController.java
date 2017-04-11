@@ -85,8 +85,12 @@ public class UserController {
         Role role = _svc.getRoleByUser(user);
 
         if(UserExtension.hasEnoughPower(httpSession, role)) {
-            this._svc.deleteById(id);
-            return ResponseVO.buildSuccessResponse();
+            if(UserExtension.getCurrentUser(httpSession).getId() != id) {
+                this._svc.deleteById(id);
+                return ResponseVO.buildSuccessResponse();
+            } else {
+                return ResponseVO.buildErrorResponse("Can't delete current user");
+            }
         } else {
             return ResponseVO.buildErrorResponse("Can't delete Admin user");
         }

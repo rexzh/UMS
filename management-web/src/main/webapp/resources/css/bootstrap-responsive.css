@@ -1111,3 +1111,11 @@
 li.sub-menu {
     background-color: #3A3A3A;
 }
+
+.system-status {
+    margin-top: -26px; margin-bottom: 30px;
+}
+
+.status-detail {
+    font-size: 11px; margin-right: 4px;
+}

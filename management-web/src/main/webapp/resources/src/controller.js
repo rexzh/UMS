@@ -60,6 +60,16 @@ app.controller('SystemStatusCtrl', function ($scope, $location, $window, $L, $ti
 
     $scope.showWait = false;
     $scope.showMessage = false;
+    $scope.showDetail = true;
+    $scope.icon = 'icon-chevron-up';
+
+    function showMessage() {
+        $scope.showMessage = true;
+        if($scope.showDetail && $scope.message.type == 'error')
+            $scope.toggleDetail();
+        if((!$scope.showDetail) && $scope.message.type != 'error')
+            $scope.toggleDetail();
+    }
 
     $scope.message = {
         type: 'success',
@@ -69,6 +79,16 @@ app.controller('SystemStatusCtrl', function ($scope, $location, $window, $L, $ti
 
     $scope.hide = function() {
         $scope.showMessage = false;
+    };
+
+    $scope.toggleDetail = function() {
+        if($scope.showDetail) {
+            $scope.icon = 'icon-chevron-down';
+            $scope.showDetail = false;
+        } else {
+            $scope.icon = 'icon-chevron-up';
+            $scope.showDetail = true;
+        }
     };
 
     $scope.$on('menuChange', function(evt, data){
@@ -85,13 +105,12 @@ app.controller('SystemStatusCtrl', function ($scope, $location, $window, $L, $ti
     });
 
     $scope.$on('notify', function(evt, msg) {
-
         $scope.message = {
             type: msg.type,
             detail: msg.text,
             head: $L('Attention')
         }
-        $scope.showMessage = true;
+        showMessage();
         if(msg.type == "success") {
             $timeout(function(){
                 $scope.showMessage = false;
@@ -100,7 +119,6 @@ app.controller('SystemStatusCtrl', function ($scope, $location, $window, $L, $ti
     });
 
     $scope.$on('serviceSuccess', function(evt, resp) {
-
         if(resp.data && resp.data.result === false) {
             console.log(resp.data);
             $scope.message = {
@@ -108,7 +126,7 @@ app.controller('SystemStatusCtrl', function ($scope, $location, $window, $L, $ti
                 head: $L(resp.data.data.error),
                 detail: JSON.stringify(resp.data.data.stack)
             }
-            $scope.showMessage = true;
+            showMessage();
         }
     });
 
@@ -118,11 +136,10 @@ app.controller('SystemStatusCtrl', function ($scope, $location, $window, $L, $ti
             head: $L('Error'),
             detail: JSON.stringify(resp)
         }
-        $scope.showMessage = true;
+        showMessage();
     });
 
     $scope.$on('logout', function(){
-
         $window.location.assign("/management/resources/login.html");
     })
 });

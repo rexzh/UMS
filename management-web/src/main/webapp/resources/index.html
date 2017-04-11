@@ -113,10 +113,13 @@
 
                         <div metro-wait ng-show="showWait"></div>
 
-                        <div class="alert alert-{{message.type}}" style="margin-top: -26px; margin-bottom: 30px;" ng-show="showMessage">
+
+                        <div class="alert alert-{{message.type}} system-status" ng-show="showMessage">
                             <button type="button" class="close" ng-click="hide()">×</button>
+                            <button type="button" class="close status-detail" ng-click="toggleDetail()"><i class="{{icon}}"></i></button>
+
                             <h4 class="alert-heading">{{message.head}}</h4>
-                            <p>{{message.detail}}</p>
+                            <p ng-show="showDetail">{{message.detail}}</p>
                         </div>
 
                     </div>
