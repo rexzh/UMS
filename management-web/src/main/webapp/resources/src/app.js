@@ -1,4 +1,4 @@
-var app = angular.module('AppModule', ['ngRoute', 'http.service', 'common', 'dataService', 'metro.directive', 'l10n']);
+var app = angular.module('AppModule', ['ngRoute', 'http.service', 'common', 'metro.directive', 'l10n']);
 
 app.constant('resetMenu', function () {
     var path = window.location.hash;
@@ -106,7 +106,10 @@ app.config(function ($routeProvider, $LProvider) {
         });
 }).config(['$httpProvider', function($httpProvider) {
 	$httpProvider.interceptors.push('ajaxInterceptor');
-}]).run(function(resize) {
+}]).run(function(resize, rest) {
+    var base_url = '/management/';
+    //var base_url = 'localhost:8000/management/';
+    rest.init(base_url);
     resize();
     $(window).bind("resize", resize);
 });

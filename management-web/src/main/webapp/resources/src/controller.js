@@ -27,9 +27,9 @@
 
     $scope.select = function(idx) {
         var selectedOrg = $scope.organizations[idx];
-        rest.endpoint('/currentOrg.json').post(selectedOrg).success(function(x){
-            console.log(x.data);
-            $scope.user.currentOrg = selectedOrg;
+        rest.endpoint('/currentOrg.json').post(selectedOrg).then(function(x){
+            if(x.result)
+                $scope.user.currentOrg = selectedOrg;
         });
     }
 });
