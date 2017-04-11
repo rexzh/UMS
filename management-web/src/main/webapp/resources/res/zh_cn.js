@@ -9,6 +9,7 @@ l10n.addResource('zh_cn', {
     "Password": "密码",
     "Global Dictionary": "全局字典",
     "Local Dictionary": "局部字典",
+    "Dictionary Type": "字典类型",
     "System Management": "系统管理",
     "System Configuration": "系统配置",
     "User Settings": "用户设置",

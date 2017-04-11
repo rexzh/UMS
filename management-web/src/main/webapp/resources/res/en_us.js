@@ -9,6 +9,7 @@ l10n.addResource('en_us', {
     "Password": "Password",
     "Global Dictionary": "Global Dictionary",
     "Local Dictionary": "Local Dictionary",
+    "Dictionary Type": "Dictionary Type",
     "System Management": "System Management",
     "System Configuration": "System Configuration",
     "User Settings": "User Settings",
