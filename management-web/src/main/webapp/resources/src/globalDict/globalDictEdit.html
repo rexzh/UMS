@@ -1,0 +1,54 @@
+<div class="row-fluid">
+  <form class="form-horizontal">
+    <fieldset>
+      
+      <div class="control-group">
+        <label class="control-label">ID</label>
+        <div class="controls">
+          <input class="input-xlarge" type="text" ng-model="globalDict.id" disabled="disabled"/>
+        </div>
+      </div>
+            
+      <div class="control-group">
+        <label class="control-label">TypeId</label>
+        <div class="controls">
+          
+          <input class="input-xlarge" type="text" ng-model="globalDict.typeId" />
+          
+        </div>
+      </div>
+            
+      <div class="control-group">
+        <label class="control-label">Value</label>
+        <div class="controls">
+          
+          <input class="input-xlarge" type="text" ng-model="globalDict.value" />
+          
+        </div>
+      </div>
+            
+      <div class="control-group">
+        <label class="control-label">Name</label>
+        <div class="controls">
+          
+          <input class="input-xlarge" type="text" ng-model="globalDict.name" />
+          
+        </div>
+      </div>
+            
+      <div class="control-group">
+        <label class="control-label">Comment</label>
+        <div class="controls">
+          
+          <input class="input-xlarge" type="text" ng-model="globalDict.comment" />
+          
+        </div>
+      </div>
+      
+      <div class="form-actions">
+        <button class="btn btn-primary" ng-click="submit()">保存</button>
+        <button class="btn" ng-click="back()">取消</button>
+      </div>
+    </fieldset>
+  </form>
+</div>

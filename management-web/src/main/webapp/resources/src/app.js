@@ -110,6 +110,18 @@ app.config(function ($routeProvider, $LProvider) {
             templateUrl: './src/dictType/dictTypeEdit.html',
             controller: 'DictTypeEditCtrl'
         }).
+        when('/globalDict/', {
+            templateUrl: './src/globalDict/globalDict.html',
+            controller: 'GlobalDictCtrl'
+        }).
+        when('/globalDictAdd/', {
+            templateUrl: './src/globalDict/globalDictEdit.html',
+            controller: 'GlobalDictEditCtrl'
+        }).
+        when('/globalDictModify/:id', {
+            templateUrl: './src/globalDict/globalDictEdit.html',
+            controller: 'GlobalDictEditCtrl'
+        }).
         when('/404/', {
             templateUrl: './src/404.html'
         }).

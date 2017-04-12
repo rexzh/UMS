@@ -1,0 +1,30 @@
+//generator
+app.controller('GlobalDictCtrl', function($scope, $location, rest, msgbox) {
+    
+    rest.endpoint('/globalDict.json').get().then(function(resp){
+        if(resp.result) {
+            //console.log(resp.data);
+            $scope.globalDicts = resp.data.globalDicts;
+        }
+    });
+
+    $scope.remove = function(idx) {
+        msgbox.show().then(function(x){
+            if(x) {
+                var id = $scope.globalDicts[idx].id;
+                rest.endppint('globalDict.json', id).delete().then(function(resp){
+                    if(resp.result);
+						$scope.globalDicts.splice(idx, 1);
+                });
+            }
+        });
+    }
+
+    $scope.add = function() {
+        $location.path("/globalDictAdd");
+    };
+
+    $scope.modify = function(idx) {
+        $location.path("/globalDictModify/" + $scope.globalDicts[idx].id);
+    };
+});
