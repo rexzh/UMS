@@ -12,8 +12,8 @@ app.controller('DictTypeCtrl', function($scope, $location, rest, msgbox) {
         msgbox.show().then(function(x){
             if(x) {
                 var id = $scope.dictTypes[idx].id;
-                rest.endppint('dictType.json', id).delete().then(function(resp){
-                    if(resp.result);
+                rest.endpoint('dictType.json', id).delete().then(function(resp){
+                    if(resp.result)
 						$scope.dictTypes.splice(idx, 1);
                 });
             }

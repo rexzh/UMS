@@ -1,12 +1,22 @@
 //generator
 app.controller('LocalDictCtrl', function($scope, $location, rest, msgbox) {
-    
-    rest.endpoint('/localDict.json').get().then(function(resp){
-        if(resp.result) {
-            //console.log(resp.data);
-            $scope.localDicts = resp.data.localDicts;
-        }
+    rest.endpoint('/dictType.json').get({global: false}).then(function(resp){
+        $scope.types = resp.data.dictTypes;
     });
+
+    //TODO:change(get current)
+    rest.endpoint('/organization.json/byUser').get({global: true}).then(function(resp){
+        $scope.organizations = resp.data.organizations;
+    });
+
+    $scope.update = function() {
+        rest.endpoint('/localDict.json').get({typeId: $scope.type.id, orgId: $scope.organization.id}).then(function(resp){
+            if(resp.result) {
+                //console.log(resp.data);
+                $scope.localDicts = resp.data.localDicts;
+            }
+        });
+    }
 
     $scope.remove = function(idx) {
         msgbox.show().then(function(x){

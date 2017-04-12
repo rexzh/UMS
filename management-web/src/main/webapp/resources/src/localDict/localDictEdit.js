@@ -8,6 +8,8 @@ app.controller('LocalDictEditCtrl', function($q, $scope, $location, $window, $ro
     var q1 = rest.endpoint('/dictType.json/').get({global: false}).then(function(resp){
         $scope.types = resp.data.dictTypes;
     });
+
+    //TODO:optimize(get current)
     var q2 = rest.endpoint('/organization.json/' + dataShare.getData('user').currentOrg.id).get().then(function(resp){
         $scope.organizations = [resp.data.organization];
     });
