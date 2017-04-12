@@ -5,12 +5,12 @@
       <div class="control-group">
         <label class="control-label">ID</label>
         <div class="controls">
-          <input class="input-xlarge" type="text" ng-model="globalDict.id" disabled="disabled"/>
+          <input class="input-xlarge" type="text" ng-model="localDict.id" disabled="disabled"/>
         </div>
       </div>
             
       <div class="control-group">
-        <label class="control-label">类型</label>
+        <label class="control-label">TypeId</label>
         <div class="controls">
 
           <select ng-options="t.name for t in types" ng-model="type">
@@ -20,28 +20,38 @@
       </div>
             
       <div class="control-group">
-        <label class="control-label">值</label>
+        <label class="control-label">OrgId</label>
         <div class="controls">
-          
-          <input class="input-xlarge" type="text" ng-model="globalDict.value" />
+
+          <select ng-options="org.name for org in organizations" ng-model="organization">
+          </select>
           
         </div>
       </div>
             
       <div class="control-group">
-        <label class="control-label">名称</label>
+        <label class="control-label">Value</label>
         <div class="controls">
           
-          <input class="input-xlarge" type="text" ng-model="globalDict.name" />
+          <input class="input-xlarge" type="text" ng-model="localDict.value" />
           
         </div>
       </div>
             
       <div class="control-group">
-        <label class="control-label">备注</label>
+        <label class="control-label">Name</label>
         <div class="controls">
           
-          <input class="input-xlarge" type="text" ng-model="globalDict.comment" />
+          <input class="input-xlarge" type="text" ng-model="localDict.name" />
+          
+        </div>
+      </div>
+            
+      <div class="control-group">
+        <label class="control-label">Comment</label>
+        <div class="controls">
+          
+          <input class="input-xlarge" type="text" ng-model="localDict.comment" />
           
         </div>
       </div>
