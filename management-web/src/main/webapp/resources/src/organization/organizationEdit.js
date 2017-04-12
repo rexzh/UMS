@@ -5,20 +5,16 @@ app.controller('OrganizationEditCtrl', function($scope, $location, $window, $rou
     $scope.isModify = (path != '/organizationAdd/');
     var id = 0;
 
-    if(!$scope.isModify) {
-        $scope.organization = {
-            enabled: true
-        };
-    }
-
-
     if($scope.isModify) {
         id = $routeParams.id;
         rest.endpoint('organization.json/' + id).get().then(function(resp){
             $scope.organization = resp.data.organization;
         });
+    } else {
+        $scope.organization = {
+            enabled: true
+        };
     }
-
 
     $scope.back = function() {
         $window.history.back();

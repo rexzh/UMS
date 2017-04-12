@@ -5,12 +5,6 @@ app.controller('UserEditCtrl', function($scope, $location, $window, $routeParams
     $scope.isModify = (path != '/userAdd/');
     var id = 0;
 
-    if(!$scope.isModify) {
-        $scope.user = {
-            enabled: true
-        };
-    }
-
     rest.endpoint('/organization.json/byUser').get().then(function(resp){
         $scope.orgs = resp.data.organizations;
 
@@ -39,6 +33,10 @@ app.controller('UserEditCtrl', function($scope, $location, $window, $routeParams
                         }
                     }
                 });
+            } else {
+                $scope.user = {
+                    enabled: true
+                };
             }
         });
     });

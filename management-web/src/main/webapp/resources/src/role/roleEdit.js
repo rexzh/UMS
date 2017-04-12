@@ -5,12 +5,6 @@ app.controller('RoleEditCtrl', function($scope, $location, $window, $routeParams
     $scope.isModify = (path != '/roleAdd/');
     var id = 0;
 
-    if(!$scope.isModify) {
-        $scope.role = {
-            enabled: true
-        };
-    }
-
     rest.endpoint('/submenu.json').get().then(function(resp){
         $scope.submenus = resp.data.submenus;
         if($scope.isModify) {
@@ -29,6 +23,10 @@ app.controller('RoleEditCtrl', function($scope, $location, $window, $routeParams
                     }
                 }
             });
+        } else{
+            $scope.role = {
+                enabled: true
+            };
         }
     });
 

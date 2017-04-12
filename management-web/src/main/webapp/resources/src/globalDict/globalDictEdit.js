@@ -20,6 +20,8 @@ app.controller('GlobalDictEditCtrl', function($scope, $location, $window, $route
                     }
                 }
             });
+        } else {
+            $scope.globalDict = {};
         }
     });
 

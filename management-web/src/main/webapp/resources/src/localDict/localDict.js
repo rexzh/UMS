@@ -10,6 +10,8 @@ app.controller('LocalDictCtrl', function($scope, $location, rest, msgbox) {
     });
 
     $scope.update = function() {
+        if(!$scope.type || !$scope.organization)
+            return;
         rest.endpoint('/localDict.json').get({typeId: $scope.type.id, orgId: $scope.organization.id}).then(function(resp){
             if(resp.result) {
                 //console.log(resp.data);

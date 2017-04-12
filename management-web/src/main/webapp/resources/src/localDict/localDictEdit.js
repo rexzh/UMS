@@ -9,9 +9,8 @@ app.controller('LocalDictEditCtrl', function($q, $scope, $location, $window, $ro
         $scope.types = resp.data.dictTypes;
     });
 
-    //TODO:optimize(get current)
-    var q2 = rest.endpoint('/organization.json/' + dataShare.getData('user').currentOrg.id).get().then(function(resp){
-        $scope.organizations = [resp.data.organization];
+    var q2 = rest.endpoint('/organization.json/byUser').get().then(function(resp){
+        $scope.organizations = resp.data.organizations;
     });
 
     $q.all([q1, q2]).then(function(){
@@ -34,6 +33,8 @@ app.controller('LocalDictEditCtrl', function($q, $scope, $location, $window, $ro
                     }
                 }
             });
+        } else {
+            $scope.localDict = {};
         }
     });
 

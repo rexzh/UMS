@@ -4,18 +4,16 @@ app.controller('DictTypeEditCtrl', function($scope, $location, $window, $routePa
     var path = $location.path();
     $scope.isModify = (path != '/dictTypeAdd/');
     var id = 0;
-
-    if(!$scope.isModify) {
-        $scope.dictType = {
-            global: true
-        };
-    }
     
     if($scope.isModify) {
         id = $routeParams.id;
         rest.endpoint('/dictType.json/' + id).get().then(function(resp){
             $scope.dictType = resp.data.dictType;
         });
+    } else {
+        $scope.dictType = {
+            global: true
+        };
     }
 
     $scope.back = function() {
