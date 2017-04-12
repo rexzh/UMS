@@ -52,7 +52,7 @@
       and name like CONCAT('%', #{name}, '%')
     </if>
     <if test="enabled != null">
-      and enabled =#{enabled, jdbcType=BIT}
+      and enabled = #{enabled, jdbcType=BIT}
     </if>
   </select>
   <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">

@@ -1,12 +1,17 @@
 //generator
 app.controller('GlobalDictCtrl', function($scope, $location, rest, msgbox) {
-    
-    rest.endpoint('/globalDict.json').get().then(function(resp){
-        if(resp.result) {
-            //console.log(resp.data);
-            $scope.globalDicts = resp.data.globalDicts;
-        }
+    rest.endpoint('/dictType.json').get({global: true}).then(function(resp){
+        $scope.types = resp.data.dictTypes;
     });
+
+    $scope.update = function() {
+        rest.endpoint('/globalDict.json').get({typeId: $scope.type.id}).then(function(resp){
+            if(resp.result) {
+                //console.log(resp.data);
+                $scope.globalDicts = resp.data.globalDicts;
+            }
+        });
+    }
 
     $scope.remove = function(idx) {
         msgbox.show().then(function(x){

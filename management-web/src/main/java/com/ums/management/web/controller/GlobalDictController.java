@@ -14,9 +14,9 @@ public class GlobalDictController {
 	private IGlobalDictService _svc = null;
 
 	@RequestMapping("/globalDict.json")
-	public ResponseVO getGlobalDicts() {
+	public ResponseVO getGlobalDicts(@RequestParam(value = "typeId", required = false) Integer typeId) {
 		ResponseVO response = ResponseVO.buildSuccessResponse();
-		response.addData("globalDicts", _svc.getGlobalDicts());
+		response.addData("globalDicts", _svc.getGlobalDicts(typeId));
         return response;
 	}
 

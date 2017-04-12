@@ -3,6 +3,7 @@ package com.ums.management.core.dao;
 import com.ums.management.core.model.GlobalDict;
 
 import java.util.List;
+import java.util.Map;
 
 public interface GlobalDictMapper {
     /**
@@ -53,5 +54,5 @@ public interface GlobalDictMapper {
      */
     int updateByPrimaryKey(GlobalDict record);
 
-    List<GlobalDict> selectGlobalDicts();
+    List<GlobalDict> selectGlobalDicts(Map<String, Object> queryMap);
 }

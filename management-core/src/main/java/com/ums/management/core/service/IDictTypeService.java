@@ -7,7 +7,7 @@ import java.util.List;
 
 public interface IDictTypeService {
 	DictType getDictTypeById(int id);
-    List<DictType> getDictTypes();
+    List<DictType> getDictTypes(String code, Boolean global);
     void deleteById(int id);
     void create(DictType dictType);
     void update(DictType dictType);

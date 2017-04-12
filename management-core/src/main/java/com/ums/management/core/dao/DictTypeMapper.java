@@ -3,6 +3,7 @@ package com.ums.management.core.dao;
 import com.ums.management.core.model.DictType;
 
 import java.util.List;
+import java.util.Map;
 
 public interface DictTypeMapper {
     /**
@@ -53,5 +54,5 @@ public interface DictTypeMapper {
      */
     int updateByPrimaryKey(DictType record);
 
-    List<DictType> selectDictTypes();
+    List<DictType> selectDictTypes(Map<String, Object> queryMap);
 }

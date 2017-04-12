@@ -1,7 +1,10 @@
 //generator==
 package com.ums.management.core.service.impl;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -21,8 +24,10 @@ public class GlobalDictServiceImpl implements IGlobalDictService {
 	}
 
 	@Override
-    public List<GlobalDict> getGlobalDicts(){
-		return _dao.selectGlobalDicts();
+    public List<GlobalDict> getGlobalDicts(Integer typeId){
+		Map<String, Object> queryMap = new HashMap<>();
+		queryMap.put("typeId", typeId);
+		return _dao.selectGlobalDicts(queryMap);
 	}
 
 	@Override

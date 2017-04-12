@@ -1,7 +1,9 @@
 //generator==
 package com.ums.management.core.service.impl;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import com.ums.management.core.dao.DictTypeMapper;
 import com.ums.management.core.model.DictType;
@@ -21,8 +23,12 @@ public class DictTypeServiceImpl implements IDictTypeService {
 	}
 
 	@Override
-    public List<DictType> getDictTypes(){
-		return _dao.selectDictTypes();
+    public List<DictType> getDictTypes(String code, Boolean global){
+		Map<String, Object> queryMap = new HashMap<>();
+		queryMap.put("code", code);
+		queryMap.put("global", global);
+
+		return _dao.selectDictTypes(queryMap);
 	}
 
 	@Override
