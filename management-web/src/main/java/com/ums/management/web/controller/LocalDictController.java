@@ -22,10 +22,6 @@ public class LocalDictController {
 	public ResponseVO getLocalDicts(HttpSession httpSession,
 	                                @RequestParam(value = "typeId", required = false) Integer typeId,
                                     @RequestParam(value = "orgId", required = false) Integer orgId) {
-	    UserVO user = UserExtension.getCurrentUser(httpSession);
-	    if(!user.getRole().getName().equals(Role.ADMIN))
-	        orgId = user.getCurrentOrganization().getId();
-
 		ResponseVO response = ResponseVO.buildSuccessResponse();
 		response.addData("localDicts", _svc.getLocalDicts(typeId, orgId));
         return response;
