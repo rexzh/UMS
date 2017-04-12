@@ -1,8 +1,6 @@
-
 <div class="row-fluid">
   <form class="form-horizontal">
     <fieldset>
-      
       
       <div class="control-group">
         <label class="control-label">ID</label>
@@ -10,24 +8,42 @@
           <input class="input-xlarge" type="text" ng-model="dictType.id" disabled="disabled"/>
         </div>
       </div>
-      
-      
+            
+      <div class="control-group">
+        <label class="control-label">代码</label>
+        <div class="controls">
+          
+          <input class="input-xlarge" type="text" ng-model="dictType.code" />
+          
+        </div>
+      </div>
+            
       <div class="control-group">
         <label class="control-label">名称</label>
         <div class="controls">
+          
           <input class="input-xlarge" type="text" ng-model="dictType.name" />
+          
         </div>
       </div>
-      
-      
-      
+            
       <div class="control-group">
         <label class="control-label">全局</label>
         <div class="controls">
+          
           <div metro-checkbox ng-model="dictType.global"></div>
+          
         </div>
       </div>
-      
+            
+      <div class="control-group">
+        <label class="control-label">备注</label>
+        <div class="controls">
+          
+          <input class="input-xlarge" type="text" ng-model="dictType.comment" />
+          
+        </div>
+      </div>
       
       <div class="form-actions">
         <button class="btn btn-primary" ng-click="submit()">保存</button>
