@@ -39,6 +39,7 @@ app.controller('SystemStatusCtrl', function ($scope, $location, $window, $L, $ti
     $scope.home = $L("Home");
 
     $scope.$on('login', function() {
+        //TODO:Need Review
         var path = $location.path();
         if(path[0] == '/') path = '#' + path;
         if(path[path.length - 1] == '/') path = path.substr(0, path.length - 1);
