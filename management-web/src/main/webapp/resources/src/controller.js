@@ -28,8 +28,10 @@
     $scope.select = function(idx) {
         var selectedOrg = $scope.organizations[idx];
         rest.endpoint('/currentOrg.json').post(selectedOrg).then(function(x){
-            if(x.result)
+            if(x.result) {
                 $scope.user.currentOrg = selectedOrg;
+                $window.location.assign("/management/resources/index.html");
+            }
         });
     }
 });

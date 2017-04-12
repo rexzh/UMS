@@ -5,15 +5,25 @@
       <div class="control-group">
         <label class="control-label">ID</label>
         <div class="controls">
-          <input class="input-xlarge" type="text" ng-model="dictType.id" disabled="disabled"/>
+          <input class="input-xlarge" type="text" ng-model="globalDict.id" disabled="disabled"/>
         </div>
       </div>
             
       <div class="control-group">
-        <label class="control-label">代码</label>
+        <label class="control-label">类型</label>
+        <div class="controls">
+
+          <select ng-options="t.name for t in types" ng-model="type">
+          </select>
+          
+        </div>
+      </div>
+            
+      <div class="control-group">
+        <label class="control-label">值</label>
         <div class="controls">
           
-          <input class="input-xlarge" type="text" ng-model="dictType.code" />
+          <input class="input-xlarge" type="text" ng-model="globalDict.value" />
           
         </div>
       </div>
@@ -22,16 +32,7 @@
         <label class="control-label">名称</label>
         <div class="controls">
           
-          <input class="input-xlarge" type="text" ng-model="dictType.name" />
-          
-        </div>
-      </div>
-            
-      <div class="control-group">
-        <label class="control-label">全局</label>
-        <div class="controls">
-          
-          <div metro-checkbox ng-model="dictType.global"></div>
+          <input class="input-xlarge" type="text" ng-model="globalDict.name" />
           
         </div>
       </div>
@@ -40,7 +41,7 @@
         <label class="control-label">备注</label>
         <div class="controls">
           
-          <input class="input-xlarge" type="text" ng-model="dictType.comment" />
+          <input class="input-xlarge" type="text" ng-model="globalDict.comment" />
           
         </div>
       </div>

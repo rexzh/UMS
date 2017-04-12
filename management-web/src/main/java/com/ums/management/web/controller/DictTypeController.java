@@ -14,9 +14,10 @@ public class DictTypeController {
 	private IDictTypeService _svc = null;
 
 	@RequestMapping("/dictType.json")
-	public ResponseVO getDictTypes() {
+	public ResponseVO getDictTypes(@RequestParam(value = "code", required = false) String code,
+                                   @RequestParam(value = "global", required = false) Boolean global) {
 		ResponseVO response = ResponseVO.buildSuccessResponse();
-		response.addData("dictTypes", _svc.getDictTypes());
+		response.addData("dictTypes", _svc.getDictTypes(code, global));
         return response;
 	}
 

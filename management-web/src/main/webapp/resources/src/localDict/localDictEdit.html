@@ -5,42 +5,53 @@
       <div class="control-group">
         <label class="control-label">ID</label>
         <div class="controls">
-          <input class="input-xlarge" type="text" ng-model="dictType.id" disabled="disabled"/>
+          <input class="input-xlarge" type="text" ng-model="localDict.id" disabled="disabled"/>
         </div>
       </div>
             
       <div class="control-group">
-        <label class="control-label">代码</label>
+        <label class="control-label">TypeId</label>
         <div class="controls">
-          
-          <input class="input-xlarge" type="text" ng-model="dictType.code" />
-          
-        </div>
-      </div>
-            
-      <div class="control-group">
-        <label class="control-label">名称</label>
-        <div class="controls">
-          
-          <input class="input-xlarge" type="text" ng-model="dictType.name" />
+
+          <select ng-options="t.name for t in types" ng-model="type">
+          </select>
           
         </div>
       </div>
             
       <div class="control-group">
-        <label class="control-label">全局</label>
+        <label class="control-label">OrgId</label>
         <div class="controls">
-          
-          <div metro-checkbox ng-model="dictType.global"></div>
+
+          <select ng-options="org.name for org in organizations" ng-model="organization">
+          </select>
           
         </div>
       </div>
             
       <div class="control-group">
-        <label class="control-label">备注</label>
+        <label class="control-label">Value</label>
         <div class="controls">
           
-          <input class="input-xlarge" type="text" ng-model="dictType.comment" />
+          <input class="input-xlarge" type="text" ng-model="localDict.value" />
+          
+        </div>
+      </div>
+            
+      <div class="control-group">
+        <label class="control-label">Name</label>
+        <div class="controls">
+          
+          <input class="input-xlarge" type="text" ng-model="localDict.name" />
+          
+        </div>
+      </div>
+            
+      <div class="control-group">
+        <label class="control-label">Comment</label>
+        <div class="controls">
+          
+          <input class="input-xlarge" type="text" ng-model="localDict.comment" />
           
         </div>
       </div>

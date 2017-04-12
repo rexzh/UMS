@@ -7,7 +7,7 @@ app.controller('DictTypeEditCtrl', function($scope, $location, $window, $routePa
 
     if(!$scope.isModify) {
         $scope.dictType = {
-            global: false
+            global: true
         };
     }
     

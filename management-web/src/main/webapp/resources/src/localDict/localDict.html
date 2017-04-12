@@ -11,30 +11,34 @@
         
         <th>ID</th>
         
-        <th>代码</th>
+        <th>TypeId</th>
         
-        <th>名称</th>
+        <th>OrgId</th>
         
-        <th>全局</th>
+        <th>Value</th>
         
-        <th>备注</th>
+        <th>Name</th>
+        
+        <th>Comment</th>
         
         <th>操作</th>
       </tr>
     </thead>
 
     <tbody>
-      <tr ng-repeat="dictType in dictTypes">
+      <tr ng-repeat="localDict in localDicts">
         
-        <td>{{dictType.id}}</td>
+        <td>{{localDict.id}}</td>
         
-        <td>{{dictType.code}}</td>
+        <td>{{localDict.typeId}}</td>
         
-        <td>{{dictType.name}}</td>
+        <td>{{localDict.orgId}}</td>
         
-        <td><div metro-checkbox ng-model="dictType.global" ng-disabled="true"></div></td>
+        <td>{{localDict.value}}</td>
         
-        <td>{{dictType.comment}}</td>
+        <td>{{localDict.name}}</td>
+        
+        <td>{{localDict.comment}}</td>
         
         <td class="center">
           <a class="btn btn-primary btn-sm" ng-click="modify($index)">
