@@ -23,11 +23,11 @@
     id, name, link, icon, parent_id, display_order
   </sql>
   <select id="selectSubmenus" resultMap="BaseResultMap">
-    select
-    <include refid="Base_Column_List" />
-    from submenu
+    select s.*
+    from submenu s
+      inner join menu m on s.parent_id = m.id
     where 1=1
-    order by parent_id, display_order
+    order by m.display_order, s.display_order
   </select>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
     <!--
