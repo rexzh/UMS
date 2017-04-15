@@ -99,51 +99,51 @@ app.config(function ($routeProvider, $LProvider) {
             controller: 'MenuEditCtrl'
         }).
         when('/submenu/', {
-            templateUrl: './src/submenu/submenu.html',
+            templateUrl: './src/menu/submenu.html',
             controller: 'SubmenuCtrl'
         }).
         when('/submenuAdd/', {
-            templateUrl: './src/submenu/submenuEdit.html',
+            templateUrl: './src/menu/submenuEdit.html',
             controller: 'SubmenuEditCtrl'
         }).
         when('/submenuModify/:id', {
-            templateUrl: './src/submenu/submenuEdit.html',
+            templateUrl: './src/menu/submenuEdit.html',
             controller: 'SubmenuEditCtrl'
         }).
         when('/dictType/', {
-            templateUrl: './src/dictType/dictType.html',
+            templateUrl: './src/dictionary/dictType.html',
             controller: 'DictTypeCtrl'
         }).
         when('/dictTypeAdd/', {
-            templateUrl: './src/dictType/dictTypeEdit.html',
+            templateUrl: './src/dictionary/dictTypeEdit.html',
             controller: 'DictTypeEditCtrl'
         }).
         when('/dictTypeModify/:id', {
-            templateUrl: './src/dictType/dictTypeEdit.html',
+            templateUrl: './src/dictionary/dictTypeEdit.html',
             controller: 'DictTypeEditCtrl'
         }).
         when('/globalDict/', {
-            templateUrl: './src/globalDict/globalDict.html',
+            templateUrl: './src/dictionary/globalDict.html',
             controller: 'GlobalDictCtrl'
         }).
         when('/globalDictAdd/', {
-            templateUrl: './src/globalDict/globalDictEdit.html',
+            templateUrl: './src/dictionary/globalDictEdit.html',
             controller: 'GlobalDictEditCtrl'
         }).
         when('/globalDictModify/:id', {
-            templateUrl: './src/globalDict/globalDictEdit.html',
+            templateUrl: './src/dictionary/globalDictEdit.html',
             controller: 'GlobalDictEditCtrl'
         }).
         when('/localDict/', {
-            templateUrl: './src/localDict/localDict.html',
+            templateUrl: './src/dictionary/localDict.html',
             controller: 'LocalDictCtrl'
         }).
         when('/localDictAdd/', {
-            templateUrl: './src/localDict/localDictEdit.html',
+            templateUrl: './src/dictionary/localDictEdit.html',
             controller: 'LocalDictEditCtrl'
         }).
         when('/localDictModify/:id', {
-            templateUrl: './src/localDict/localDictEdit.html',
+            templateUrl: './src/dictionary/localDictEdit.html',
             controller: 'LocalDictEditCtrl'
         }).
         when('/404/', {
