@@ -2,6 +2,12 @@
 
 app.controller('DictTypeEditCtrl', function($scope, $location, $window, $routeParams, $L, rest, notify) {
     $scope.const = $L.const;
+    $scope.lconst = {
+        Code: $L('Code'),
+        Name: $L('Name'),
+        Global: $L('Global'),
+        Comment: $L('Comment')
+    }
 
     var path = $location.path();
     $scope.isModify = (path != '/dictTypeAdd/');

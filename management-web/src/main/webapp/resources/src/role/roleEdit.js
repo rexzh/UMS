@@ -15,6 +15,12 @@ app.controller('RoleEditCtrl', function($scope, $location, $window, $routeParams
 
     rest.endpoint('/submenu.json').get().then(function(resp){
         $scope.submenus = resp.data.submenus;
+
+        for(var i = 0; i < $scope.submenus.length; i++) {
+            var m = $scope.submenus[i];
+            m.namel10n = $L(m.name);
+        }
+
         if($scope.isModify) {
             id = $routeParams.id;
             rest.endpoint('/role.json/' + id).get().then(function(resp){
@@ -25,7 +31,6 @@ app.controller('RoleEditCtrl', function($scope, $location, $window, $routeParams
                 for(var i = 0; i < $scope.submenus.length; i++) {
                     for(var j = 0; j < role_menu.length; j++) {
                         var m = $scope.submenus[i];
-                        m.namel10n = $L(m.name);
                         if(role_menu[j].submenuId == m.id) {
                             m.checked = true;
                         }

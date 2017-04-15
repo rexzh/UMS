@@ -1,7 +1,13 @@
 //generator
 app.controller('DictTypeCtrl', function($scope, $location, $L, rest, msgbox) {
     $scope.const = $L.const;
-    
+    $scope.lconst = {
+        Code: $L('Code'),
+        Name: $L('Name'),
+        Global: $L('Global'),
+        Comment: $L('Comment')
+    }
+
     rest.endpoint('/dictType.json').get().then(function(resp){
         if(resp.result) {
             //console.log(resp.data);

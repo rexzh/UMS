@@ -75,9 +75,13 @@ l10n.addResource('en_us', {
     "UserName": "User Name",
     "Enabled": "Enabled",
     "ResetPassword": "Reset Password",
+    "Code": "Code",
     "Name": "Name",
     "Description": "Description",
     "Authorization": "Authorization",
     "Address": "Address",
-    "Tel": "Tel"
+    "Tel": "Tel",
+    "Comment": "Comment",
+    "Type": "Type",
+    "Value": "Value"
 });

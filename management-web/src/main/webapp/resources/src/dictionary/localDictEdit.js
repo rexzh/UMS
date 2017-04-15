@@ -2,6 +2,13 @@
 
 app.controller('LocalDictEditCtrl', function($q, $scope, $location, $window, $routeParams, $L, dataShare, rest, notify) {
     $scope.const = $L.const;
+    $scope.lconst = {
+        Organization: $L('Organization'),
+        Type: $L('Type'),
+        Value: $L('Value'),
+        Name: $L('Name'),
+        Comment: $L('Comment')
+    }
 
     var path = $location.path();
     $scope.isModify = (path != '/localDictAdd/');

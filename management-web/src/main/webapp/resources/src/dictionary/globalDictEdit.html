@@ -10,7 +10,7 @@
       </div>
             
       <div class="control-group">
-        <label class="control-label">类型</label>
+        <label class="control-label">{{lconst.Type}}</label>
         <div class="controls">
 
           <select ng-options="t.name for t in types" ng-model="type">
@@ -20,7 +20,7 @@
       </div>
             
       <div class="control-group">
-        <label class="control-label">值</label>
+        <label class="control-label">{{lconst.Value}}</label>
         <div class="controls">
           
           <input class="input-xlarge" type="text" ng-model="globalDict.value" />
@@ -29,7 +29,7 @@
       </div>
             
       <div class="control-group">
-        <label class="control-label">名称</label>
+        <label class="control-label">{{lconst.Name}}</label>
         <div class="controls">
           
           <input class="input-xlarge" type="text" ng-model="globalDict.name" />
@@ -38,7 +38,7 @@
       </div>
             
       <div class="control-group">
-        <label class="control-label">备注</label>
+        <label class="control-label">{{lconst.Comment}}</label>
         <div class="controls">
           
           <input class="input-xlarge" type="text" ng-model="globalDict.comment" />

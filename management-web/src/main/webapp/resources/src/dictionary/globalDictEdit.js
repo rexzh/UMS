@@ -2,6 +2,12 @@
 
 app.controller('GlobalDictEditCtrl', function($scope, $location, $window, $routeParams, $L, rest, notify) {
     $scope.const =  $L.const;
+    $scope.lconst = {
+        Type: $L('Type'),
+        Value: $L('Value'),
+        Name: $L('Name'),
+        Comment: $L('Comment')
+    }
 
     var path = $location.path();
     $scope.isModify = (path != '/globalDictAdd/');
