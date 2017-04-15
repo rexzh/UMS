@@ -1,4 +1,4 @@
-﻿app.controller('SubmenuCtrl', function ($scope,  $L, $location, msgbox, rest) {
+﻿app.controller('SubmenuCtrl', function ($scope, $L, $location, msgbox, rest) {
     $scope.remove = function(idx) {
         msgbox.show({text: "删除当前记录?"}).then(function(x){
             if(x){
@@ -17,6 +17,11 @@
     rest.endpoint('submenu.json').get().then(function(x){
         if(x.result) {
             $scope.submenus = x.data.submenus;
+
+            for(var i = 0; i < $scope.submenus.length; i++) {
+                var m = $scope.submenus[i];
+                m.namel10n = $L(m.name);
+            }
         }
     });
 

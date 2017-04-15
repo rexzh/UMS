@@ -1,10 +1,15 @@
 //generator
-app.controller('MenuCtrl', function($scope, $location, rest, msgbox) {
+app.controller('MenuCtrl', function($scope, $location, $L, rest, msgbox) {
     
     rest.endpoint('/menu.json').get().then(function(resp){
         if(resp.result) {
             //console.log(resp.data);
             $scope.menus = resp.data.menus;
+
+            for(var i = 0; i < $scope.menus.length; i++) {
+                var m = $scope.menus[i];
+                m.namel10n = $L(m.name);
+            }
         }
     });
 
