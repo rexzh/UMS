@@ -1,5 +1,9 @@
 app.controller('MenuEditCtrl', function($scope, $location, $window, $routeParams, $L, rest, notify) {
     $scope.const = $L.const;
+    $scope.lconst = {
+        Name: $L('Name'),
+        DisplayOrder: $L('DisplayOrder')
+    }
 
     var path = $location.path();
     $scope.isModify = (path != '/menuAdd/');

@@ -1,5 +1,12 @@
 ﻿app.controller('SubmenuCtrl', function ($scope, $L, $location, msgbox, rest) {
     $scope.const = $L.const;
+    $scope.lconst = {
+        Name: $L('Name'),
+        Icon: $L('Icon'),
+        Link: $L('Link'),
+        Localization: $L('Localization'),
+        DisplayOrder: $L('DisplayOrder')
+    }
 
     $scope.remove = function(idx) {
         msgbox.show({text: "删除当前记录?"}).then(function(x){

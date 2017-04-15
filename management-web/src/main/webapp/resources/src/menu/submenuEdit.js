@@ -1,5 +1,13 @@
 app.controller('SubmenuEditCtrl', function($scope, $location, $routeParams, $window, $L, rest, notify) {
     $scope.const = $L.const;
+    $scope.lconst = {
+        Name: $L('Name'),
+        Icon: $L('Icon'),
+        Link: $L('Link'),
+        Localization: $L('Localization'),
+        DisplayOrder: $L('DisplayOrder'),
+        ParentMenu: $L('ParentMenu')
+    }
 
     var path = $location.path();
     $scope.isModify = (path != '/submenuAdd/');

@@ -83,5 +83,10 @@ l10n.addResource('en_us', {
     "Tel": "Tel",
     "Comment": "Comment",
     "Type": "Type",
-    "Value": "Value"
+    "Value": "Value",
+    "Icon": "Icon",
+    "Link": "Link",
+    "DisplayOrder": "Display Order",
+    "Localization": "Localization",
+    "ParentMenu": "Parent Menu"
 });

@@ -1,6 +1,11 @@
 //generator
 app.controller('MenuCtrl', function($scope, $location, $L, rest, msgbox) {
     $scope.const = $L.const;
+    $scope.lconst = {
+        Name: $L('Name'),
+        Localization: $L('Localization'),
+        DisplayOrder: $L('DisplayOrder')
+    }
     
     rest.endpoint('/menu.json').get().then(function(resp){
         if(resp.result) {

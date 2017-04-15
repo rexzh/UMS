@@ -8,25 +8,25 @@
                 </div>
             </div>
             <div class="control-group">
-                <label class="control-label">名称</label>
+                <label class="control-label">{{lconst.Name}}</label>
                 <div class="controls">
                     <input class="input-xlarge" type="text" ng-model="submenu.name">
                 </div>
             </div>
             <div class="control-group">
-                <label class="control-label">显示顺序</label>
+                <label class="control-label">{{lconst.DisplayOrder}}</label>
                 <div class="controls">
                     <input class="input-xlarge" type="text" ng-model="submenu.displayOrder">
                 </div>
             </div>
             <div class="control-group">
-                <label class="control-label">链接</label>
+                <label class="control-label">{{lconst.Link}}</label>
                 <div class="controls">
                     <input class="input-xlarge" type="text" ng-model="submenu.link">
                 </div>
             </div>
             <div class="control-group">
-                <label class="control-label">图标</label>
+                <label class="control-label">{{lconst.Icon}}</label>
                 <div class="controls">
                     <input class="input-xlarge" type="text" ng-model="submenu.icon">
                     <i class="{{submenu.icon}}"></i>
@@ -34,7 +34,7 @@
             </div>
             
             <div class="control-group">
-                <label class="control-label">上级菜单</label>
+                <label class="control-label">{{lconst.ParentMenu}}</label>
                 <div class="controls">
                     <select ng-model="lv1menu" ng-options="m.name for m in lv1menus">
                     </select>

@@ -84,5 +84,10 @@ l10n.addResource('zh_cn', {
     "Tel": "电话",
     "Comment": "备注",
     "Type": "类型",
-    "Value": "值"
+    "Value": "值",
+    "Icon": "图标",
+    "Link": "链接",
+    "DisplayOrder": "显示顺序",
+    "Localization": "本地化",
+    "ParentMenu": "上级菜单"
 });
