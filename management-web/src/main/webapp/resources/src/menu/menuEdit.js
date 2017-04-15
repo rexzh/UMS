@@ -17,8 +17,10 @@ app.controller('MenuEditCtrl', function($scope, $location, $window, $routeParams
     };
 
     $scope.submit = function(){
-        //TODO:Verify
-
+        if(!$scope.menu.name) {
+            notify.error('名称不能为空');
+            return;
+        }
 
         var endpoint = rest.endpoint('/menu.json');
         if($scope.isModify) {

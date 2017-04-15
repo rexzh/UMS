@@ -21,7 +21,15 @@ app.controller('DictTypeEditCtrl', function($scope, $location, $window, $routePa
     };
 
     $scope.submit = function(){
-        //TODO:Verify
+        if(!$scope.dictType.name) {
+            notify.error('名称不能为空');
+            return;
+        }
+
+        if(!$scope.dictType.code) {
+            notify.error('代码不能为空');
+            return;
+        }
 
         var endpoint = rest.endpoint('/dictType.json');
         if($scope.isModify) {

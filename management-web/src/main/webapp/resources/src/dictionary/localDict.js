@@ -4,7 +4,6 @@ app.controller('LocalDictCtrl', function($scope, $location, rest, msgbox) {
         $scope.types = resp.data.dictTypes;
     });
 
-    //TODO:change(get current)
     rest.endpoint('/organization.json/byUser').get({global: true}).then(function(resp){
         $scope.organizations = resp.data.organizations;
     });
