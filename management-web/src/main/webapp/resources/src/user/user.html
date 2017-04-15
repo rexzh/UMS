@@ -5,10 +5,10 @@
     <div class="box-content">
         <div class="row-fluid">
             <div class="control-group">
-                <input class="input-small" type="text" placeholder="用户名" ng-model="criteria.code" />
-                <input class="input-small" type="text" placeholder="姓名" ng-model="criteria.name" />
+                <input class="input-small" type="text" placeholder="{{lconst.UserCode}}" ng-model="criteria.code" />
+                <input class="input-small" type="text" placeholder="{{lconst.UserName}}" ng-model="criteria.name" />
                 <div class="checkbox control-search">
-                    <label class="control-search">可用</label>
+                    <label class="control-search">{{lconst.Enabled}}</label>
                     <div class="controls control-search">
                         <div metro-checkbox ng-model="criteria.enabled"></div>
                     </div>
@@ -37,9 +37,9 @@
         <thead>
             <tr>
                 <th>ID</th>
-                <th>用户名</th>
-                <th>姓名</th>
-                <th>可用</th>
+                <th>{{lconst.UserCode}}</th>
+                <th>{{lconst.UserName}}</th>
+                <th>{{lconst.Enabled}}</th>
                 <th>{{const.Operation}}</th>
             </tr>
         </thead>
@@ -58,7 +58,7 @@
                         <i class="icon-trash"></i> {{const.Delete}}
                     </a>
                     <a class="btn btn-info btn-sm" ng-click="resetPwd($index)">
-                        <i class="icon-refresh"></i> 重置密码
+                        <i class="icon-refresh"></i> {{lconst.ResetPwd}}
                     </a>
                 </td>
             </tr>

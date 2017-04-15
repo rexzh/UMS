@@ -69,5 +69,13 @@ l10n.addResource('en_us', {
     "ms": "ms",
     "TimeZone": "Time Zone",
     "MessageCount": "Message Count",
-    "Frequency": "Frequency"
+    "Frequency": "Frequency",
+
+    "UserCode": "User Code",
+    "UserName": "User Name",
+    "Enabled": "Enabled",
+    "ResetPassword": "Reset Password",
+    "Name": "Name",
+    "Description": "Description",
+    "Authorization": "Authorization"
 });

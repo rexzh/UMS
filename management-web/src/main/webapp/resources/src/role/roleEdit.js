@@ -2,6 +2,12 @@
 
 app.controller('RoleEditCtrl', function($scope, $location, $window, $routeParams, $L, rest, notify) {
     $scope.const = $L.const;
+    $scope.lconst = {
+        Name: $L('Name'),
+        Enabled: $L('Enabled'),
+        Description: $L('Description'),
+        Authorization: $L('Authorization')
+    }
 
     var path = $location.path();
     $scope.isModify = (path != '/roleAdd/');
@@ -19,6 +25,7 @@ app.controller('RoleEditCtrl', function($scope, $location, $window, $routeParams
                 for(var i = 0; i < $scope.submenus.length; i++) {
                     for(var j = 0; j < role_menu.length; j++) {
                         var m = $scope.submenus[i];
+                        m.namel10n = $L(m.name);
                         if(role_menu[j].submenuId == m.id) {
                             m.checked = true;
                         }

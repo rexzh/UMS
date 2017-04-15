@@ -70,5 +70,13 @@ l10n.addResource('zh_cn', {
     "ms": "毫秒",
     "TimeZone": "时区",
     "MessageCount": "消息数量",
-    "Frequency": "频率"
+    "Frequency": "频率",
+
+    "UserCode": "用户名",
+    "UserName": "姓名",
+    "Enabled": "可用",
+    "ResetPassword": "重置密码",
+    "Name": "名称",
+    "Description": "描述",
+    "Authorization": "授权"
 });

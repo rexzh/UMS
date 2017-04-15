@@ -8,26 +8,26 @@
                 </div>
             </div>
             <div class="control-group">
-                <label class="control-label">用户名</label>
+                <label class="control-label">{{lconst.UserCode}}</label>
                 <div class="controls">
                     <input class="input-xlarge" type="text" ng-model="user.code">
                 </div>
             </div>
             <div class="control-group">
-                <label class="control-label">姓名</label>
+                <label class="control-label">{{lconst.UserName}}</label>
                 <div class="controls">
                     <input class="input-xlarge" type="text" ng-model="user.name">
                 </div>
             </div>
             <div class="control-group">
-                <label class="control-label">可用</label>
+                <label class="control-label">{{lconst.Enabled}}</label>
                 <div class="controls">
                     <div metro-checkbox ng-model="user.enabled"></div>
                 </div>
             </div>
 
             <div class="control-group">
-                <label class="control-label">角色</label>
+                <label class="control-label">{{lconst.Role}}</label>
                 <div class="controls">
                     <select ng-model="role" ng-options="r.name for r in roles">
                     </select>
@@ -36,7 +36,7 @@
 
             <div class="box">
                 <div class="box-header">
-                    <h2><i class="halflings-icon check"></i><span class="break"></span>机构关联</h2>
+                    <h2><i class="halflings-icon check"></i><span class="break"></span>{{lconst.Organization}}</h2>
                 </div>
 
                 <div class="box-content">

@@ -2,6 +2,13 @@
 
 app.controller('UserEditCtrl', function($scope, $location, $window, $routeParams, $L, rest, dataShare, notify) {
     $scope.const = $L.const;
+    $scope.lconst = {
+        UserCode: $L('UserCode'),
+        UserName: $L('UserName'),
+        Enabled: $L('Enabled'),
+        Role: $L('Role'),
+        Organization: $L('Organization'),
+    }
 
     var path = $location.path();
     $scope.isModify = (path != '/userAdd/');

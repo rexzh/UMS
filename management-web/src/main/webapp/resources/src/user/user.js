@@ -2,12 +2,18 @@
 
 app.controller('UserCtrl', function($scope, $location, $L, msgbox, notify, rest) {
     $scope.const = $L.const;
+    $scope.lconst = {
+        UserCode: $L('UserCode'),
+        UserName: $L('UserName'),
+        Enabled: $L('Enabled'),
+        ResetPwd: $L('ResetPassword')
+    }
+
     $scope.page = {
         recordsPerPage: 10
     };
 
     $scope.criteria = {
-
     };
 
     function renderList(page) {

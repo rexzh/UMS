@@ -2,6 +2,11 @@
 
 app.controller('RoleCtrl', function($scope, $location, $L, rest, msgbox) {
     $scope.const = $L.const;
+    $scope.lconst = {
+        Name: $L('Name'),
+        Enabled: $L('Enabled'),
+        Description: $L('Description')
+    }
 
     rest.endpoint('/role.json').get().then(function(resp){
         if(resp.result) {
