@@ -1,6 +1,12 @@
 //generator
 app.controller('OrganizationCtrl', function($scope, $location, $L, rest, msgbox) {
     $scope.const = $L.const;
+    $scope.lconst = {
+        Name: $L('Name'),
+        Enabled: $L('Enabled'),
+        Address: $L('Address'),
+        Tel: $L('Tel')
+    }
 
     $scope.page = {
         recordsPerPage: 10

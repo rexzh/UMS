@@ -2,6 +2,12 @@
 
 app.controller('OrganizationEditCtrl', function($scope, $location, $window, $routeParams, $L, rest, notify) {
     $scope.const = $L.const;
+    $scope.lconst = {
+        Name: $L('Name'),
+        Enabled: $L('Enabled'),
+        Address: $L('Address'),
+        Tel: $L('Tel')
+    }
 
     var path = $location.path();
     $scope.isModify = (path != '/organizationAdd/');

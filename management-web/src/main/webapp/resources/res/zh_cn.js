@@ -78,5 +78,7 @@ l10n.addResource('zh_cn', {
     "ResetPassword": "重置密码",
     "Name": "名称",
     "Description": "描述",
-    "Authorization": "授权"
+    "Authorization": "授权",
+    "Address": "地址",
+    "Tel": "电话"
 });
