@@ -1,6 +1,6 @@
 <div class="box">
     <div class="box-header">
-        <h2><i class="halflings-icon search"></i><span class="break"></span>条件</h2>
+        <h2><i class="halflings-icon search"></i><span class="break"></span>{{const.Criteria}}</h2>
     </div>
     <div class="box-content">
         <div class="row-fluid">
@@ -14,10 +14,10 @@
                     </div>
                 </div>
                 <a class="btn control-search" ng-click="reset()">
-                    <i class="icon-refresh"></i> 清空
+                    <i class="icon-refresh"></i> {{const.Reset}}
                 </a>
                 <a class="btn btn-primary control-search" ng-click="search()">
-                    <i class="icon-search"></i> 查询
+                    <i class="icon-search"></i> {{const.Search}}
                 </a>
             </div>
         </div>
@@ -28,7 +28,7 @@
 
 <div class="row-fluid">
     <a class="btn btn-primary btn-sm" ng-click="add()">
-        <i class="icon-plus"></i> 新增
+        <i class="icon-plus"></i> {{const.Add}}
     </a>
 </div>
 
@@ -40,7 +40,7 @@
                 <th>用户名</th>
                 <th>姓名</th>
                 <th>可用</th>
-                <th>操作</th>
+                <th>{{const.Operation}}</th>
             </tr>
         </thead>
 
@@ -52,10 +52,10 @@
                 <td><div metro-checkbox ng-model="user.enabled" ng-disabled="true"></div></td>
                 <td class="center">
                     <a class="btn btn-primary btn-sm" ng-click="modify($index)">
-                        <i class="icon-edit"></i> 修改
+                        <i class="icon-edit"></i> {{const.Modify}}
                     </a>
                     <a class="btn btn-danger btn-sm" ng-click="remove($index)">
-                        <i class="icon-trash"></i> 删除
+                        <i class="icon-trash"></i> {{const.Delete}}
                     </a>
                     <a class="btn btn-info btn-sm" ng-click="resetPwd($index)">
                         <i class="icon-refresh"></i> 重置密码

@@ -1,6 +1,8 @@
 'use strict';
 
-app.controller('RoleEditCtrl', function($scope, $location, $window, $routeParams, rest, notify) {
+app.controller('RoleEditCtrl', function($scope, $location, $window, $routeParams, $L, rest, notify) {
+    $scope.const = $L.const;
+
     var path = $location.path();
     $scope.isModify = (path != '/roleAdd/');
     var id = 0;

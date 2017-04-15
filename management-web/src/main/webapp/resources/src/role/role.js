@@ -1,7 +1,8 @@
 'use strict';
 
-app.controller('RoleCtrl', function($scope, $location, rest, msgbox) {
-    
+app.controller('RoleCtrl', function($scope, $location, $L, rest, msgbox) {
+    $scope.const = $L.const;
+
     rest.endpoint('/role.json').get().then(function(resp){
         if(resp.result) {
             //console.log(resp.data);

@@ -1,5 +1,7 @@
 //generator
-app.controller('OrganizationCtrl', function($scope, $location, rest, msgbox) {
+app.controller('OrganizationCtrl', function($scope, $location, $L, rest, msgbox) {
+    $scope.const = $L.const;
+
     $scope.page = {
         recordsPerPage: 10
     };

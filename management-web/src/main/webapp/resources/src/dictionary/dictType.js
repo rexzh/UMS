@@ -1,5 +1,6 @@
 //generator
-app.controller('DictTypeCtrl', function($scope, $location, rest, msgbox) {
+app.controller('DictTypeCtrl', function($scope, $location, $L, rest, msgbox) {
+    $scope.const = $L.const;
     
     rest.endpoint('/dictType.json').get().then(function(resp){
         if(resp.result) {

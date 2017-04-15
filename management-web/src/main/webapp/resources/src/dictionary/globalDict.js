@@ -1,5 +1,7 @@
 //generator
-app.controller('GlobalDictCtrl', function($scope, $location, rest, msgbox) {
+app.controller('GlobalDictCtrl', function($scope, $location, $L, rest, msgbox) {
+    $scope.const = $L.const;
+
     rest.endpoint('/dictType.json').get({global: true}).then(function(resp){
         $scope.types = resp.data.dictTypes;
     });

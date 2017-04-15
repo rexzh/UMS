@@ -1,6 +1,8 @@
 'use strict';
 
-app.controller('UserEditCtrl', function($scope, $location, $window, $routeParams, rest, dataShare, notify) {
+app.controller('UserEditCtrl', function($scope, $location, $window, $routeParams, $L, rest, dataShare, notify) {
+    $scope.const = $L.const;
+
     var path = $location.path();
     $scope.isModify = (path != '/userAdd/');
     var id = 0;

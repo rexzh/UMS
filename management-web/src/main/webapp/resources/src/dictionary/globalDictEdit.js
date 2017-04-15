@@ -1,6 +1,8 @@
 //generator
 
-app.controller('GlobalDictEditCtrl', function($scope, $location, $window, $routeParams, rest, notify) {
+app.controller('GlobalDictEditCtrl', function($scope, $location, $window, $routeParams, $L, rest, notify) {
+    $scope.const =  $L.const;
+
     var path = $location.path();
     $scope.isModify = (path != '/globalDictAdd/');
     var id = 0;

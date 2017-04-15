@@ -1,6 +1,8 @@
 //generator
 
-app.controller('DictTypeEditCtrl', function($scope, $location, $window, $routeParams, rest, notify) {
+app.controller('DictTypeEditCtrl', function($scope, $location, $window, $routeParams, $L, rest, notify) {
+    $scope.const = $L.const;
+
     var path = $location.path();
     $scope.isModify = (path != '/dictTypeAdd/');
     var id = 0;

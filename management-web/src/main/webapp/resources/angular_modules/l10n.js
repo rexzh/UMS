@@ -25,11 +25,23 @@ l10n.provider('$L', function () {
     this.$get = function ($http, $q) {            
         _data = _packages[_l];
             
-        return function (str) {
+        var x = function (str) {
             if (_data && _data[str])
                 return _data[str];
             else
                 return str;
         };
+        x.const = {
+            Operation: x('Operation'),
+            Add: x('Add'),
+            Delete: x('Delete'),
+            Modify: x('Modify'),
+            Criteria: x('Criteria'),
+            Search: x('Search'),
+            Reset: x('Reset'),
+            Save: x('Save'),
+            Cancel: x('Cancel')
+        };
+        return x;
     }
 });

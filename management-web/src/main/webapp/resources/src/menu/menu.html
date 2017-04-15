@@ -1,6 +1,6 @@
 <div class="row-fluid">
   <a class="btn btn-primary btn-sm" ng-click="add()">
-    <i class="icon-plus"></i> 新增
+    <i class="icon-plus"></i> {{const.Add}}
   </a>
 </div>
 
@@ -17,7 +17,7 @@
         
         <th>显示顺序</th>
         
-        <th>操作</th>
+        <th>{{const.Operation}}</th>
       </tr>
     </thead>
 
@@ -34,10 +34,10 @@
         
         <td class="center">
           <a class="btn btn-primary btn-sm" ng-click="modify($index)">
-            <i class="icon-edit"></i> 修改
+            <i class="icon-edit"></i> {{const.Modify}}
           </a>
           <a class="btn btn-danger btn-sm" ng-click="remove($index)">
-            <i class="icon-trash"></i> 删除
+            <i class="icon-trash"></i> {{const.Delete}}
           </a>
         </td>
       </tr>

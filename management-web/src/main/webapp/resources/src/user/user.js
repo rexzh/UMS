@@ -1,6 +1,7 @@
 'use strict';
 
-app.controller('UserCtrl', function($scope, $location, msgbox, notify, rest) {
+app.controller('UserCtrl', function($scope, $location, $L, msgbox, notify, rest) {
+    $scope.const = $L.const;
     $scope.page = {
         recordsPerPage: 10
     };

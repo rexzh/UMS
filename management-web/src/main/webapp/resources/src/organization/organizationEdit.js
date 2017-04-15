@@ -1,6 +1,8 @@
 //generator
 
-app.controller('OrganizationEditCtrl', function($scope, $location, $window, $routeParams, rest, notify) {
+app.controller('OrganizationEditCtrl', function($scope, $location, $window, $routeParams, $L, rest, notify) {
+    $scope.const = $L.const;
+
     var path = $location.path();
     $scope.isModify = (path != '/organizationAdd/');
     var id = 0;

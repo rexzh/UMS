@@ -1,6 +1,8 @@
 //generator
 
-app.controller('LocalDictEditCtrl', function($q, $scope, $location, $window, $routeParams, dataShare, rest, notify) {
+app.controller('LocalDictEditCtrl', function($q, $scope, $location, $window, $routeParams, $L, dataShare, rest, notify) {
+    $scope.const = $L.const;
+
     var path = $location.path();
     $scope.isModify = (path != '/localDictAdd/');
     var id = 0;
