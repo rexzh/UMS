@@ -19,11 +19,11 @@ import org.springframework.stereotype.Service;
 public class MenuServiceImpl implements IMenuService {
 
 	@Autowired
-	private MenuMapper _menuDao;
+	private MenuMapper _menuDao = null;
 	@Autowired
-	private SubmenuMapper _submenuDao;
+	private SubmenuMapper _submenuDao = null;
 	@Autowired
-	private RoleMenuMapper _roleMenuDao;
+	private RoleMenuMapper _roleMenuDao = null;
 
 	@Override
 	public List<Menu> getAllMenusByRole(Role role) {
@@ -97,5 +97,25 @@ public class MenuServiceImpl implements IMenuService {
 	@Override
 	public void createSubmenu(Submenu submenu) {
 		_submenuDao.insert(submenu);
+	}
+
+	@Override
+	public void deleteMenuById(int id){
+		_menuDao.deleteByPrimaryKey(id);
+	}
+
+	@Override
+	public void createMenu(Menu menu){
+		_menuDao.insert(menu);
+	}
+
+	@Override
+	public void updateMenu(Menu menu){
+		_menuDao.updateByPrimaryKey(menu);
+	}
+
+	@Override
+	public Menu getMenuById(int id){
+		return _menuDao.selectByPrimaryKey(id);
 	}
 }

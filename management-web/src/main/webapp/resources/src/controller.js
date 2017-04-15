@@ -147,7 +147,7 @@ app.controller('SystemStatusCtrl', function ($scope, $location, $window, $L, $ti
     })
 });
 
-app.controller('MenuCtrl', function ($rootScope, $scope, $window, $timeout, $L, rest, resetMenu, dataShare) {
+app.controller('NavMenuCtrl', function ($rootScope, $scope, $window, $timeout, $L, rest, resetMenu, dataShare) {
 
     rest.endpoint('/index.json').get().then(function(x){
         if(x.result) {

@@ -5,6 +5,7 @@ l10n.addResource('en_us', {
     "Role": "Role",
     "Organization": "Organization",
     "Menu": "Menu",
+    "Submenu": "Submenu",
     "Settings": "Settings",
     "Password": "Password",
     "Global Dictionary": "Global Dictionary",

@@ -20,4 +20,9 @@ public interface IMenuService {
 	void updateSubmenu(Submenu menu);
 
 	void deleteSubmenuById(int id);
+
+	Menu getMenuById(int id);
+	void deleteMenuById(int id);
+	void createMenu(Menu menu);
+	void updateMenu(Menu menu);
 }

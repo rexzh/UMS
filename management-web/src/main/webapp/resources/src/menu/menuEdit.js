@@ -1,0 +1,36 @@
+app.controller('MenuEditCtrl', function($scope, $location, $window, $routeParams, rest, notify) {
+    var path = $location.path();
+    $scope.isModify = (path != '/menuAdd/');
+    var id = 0;
+    
+    if($scope.isModify) {
+        id = $routeParams.id;
+        rest.endpoint('/menu.json/' + id).get().then(function(resp){
+            $scope.menu = resp.data.menu;
+        });
+    } else {
+		$scope.menu = {};
+	}
+
+    $scope.back = function() {
+        $window.history.back();
+    };
+
+    $scope.submit = function(){
+        //TODO:Verify
+
+
+        var endpoint = rest.endpoint('/menu.json');
+        if($scope.isModify) {
+            endpoint.put($scope.menu).then(function(x){
+                if(x.result)
+                    $location.path('/menu');
+            });
+        } else {
+            endpoint.post($scope.menu).then(function(x){
+                if(x.result)
+                    $location.path('/menu');
+            });
+        }
+    }
+});

@@ -86,6 +86,18 @@ app.config(function ($routeProvider, $LProvider) {
             templateUrl: './src/organization/organizationEdit.html',
             controller: 'OrganizationEditCtrl'
         }).
+        when('/menu/', {
+            templateUrl: './src/menu/menu.html',
+            controller: 'MenuCtrl'
+        }).
+        when('/menuAdd/', {
+            templateUrl: './src/menu/menuEdit.html',
+            controller: 'MenuEditCtrl'
+        }).
+        when('/menuModify/:id', {
+            templateUrl: './src/menu/menuEdit.html',
+            controller: 'MenuEditCtrl'
+        }).
         when('/submenu/', {
             templateUrl: './src/submenu/submenu.html',
             controller: 'SubmenuCtrl'

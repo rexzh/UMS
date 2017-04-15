@@ -5,6 +5,7 @@ l10n.addResource('zh_cn', {
     "Role": "角色",
     "Organization": "机构",
     "Menu": "菜单",
+    "Submenu": "二级菜单",
     "Settings": "设置",
     "Password": "密码",
     "Global Dictionary": "全局字典",
