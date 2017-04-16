@@ -30,125 +30,50 @@ app.constant('resize', function(){
     }
 });
 
-app.config(function ($routeProvider, $LProvider) {
+app.constant('routes', [
+    {when: '/settings/', templateUrl: './src/settings/settings.html', controller: 'SettingsCtrl', name: 'Settings'},
+    {when: '/about/', templateUrl: './src/about/about.html', controller: 'AboutCtrl', name: 'About'},
+    {when: '/chgpwd/', templateUrl: './src/chgpwd/chgpwd.html', controller: 'ChgpwdCtrl', name: 'Password Settings'},
+    {when: '/user/', templateUrl: './src/user/user.html', controller: 'UserCtrl', name: 'User'},
+    {when: '/userAdd/', templateUrl: './src/user/userEdit.html', controller: 'UserEditCtrl', name: 'User'},
+    {when: '/userModify/:id', templateUrl: './src/user/userEdit.html', controller: 'UserEditCtrl', name: 'User'},
+    {when: '/role/', templateUrl: './src/role/role.html', controller: 'RoleCtrl', name: 'Role'},
+    {when: '/roleAdd/', templateUrl: './src/role/roleEdit.html', controller: 'RoleEditCtrl', name: 'Role'},
+    {when: '/roleModify/:id', templateUrl: './src/role/roleEdit.html', controller: 'RoleEditCtrl', name: 'Role'},
+    {when: '/organization/', templateUrl: './src/organization/organization.html', controller: 'OrganizationCtrl', name: 'Organization'},
+    {when: '/organizationAdd/', templateUrl: './src/organization/organizationEdit.html', controller: 'OrganizationEditCtrl', name: 'Organization'},
+    {when: '/organizationModify/:id', templateUrl: './src/organization/organizationEdit.html', controller: 'OrganizationEditCtrl', name: 'Organization'},
+    {when: '/menu/', templateUrl: './src/menu/menu.html', controller: 'MenuCtrl', name: 'Menu'},
+    {when: '/menuAdd/', templateUrl: './src/menu/menuEdit.html', controller: 'MenuEditCtrl', name: 'Menu'},
+    {when: '/menuModify/:id', templateUrl: './src/menu/menuEdit.html', controller: 'MenuEditCtrl', name: 'Menu'},
+    {when: '/submenu/', templateUrl: './src/menu/submenu.html', controller: 'SubmenuCtrl', name: 'Submenu'},
+    {when: '/submenuAdd/', templateUrl: './src/menu/submenuEdit.html', controller: 'SubmenuEditCtrl', name: 'Submenu'},
+    {when: '/submenuModify/:id', templateUrl: './src/menu/submenuEdit.html', controller: 'SubmenuEditCtrl', name: 'Submenu'},
+    {when: '/dictType/', templateUrl: './src/dictionary/dictType.html', controller: 'DictTypeCtrl', name: 'Dictionary Type'},
+    {when: '/dictTypeAdd/', templateUrl: './src/dictionary/dictTypeEdit.html', controller: 'DictTypeEditCtrl', name: 'Dictionary Type'},
+    {when: '/dictTypeModify/:id', templateUrl: './src/dictionary/dictTypeEdit.html', controller: 'DictTypeEditCtrl', name: 'Dictionary Type'},
+    {when: '/globalDict/', templateUrl: './src/dictionary/globalDict.html', controller: 'GlobalDictCtrl', name: 'Global Dictionary'},
+    {when: '/globalDictAdd/', templateUrl: './src/dictionary/globalDictEdit.html', controller: 'GlobalDictEditCtrl', name: 'Global Dictionary'},
+    {when: '/globalDictModify/:id', templateUrl: './src/dictionary/globalDictEdit.html', controller: 'GlobalDictEditCtrl', name: 'Global Dictionary'},
+    {when: '/localDict/', templateUrl: './src/dictionary/localDict.html', controller: 'LocalDictCtrl', name: 'Local Dictionary'},
+    {when: '/localDictAdd/', templateUrl: './src/dictionary/localDictEdit.html', controller: 'LocalDictEditCtrl', name: 'Local Dictionary'},
+    {when: '/localDictModify/:id', templateUrl: './src/dictionary/localDictEdit.html', controller: 'LocalDictEditCtrl', name: 'Local Dictionary'},
+    {when: '/404/', templateUrl: './src/404.html'}
+]);
+
+app.config(function ($routeProvider, $LProvider, routes) {
     var lang = localStorage.getItem('lang');
     if(lang)
         $LProvider.setLocale(lang);
     else
         $LProvider.setLocale('zh_cn');
 
+    for(var i = 0; i < routes.length; i++){
+        var r = routes[i];
+        $routeProvider.when(r.when, {templateUrl: r.templateUrl, controller: r.controller});
+    }
+
     $routeProvider.
-        when('/settings/', {
-            templateUrl: './src/settings/settings.html',
-            controller: 'SettingsCtrl'
-        }).
-        when('/about/', {
-            templateUrl: './src/about/about.html',
-            controller: 'AboutCtrl'
-        }).
-        when('/chgpwd/', {
-            templateUrl: './src/chgpwd/chgpwd.html',
-            controller: 'ChgpwdCtrl'
-        }).
-        when('/user/', {
-            templateUrl: './src/user/user.html',
-            controller: 'UserCtrl'
-        }).
-        when('/userAdd/', {
-            templateUrl: './src/user/userEdit.html',
-            controller: 'UserEditCtrl'
-        }).
-        when('/userModify/:id', {
-            templateUrl: './src/user/userEdit.html',
-            controller: 'UserEditCtrl'
-        }).
-        when('/role/', {
-            templateUrl: './src/role/role.html',
-            controller: 'RoleCtrl'
-        }).
-        when('/roleAdd/', {
-            templateUrl: './src/role/roleEdit.html',
-            controller: 'RoleEditCtrl'
-        }).
-        when('/roleModify/:id', {
-            templateUrl: './src/role/roleEdit.html',
-            controller: 'RoleEditCtrl'
-        }).
-        when('/organization/', {
-            templateUrl: './src/organization/organization.html',
-            controller: 'OrganizationCtrl'
-        }).
-        when('/organizationAdd/', {
-            templateUrl: './src/organization/organizationEdit.html',
-            controller: 'OrganizationEditCtrl'
-        }).
-        when('/organizationModify/:id', {
-            templateUrl: './src/organization/organizationEdit.html',
-            controller: 'OrganizationEditCtrl'
-        }).
-        when('/menu/', {
-            templateUrl: './src/menu/menu.html',
-            controller: 'MenuCtrl'
-        }).
-        when('/menuAdd/', {
-            templateUrl: './src/menu/menuEdit.html',
-            controller: 'MenuEditCtrl'
-        }).
-        when('/menuModify/:id', {
-            templateUrl: './src/menu/menuEdit.html',
-            controller: 'MenuEditCtrl'
-        }).
-        when('/submenu/', {
-            templateUrl: './src/menu/submenu.html',
-            controller: 'SubmenuCtrl'
-        }).
-        when('/submenuAdd/', {
-            templateUrl: './src/menu/submenuEdit.html',
-            controller: 'SubmenuEditCtrl'
-        }).
-        when('/submenuModify/:id', {
-            templateUrl: './src/menu/submenuEdit.html',
-            controller: 'SubmenuEditCtrl'
-        }).
-        when('/dictType/', {
-            templateUrl: './src/dictionary/dictType.html',
-            controller: 'DictTypeCtrl'
-        }).
-        when('/dictTypeAdd/', {
-            templateUrl: './src/dictionary/dictTypeEdit.html',
-            controller: 'DictTypeEditCtrl'
-        }).
-        when('/dictTypeModify/:id', {
-            templateUrl: './src/dictionary/dictTypeEdit.html',
-            controller: 'DictTypeEditCtrl'
-        }).
-        when('/globalDict/', {
-            templateUrl: './src/dictionary/globalDict.html',
-            controller: 'GlobalDictCtrl'
-        }).
-        when('/globalDictAdd/', {
-            templateUrl: './src/dictionary/globalDictEdit.html',
-            controller: 'GlobalDictEditCtrl'
-        }).
-        when('/globalDictModify/:id', {
-            templateUrl: './src/dictionary/globalDictEdit.html',
-            controller: 'GlobalDictEditCtrl'
-        }).
-        when('/localDict/', {
-            templateUrl: './src/dictionary/localDict.html',
-            controller: 'LocalDictCtrl'
-        }).
-        when('/localDictAdd/', {
-            templateUrl: './src/dictionary/localDictEdit.html',
-            controller: 'LocalDictEditCtrl'
-        }).
-        when('/localDictModify/:id', {
-            templateUrl: './src/dictionary/localDictEdit.html',
-            controller: 'LocalDictEditCtrl'
-        }).
-        when('/404/', {
-            templateUrl: './src/404.html'
-        }).
         otherwise({
             redirectTo: '/404/'
         });

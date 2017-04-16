@@ -36,27 +36,26 @@
     }
 });
 
-app.controller('SystemStatusCtrl', function ($scope, $location, $window, $L, $timeout, dataShare, resetMenu) {
+app.controller('SystemStatusCtrl', function ($scope, $location, $window, $L, $timeout, routes, dataShare, resetMenu) {
     $scope.resetMenu = resetMenu;
     $scope.home = $L("Home");
 
     $scope.$on('login', function() {
-        //TODO:Need Review
         var path = $location.path();
-        if(path[0] == '/') path = '#' + path;
-        if(path[path.length - 1] == '/') path = path.substr(0, path.length - 1);
 
-        var menus = dataShare.getData('menus');
+        for(var i = 0; i < routes.length; i++) {
+            var when = routes[i].when;
+            var s = when.substr(when.length - 4);
+            if(s == '/:id')
+                when = when.substr(0, when.length - 3);
 
-        for(var i = 0; i < menus.length; i++) {
-            var m = menus[i];
-            for(var j = 0; j < m.submenus.length; j++) {
-                var sub = m.submenus[j];
-                if(path == sub.link) {
-                    $scope.breadcrumb = sub.name;
-                }
+
+            if(path.indexOf(when) >= 0) {
+                $scope.breadcrumb = $L(routes[i].name);
             }
+
         }
+
         if(!$scope.breadcrumb)
             $scope.breadcrumb = '404';
     });
