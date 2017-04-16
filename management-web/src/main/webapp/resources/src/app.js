@@ -73,10 +73,9 @@ app.config(function ($routeProvider, $LProvider, routes) {
         $routeProvider.when(r.when, {templateUrl: r.templateUrl, controller: r.controller});
     }
 
-    $routeProvider.
-        otherwise({
-            redirectTo: '/404/'
-        });
+    $routeProvider.otherwise({
+        redirectTo: '/404/'
+    });
 }).config(['$httpProvider', function($httpProvider) {
 	$httpProvider.interceptors.push('ajaxInterceptor');
 }]).run(function(resize, rest) {
