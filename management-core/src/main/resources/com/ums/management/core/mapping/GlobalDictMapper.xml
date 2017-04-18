@@ -46,6 +46,12 @@
       and type_id = #{typeId, jdbcType=INTEGER}
     </if>
   </select>
+  <select id="selectGlobalDictByCode" resultMap="BaseResultMap" parameterType="java.lang.String">
+    select g.*
+    from global_dict g
+      inner join dict_type t on g.type_id = t.id
+    where t.code = #{code, jdbcType=VARCHAR}
+  </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
     <!--
       WARNING - @mbggenerated

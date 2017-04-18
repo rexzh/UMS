@@ -24,9 +24,18 @@ public class LocalDictServiceImpl implements ILocalDictService {
 	}
 
 	@Override
-    public List<LocalDict> getLocalDicts(Integer typeId, Integer orgId){
+    public List<LocalDict> getLocalDicts(Integer typeId, int orgId){
 		Map<String, Object> queryMap = new HashMap<>();
 		queryMap.put("typeId", typeId);
+		queryMap.put("orgId", orgId);
+
+		return _dao.selectLocalDicts(queryMap);
+	}
+
+	@Override
+	public List<LocalDict> getLocalDictByCodeAndOrgId(String code, int orgId){
+		Map<String, Object> queryMap = new HashMap<>();
+		queryMap.put("code", code);
 		queryMap.put("orgId", orgId);
 
 		return _dao.selectLocalDicts(queryMap);

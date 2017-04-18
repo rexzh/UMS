@@ -50,6 +50,13 @@
       and org_id = #{orgId, jdbcType=INTEGER}
     </if>
   </select>
+  <select id="selectLocalDictByCodeAndOrgId" resultMap="BaseResultMap" parameterType="java.util.HashMap">
+    select l.*
+    from local_dict l
+      inner join dict_type t on l.type_id = t.id
+    where t.code = #{code, jdbcType=VARCHAR}
+      and l.org_id = #{orgId, jdbcType=INTEGER}
+  </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
     <!--
       WARNING - @mbggenerated

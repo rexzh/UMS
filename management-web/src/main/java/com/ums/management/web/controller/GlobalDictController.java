@@ -20,6 +20,13 @@ public class GlobalDictController {
         return response;
 	}
 
+    @RequestMapping("/globalDict.json/byCode/{code}")
+    public ResponseVO getGlobalDictByCode(@PathVariable(value = "code") String typeCode) {
+        ResponseVO response = ResponseVO.buildSuccessResponse();
+        response.addData("globalDicts", _svc.getGlobalDictByCode(typeCode));
+        return response;
+    }
+
 	@RequestMapping("/globalDict.json/{id}")
     public ResponseVO getGlobalDictById(@PathVariable("id") Integer globalDictId) {
         ResponseVO response = ResponseVO.buildSuccessResponse();

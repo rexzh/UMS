@@ -1,6 +1,7 @@
 package com.ums.management.core.dao;
 
 import com.ums.management.core.model.LocalDict;
+import org.springframework.cglib.core.Local;
 
 import java.util.List;
 import java.util.Map;
@@ -55,4 +56,6 @@ public interface LocalDictMapper {
     int updateByPrimaryKey(LocalDict record);
 
     List<LocalDict> selectLocalDicts(Map<String, Object> queryMap);
+
+    List<LocalDict> selectLocalDictByCodeAndOrgId(Map<String, Object> queryMap);
 }

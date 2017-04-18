@@ -31,6 +31,11 @@ public class GlobalDictServiceImpl implements IGlobalDictService {
 	}
 
 	@Override
+	public List<GlobalDict> getGlobalDictByCode(String code) {
+    	return _dao.selectGlobalDictByCode(code);
+	}
+
+	@Override
     public void deleteById(int id){
 		_dao.deleteByPrimaryKey(id);
 	}

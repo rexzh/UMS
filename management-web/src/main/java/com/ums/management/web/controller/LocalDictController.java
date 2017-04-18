@@ -27,6 +27,14 @@ public class LocalDictController {
         return response;
 	}
 
+    @RequestMapping("/localDict.json/byCode/{code}")
+    public ResponseVO getLocalDictByCode(HttpSession httpSession, @PathVariable(value = "code") String typeCode) {
+        ResponseVO response = ResponseVO.buildSuccessResponse();
+        int orgId = UserExtension.getCurrentUser(httpSession).getCurrentOrganization().getId();
+        response.addData("localDict", _svc.getLocalDictByCodeAndOrgId(typeCode, orgId));
+        return response;
+    }
+
 	@RequestMapping("/localDict.json/{id}")
     public ResponseVO getLocalDictById(@PathVariable("id") Integer localDictId) {
         ResponseVO response = ResponseVO.buildSuccessResponse();

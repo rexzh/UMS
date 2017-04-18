@@ -55,4 +55,6 @@ public interface GlobalDictMapper {
     int updateByPrimaryKey(GlobalDict record);
 
     List<GlobalDict> selectGlobalDicts(Map<String, Object> queryMap);
+
+    List<GlobalDict> selectGlobalDictByCode(String code);
 }
