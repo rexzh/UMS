@@ -63,7 +63,7 @@
             endpoint: function() {
                 var path = url(arguments);
                 return {
-                    get: function(map, page, rows) {
+                    get: function(map, page, rows, cfg) {
                         var q = '?';
                         if(typeof(page) != 'undefined')
                             q += 'page=' + page + '&rows=' + (rows || 10);
@@ -78,7 +78,7 @@
                         //console.log(path);
 
                         var deferred = $q.defer();
-                        $http.get(path).then(function(resp){
+                        $http.get(path, cfg).then(function(resp){
                             deferred.resolve(resp.data);
                         }, function(err){
                             deferred.reject(err);
@@ -86,25 +86,25 @@
                         return deferred.promise;
                     },
 
-                    post: function(arg) {
+                    post: function(arg, cfg) {
                         var deferred = $q.defer();
-                        $http.post(path, arg).then(function(resp){
+                        $http.post(path, arg, cfg).then(function(resp){
                             deferred.resolve(resp.data);
                         });
                         return deferred.promise;
                     },
 
-                    put: function(arg) {
+                    put: function(arg, cfg) {
                         var deferred = $q.defer();
-                        $http.put(path, arg).then(function(resp){
+                        $http.put(path, arg, cfg).then(function(resp){
                             deferred.resolve(resp.data);
                         });
                         return deferred.promise;
                     },
 
-                    delete: function(arg) {
+                    delete: function(arg, cfg) {
                         var deferred = $q.defer();
-                        $http.delete(path, arg).then(function(resp){
+                        $http.delete(path, arg, cfg).then(function(resp){
                             deferred.resolve(resp.data);
                         });
                         return deferred.promise;
