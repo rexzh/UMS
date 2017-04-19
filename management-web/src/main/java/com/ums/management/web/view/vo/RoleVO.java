@@ -14,6 +14,8 @@ public class RoleVO {
 
     private boolean enabled;
 
+    private boolean register;
+
     private List<RoleMenu> roleMenus;
 
     public Integer getId() {
@@ -54,5 +56,13 @@ public class RoleVO {
 
     public void setEnabled(boolean enabled) {
         this.enabled = enabled;
+    }
+
+    public boolean isRegister() {
+        return register;
+    }
+
+    public void setRegister(boolean register) {
+        this.register = register;
     }
 }

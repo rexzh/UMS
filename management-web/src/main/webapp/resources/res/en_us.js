@@ -77,6 +77,7 @@ l10n.addResource('en_us', {
     "ResetPassword": "Reset Password",
     "Code": "Code",
     "Name": "Name",
+    "Register": "Register",
     "Description": "Description",
     "Authorization": "Authorization",
     "Address": "Address",

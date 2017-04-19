@@ -5,6 +5,7 @@ app.controller('RoleEditCtrl', function($scope, $location, $window, $routeParams
     $scope.lconst = {
         Name: $L('Name'),
         Enabled: $L('Enabled'),
+        Register: $L('Register'),
         Description: $L('Description'),
         Authorization: $L('Authorization')
     }

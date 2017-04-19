@@ -5,6 +5,7 @@ app.controller('RoleCtrl', function($scope, $location, $L, rest, msgbox) {
     $scope.lconst = {
         Name: $L('Name'),
         Enabled: $L('Enabled'),
+        Register: $L('Register'),
         Description: $L('Description')
     }
 

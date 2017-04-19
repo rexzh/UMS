@@ -13,6 +13,7 @@
                 <th>{{lconst.Name}}</th>
                 <th>{{lconst.Description}}</th>
                 <th>{{lconst.Enabled}}</th>
+                <th>{{lconst.Register}}</th>
                 <th>{{const.Operation}}</th>
             </tr>
         </thead>
@@ -23,6 +24,7 @@
                 <td>{{role.name}}</td>
                 <td>{{role.description}}</td>
                 <td><div metro-checkbox ng-model="role.enabled" ng-disabled="true"></div></td>
+                <td><div metro-checkbox ng-model="role.register" ng-disabled="true"></div></td>
                 <td class="center">
                     <a class="btn btn-primary btn-sm" ng-click="modify($index)">
                         <i class="icon-edit"></i> {{const.Modify}}

@@ -1,3 +1,4 @@
+
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
 /*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
@@ -52,7 +53,7 @@ CREATE TABLE `global_dict` (
   PRIMARY KEY (`id`),
   KEY `fk_gdict_type_idx` (`type_id`),
   CONSTRAINT `fk_gdict_type` FOREIGN KEY (`type_id`) REFERENCES `dict_type` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -61,6 +62,7 @@ CREATE TABLE `global_dict` (
 
 LOCK TABLES `global_dict` WRITE;
 /*!40000 ALTER TABLE `global_dict` DISABLE KEYS */;
+INSERT INTO `global_dict` VALUES (1,2,1,'X',NULL);
 /*!40000 ALTER TABLE `global_dict` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -83,7 +85,7 @@ CREATE TABLE `local_dict` (
   KEY `fk_ldict_org_idx` (`org_id`),
   CONSTRAINT `fk_ldict_org` FOREIGN KEY (`org_id`) REFERENCES `organization` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
   CONSTRAINT `fk_ldict_type` FOREIGN KEY (`type_id`) REFERENCES `dict_type` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -92,6 +94,7 @@ CREATE TABLE `local_dict` (
 
 LOCK TABLES `local_dict` WRITE;
 /*!40000 ALTER TABLE `local_dict` DISABLE KEYS */;
+INSERT INTO `local_dict` VALUES (1,3,6,1,'L1',NULL),(2,3,6,2,'L2',NULL);
 /*!40000 ALTER TABLE `local_dict` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -143,7 +146,7 @@ CREATE TABLE `organization` (
 
 LOCK TABLES `organization` WRITE;
 /*!40000 ALTER TABLE `organization` DISABLE KEYS */;
-INSERT INTO `organization` VALUES (6,'A-1',NULL,NULL,1),(7,'A-2',NULL,NULL,1),(8,'A-3',NULL,NULL,1),(9,'B',NULL,NULL,1);
+INSERT INTO `organization` VALUES (6,'A-1',NULL,NULL,1),(7,'A-2',NULL,NULL,1),(8,'A-3',NULL,NULL,0),(9,'B',NULL,NULL,1);
 /*!40000 ALTER TABLE `organization` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -159,6 +162,7 @@ CREATE TABLE `role` (
   `Name` varchar(64) NOT NULL,
   `Description` varchar(128) DEFAULT NULL,
   `Enabled` tinyint(1) NOT NULL DEFAULT '1',
+  `Register` bit(1) NOT NULL DEFAULT b'0',
   PRIMARY KEY (`ID`),
   UNIQUE KEY `ID_UNIQUE` (`ID`),
   UNIQUE KEY `Name_UNIQUE` (`Name`)
@@ -171,7 +175,7 @@ CREATE TABLE `role` (
 
 LOCK TABLES `role` WRITE;
 /*!40000 ALTER TABLE `role` DISABLE KEYS */;
-INSERT INTO `role` VALUES (20,'Admin','Admin',1),(31,'PowerUser','PowerUser',1),(58,'GU','GeneralUser',1);
+INSERT INTO `role` VALUES (20,'Admin','Admin',1,'\0'),(31,'PowerUser','PowerUser',1,'\0'),(58,'GU','GeneralUser',1,'');
 /*!40000 ALTER TABLE `role` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -191,7 +195,7 @@ CREATE TABLE `role_menu` (
   KEY `fk_role_menu_submenu` (`submenu_id`),
   CONSTRAINT `fk_role_menu_role` FOREIGN KEY (`role_id`) REFERENCES `role` (`ID`),
   CONSTRAINT `fk_role_menu_submenu` FOREIGN KEY (`submenu_id`) REFERENCES `submenu` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=286 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=291 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -200,7 +204,7 @@ CREATE TABLE `role_menu` (
 
 LOCK TABLES `role_menu` WRITE;
 /*!40000 ALTER TABLE `role_menu` DISABLE KEYS */;
-INSERT INTO `role_menu` VALUES (258,31,1),(259,31,3),(260,31,22),(261,31,23),(266,58,3),(267,58,23),(276,20,1),(277,20,3),(278,20,4),(279,20,2),(280,20,21),(281,20,24),(282,20,25),(283,20,23),(284,20,26),(285,20,22);
+INSERT INTO `role_menu` VALUES (266,58,3),(267,58,23),(276,20,1),(277,20,3),(278,20,4),(279,20,2),(280,20,21),(281,20,24),(282,20,25),(283,20,23),(284,20,26),(285,20,22),(286,31,26),(287,31,1),(288,31,3),(289,31,22),(290,31,23);
 /*!40000 ALTER TABLE `role_menu` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -259,7 +263,7 @@ CREATE TABLE `user` (
 
 LOCK TABLES `user` WRITE;
 /*!40000 ALTER TABLE `user` DISABLE KEYS */;
-INSERT INTO `user` VALUES (3,'admin','admin','1111','e11170b8cbd2d74102651cb967fa28e5',1),(4,'PU-A','PU-A','2222','eca119682b8abe5d6e1e0bb37ddb3716',1),(19,'PU-B','PU-B','1664',NULL,1),(20,'GU-A1','GU-A1','8574',NULL,1),(21,'GU-A2','GU-A2','0320',NULL,1),(22,'GU-A3','GU-A3','7330',NULL,1),(23,'GU-B','GU-B','2299','f501d42b40f72890c5e10d2fbece2233',1);
+INSERT INTO `user` VALUES (3,'admin','admin','1111','e11170b8cbd2d74102651cb967fa28e5',1),(4,'PU-A','PU-A','2222','eca119682b8abe5d6e1e0bb37ddb3716',1),(19,'PU-B','PU-B','1664',NULL,1),(20,'GU-A1','GU-A1','1111','e11170b8cbd2d74102651cb967fa28e5',1),(21,'GU-A2','GU-A2','0320',NULL,1),(22,'GU-A3','GU-A3','7330',NULL,1),(23,'GU-B','GU-B','2299','f501d42b40f72890c5e10d2fbece2233',1);
 /*!40000 ALTER TABLE `user` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -325,4 +329,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2017-04-12 13:45:23
+-- Dump completed on 2017-04-19 16:55:55
