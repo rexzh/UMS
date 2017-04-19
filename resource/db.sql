@@ -1,3 +1,8 @@
+-- MySQL dump 10.13  Distrib 5.7.9, for Win64 (x86_64)
+--
+-- Host: 127.0.0.1    Database: ums
+-- ------------------------------------------------------
+-- Server version	5.7.11-log
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
@@ -106,11 +111,11 @@ DROP TABLE IF EXISTS `menu`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `menu` (
-  `id` int(11) NOT NULL,
+  `id` int(11) NOT NULL AUTO_INCREMENT,
   `name` varchar(64) NOT NULL,
   `display_order` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -195,7 +200,7 @@ CREATE TABLE `role_menu` (
   KEY `fk_role_menu_submenu` (`submenu_id`),
   CONSTRAINT `fk_role_menu_role` FOREIGN KEY (`role_id`) REFERENCES `role` (`ID`),
   CONSTRAINT `fk_role_menu_submenu` FOREIGN KEY (`submenu_id`) REFERENCES `submenu` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=291 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=302 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -204,7 +209,7 @@ CREATE TABLE `role_menu` (
 
 LOCK TABLES `role_menu` WRITE;
 /*!40000 ALTER TABLE `role_menu` DISABLE KEYS */;
-INSERT INTO `role_menu` VALUES (266,58,3),(267,58,23),(276,20,1),(277,20,3),(278,20,4),(279,20,2),(280,20,21),(281,20,24),(282,20,25),(283,20,23),(284,20,26),(285,20,22),(286,31,26),(287,31,1),(288,31,3),(289,31,22),(290,31,23);
+INSERT INTO `role_menu` VALUES (266,58,3),(267,58,23),(286,31,26),(287,31,1),(288,31,3),(289,31,22),(290,31,23),(291,20,1),(292,20,4),(293,20,2),(294,20,27),(295,20,21),(296,20,24),(297,20,25),(298,20,26),(299,20,23),(300,20,22),(301,20,3);
 /*!40000 ALTER TABLE `role_menu` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -223,9 +228,9 @@ CREATE TABLE `submenu` (
   `display_order` int(11) DEFAULT NULL,
   `icon` varchar(32) DEFAULT NULL,
   PRIMARY KEY (`id`),
-  KEY `fk_submenu_menu` (`parent_id`),
-  CONSTRAINT `fk_submenu_menu` FOREIGN KEY (`parent_id`) REFERENCES `menu` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=27 DEFAULT CHARSET=utf8;
+  KEY `fk_submenu_menu_idx` (`parent_id`),
+  CONSTRAINT `fk_submenu_menu` FOREIGN KEY (`parent_id`) REFERENCES `menu` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
+) ENGINE=InnoDB AUTO_INCREMENT=28 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -234,7 +239,7 @@ CREATE TABLE `submenu` (
 
 LOCK TABLES `submenu` WRITE;
 /*!40000 ALTER TABLE `submenu` DISABLE KEYS */;
-INSERT INTO `submenu` VALUES (1,'User','#/user',2,1,'icon-user'),(2,'Role','#/role',2,2,'icon-user-md'),(3,'About','#/about',3,1,'icon-exclamation-sign'),(4,'Organization','#/organization',2,1,'icon-sitemap'),(21,'Menu','#/submenu',2,2,'icon-list'),(22,'Settings','#/settings',4,50,'icon-cog'),(23,'Password Setting','#/chgpwd',4,30,'icon-key'),(24,'Dictionary Type','#/dictType',1,10,'icon-columns'),(25,'Global Dictionary','#/globalDict',1,20,'icon-list-ul'),(26,'Local Dictionary','#/localDict',1,30,'icon-list-alt');
+INSERT INTO `submenu` VALUES (1,'User','#/user',2,1,'icon-user'),(2,'Role','#/role',2,2,'icon-user-md'),(3,'About','#/about',3,1,'icon-exclamation-sign'),(4,'Organization','#/organization',2,1,'icon-sitemap'),(21,'Submenu','#/submenu',2,20,'icon-list'),(22,'Settings','#/settings',4,50,'icon-cog'),(23,'Password Setting','#/chgpwd',4,30,'icon-key'),(24,'Dictionary Type','#/dictType',1,10,'icon-columns'),(25,'Global Dictionary','#/globalDict',1,20,'icon-list-ul'),(26,'Local Dictionary','#/localDict',1,30,'icon-list-alt'),(27,'Menu','#/menu',2,15,'icon-th-list');
 /*!40000 ALTER TABLE `submenu` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -329,4 +334,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2017-04-19 16:55:55
+-- Dump completed on 2017-04-19 23:02:05
