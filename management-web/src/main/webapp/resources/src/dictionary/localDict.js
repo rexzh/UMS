@@ -30,7 +30,7 @@ app.controller('LocalDictCtrl', function($scope, $location, $L, rest, msgbox) {
         msgbox.show().then(function(x){
             if(x) {
                 var id = $scope.localDicts[idx].id;
-                rest.endppint('localDict.json', id).delete().then(function(resp){
+                rest.endpoint('localDict.json', id).delete().then(function(resp){
                     if(resp.result);
 						$scope.localDicts.splice(idx, 1);
                 });

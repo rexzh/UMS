@@ -24,7 +24,7 @@ app.controller('GlobalDictCtrl', function($scope, $location, $L, rest, msgbox) {
         msgbox.show().then(function(x){
             if(x) {
                 var id = $scope.globalDicts[idx].id;
-                rest.endppint('globalDict.json', id).delete().then(function(resp){
+                rest.endpoint('globalDict.json', id).delete().then(function(resp){
                     if(resp.result);
 						$scope.globalDicts.splice(idx, 1);
                 });
