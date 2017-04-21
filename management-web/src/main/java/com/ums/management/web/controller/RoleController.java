@@ -51,7 +51,7 @@ public class RoleController {
             this._svc.update(role, roleVO.getRoleMenus());
             return ResponseVO.buildSuccessResponse();
         } else {
-            return ResponseVO.buildErrorResponse("Can't edit Admin role");
+            return ResponseVO.buildErrorResponse("No permission");
         }
     }
 
@@ -67,8 +67,8 @@ public class RoleController {
     @RequestMapping(value = "/role.json/{id}", method = RequestMethod.DELETE)
     public ResponseVO deleteRole(@PathVariable("id") Integer id) {
         Role role = this._svc.getRoleById(id);
-        if(RoleExtension.isAdmin(role)) {
-            return ResponseVO.buildErrorResponse("Admin role can't be removed");
+        if(RoleExtension.isAdmin(role) || RoleExtension.isPowerUser(role)) {
+            return ResponseVO.buildErrorResponse("Built-in role can't be removed");
         }
 
         this._svc.deleteById(id);

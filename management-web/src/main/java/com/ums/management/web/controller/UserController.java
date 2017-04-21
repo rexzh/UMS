@@ -61,7 +61,7 @@ public class UserController {
             this._svc.update(user, userVO.getRole(), userVO.getOrganizations());
             return ResponseVO.buildSuccessResponse();
         } else {
-            return ResponseVO.buildErrorResponse("Can't edit Admin user");
+            return ResponseVO.buildErrorResponse("No Permission");
         }
     }
 
@@ -75,7 +75,7 @@ public class UserController {
             this._svc.create(user, userVO.getRole(), userVO.getOrganizations());
             return ResponseVO.buildSuccessResponse();
         } else {
-            return ResponseVO.buildErrorResponse("Can't create Admin user");
+            return ResponseVO.buildErrorResponse("No Permission");
         }
     }
 
@@ -92,7 +92,7 @@ public class UserController {
                 return ResponseVO.buildErrorResponse("Can't delete current user");
             }
         } else {
-            return ResponseVO.buildErrorResponse("Can't delete Admin user");
+            return ResponseVO.buildErrorResponse("No Permission");
         }
     }
 
@@ -107,7 +107,7 @@ public class UserController {
             response.addData("password", password);
             return response;
         } else {
-            return ResponseVO.buildErrorResponse("Can't reset password for Admin user");
+            return ResponseVO.buildErrorResponse("No Permission");
         }
     }
 

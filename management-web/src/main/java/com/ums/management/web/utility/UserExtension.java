@@ -12,9 +12,11 @@ import javax.servlet.http.HttpSession;
 public class UserExtension {
     public static boolean hasEnoughPower(HttpSession session, Role roleToEdit) {
         UserVO user = getCurrentUser(session);
-        if((!RoleExtension.isAdmin(user.getRole())) && RoleExtension.isAdmin(roleToEdit))
+        if((!RoleExtension.isAdmin(user.getRole())) && RoleExtension.isAdmin(roleToEdit)) {
             return false;
-        else
+        } else if((!RoleExtension.isAdmin(user.getRole())) && (!RoleExtension.isPowerUser(user.getRole()))) {
+            return false;
+        } else
             return true;
     }
 
