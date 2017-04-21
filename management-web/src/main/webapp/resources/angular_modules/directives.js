@@ -378,16 +378,30 @@
                     
                     var li = $($event.currentTarget);
                     if(li.hasClass("dropdown")){
-                        li.find('ul').toggle();
+                        li.find('ul').toggle('fast');
                         var icon = li.find('i').first();
                         
                         if(icon.hasClass('icon-chevron-down')) {
                             icon.removeClass('icon-chevron-down');
                             icon.addClass('icon-chevron-right');
                         } else {
-                        //if(icon.hasClass('icon-chevron-right')) {
                             icon.removeClass('icon-chevron-right');
                             icon.addClass('icon-chevron-down');
+                        }
+                    }
+
+                    //Note: close other
+                    var lv1 = li.parent().children('li');
+                    for(var i = 0; i < lv1.length; i++) {
+                        var m = lv1[i];
+
+                        if(m == li.get(0)) {
+                            continue;
+                        } else {
+                            $(m).find('ul').hide("fast");
+                            var ic = $(m).find('i').first();
+                            ic.removeClass('icon-chevron-down');
+                            ic.addClass('icon-chevron-right');
                         }
                     }
                 },
