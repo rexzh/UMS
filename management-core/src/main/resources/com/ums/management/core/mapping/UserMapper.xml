@@ -41,6 +41,24 @@
       limit #{start}, #{rows}
     </if>
   </select>
+  <select id="selectAllUsersByUserId" resultMap="BaseResultMap" parameterType="java.util.HashMap">
+    select distinct u.* from user u
+      inner join user_org uo on uo.user_id = u.id
+    where uo.org_id in (select org_id from user_org where user_id = #{userId, jdbcType=BIGINT})
+    <if test="code != null">
+      and u.code like CONCAT('%', #{code}, '%')
+    </if>
+    <if test="name != null">
+      and u.name like CONCAT('%', #{name}, '%')
+    </if>
+    <if test="enabled != null">
+      and u.enabled =#{enabled, jdbcType=BIT}
+    </if>
+    order by u.id
+    <if test="start !=null">
+      limit #{start}, #{rows}
+    </if>
+  </select>
   <select id="countAllUsers" resultType="java.lang.Long" parameterType="java.util.HashMap">
     select count(0)
     from user
@@ -53,6 +71,20 @@
     </if>
     <if test="enabled != null">
       and enabled = #{enabled, jdbcType=BIT}
+    </if>
+  </select>
+  <select id="countAllUsersByUserId" resultType="java.lang.Long" parameterType="java.util.HashMap">
+    select count(distinct u.id) from user u
+    inner join user_org uo on uo.user_id = u.id
+    where uo.org_id in (select org_id from user_org where user_id = #{userId, jdbcType=BIGINT})
+    <if test="code != null">
+      and u.code like CONCAT('%', #{code}, '%')
+    </if>
+    <if test="name != null">
+      and u.name like CONCAT('%', #{name}, '%')
+    </if>
+    <if test="enabled != null">
+      and u.enabled =#{enabled, jdbcType=BIT}
     </if>
   </select>
   <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">

@@ -12,6 +12,9 @@ public interface IUserService {
     List<User> getAllUsers(String code, String name, Boolean enabled, Long start, Integer rows);
     long countAllUsers(String code, String name, Boolean enabled);
 
+    List<User> getAllUsersByUserId(long userId, String code, String name, Boolean enabled, Long start, Integer rows);
+    long countAllUsersByUserId(long userId, String code, String name, Boolean enabled);
+
     void deleteById(long id);
     void create(User user, Role role, List<Organization> orgs);
     void update(User user, Role role, List<Organization> orgs);

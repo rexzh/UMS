@@ -60,6 +60,26 @@ public class UserServiceImpl implements IUserService {
     }
 
     @Override
+    public List<User> getAllUsersByUserId(long userId, String code, String name, Boolean enabled, Long start, Integer rows) {
+        Map<String, Object> queryMap = new HashMap<>();
+        queryMap.put("code", code);
+        queryMap.put("name", name);
+        queryMap.put("enabled", enabled);
+        queryMap.put("userId", userId);
+
+        queryMap.put("start", start);
+        queryMap.put("rows", rows);
+
+        List<User> users = _userDao.selectAllUsersByUserId(queryMap);
+        for(User u : users) {
+            u.setSalt(null);
+            u.setPassword(null);
+        }
+
+        return users;
+    }
+
+    @Override
     public long countAllUsers(String code, String name, Boolean enabled) {
         Map<String, Object> queryMap = new HashMap<>();
         queryMap.put("code", code);
@@ -67,6 +87,17 @@ public class UserServiceImpl implements IUserService {
         queryMap.put("enabled", enabled);
 
         return _userDao.countAllUsers(queryMap);
+    }
+
+    @Override
+    public long countAllUsersByUserId(long userId, String code, String name, Boolean enabled) {
+        Map<String, Object> queryMap = new HashMap<>();
+        queryMap.put("code", code);
+        queryMap.put("name", name);
+        queryMap.put("enabled", enabled);
+        queryMap.put("userId", userId);
+
+        return _userDao.countAllUsersByUserId(queryMap);
     }
 
     @Override

@@ -5,6 +5,7 @@ import com.ums.management.core.model.Role;
 import com.ums.management.core.model.User;
 import com.ums.management.core.service.IUserService;
 import com.ums.management.web.utility.PageExtension;
+import com.ums.management.web.utility.RoleExtension;
 import com.ums.management.web.utility.UserExtension;
 import com.ums.management.web.view.vo.ChangePasswordVO;
 import com.ums.management.web.view.vo.ResponseVO;
@@ -23,15 +24,23 @@ public class UserController {
     private IUserService _svc = null;
 
     @RequestMapping("/user.json")
-    public ResponseVO getAllUsers(@RequestParam(value = "code", required = false) String code,
+    public ResponseVO getAllUsers(HttpSession httpSession,
+                                  @RequestParam(value = "code", required = false) String code,
                                   @RequestParam(value = "name", required = false) String name,
                                   @RequestParam(value = "enabled", required = false) Boolean enabled,
                                   @RequestParam(value = "page", required = false) Long page,
                                   @RequestParam(value = "rows", required = false) Integer rows){
+        UserVO user = UserExtension.getCurrentUser(httpSession);
+
         ResponseVO response = ResponseVO.buildSuccessResponse();
         Long start = PageExtension.calcStart(page, rows);
-        response.addData("users", this._svc.getAllUsers(code, name, enabled, start, rows));
-        response.addData("count", this._svc.countAllUsers(code, name, enabled));
+        if(RoleExtension.isAdmin(user.getRole())) {
+            response.addData("users", this._svc.getAllUsers(code, name, enabled, start, rows));
+            response.addData("count", this._svc.countAllUsers(code, name, enabled));
+        } else {
+            response.addData("users", this._svc.getAllUsersByUserId(user.getId(), code, name, enabled, start, rows));
+            response.addData("count", this._svc.countAllUsersByUserId(user.getId(), code, name, enabled));
+        }
         return response;
     }
 

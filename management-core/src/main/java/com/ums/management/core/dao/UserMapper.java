@@ -58,4 +58,8 @@ public interface UserMapper {
     long countAllUsers(Map<String, Object> queryMap);
 
     User selectByCode(String code);
+
+    List<User> selectAllUsersByUserId(Map<String, Object> queryMap);
+    long countAllUsersByUserId(Map<String, Object> queryMap);
+
 }
