@@ -12,6 +12,6 @@ public interface IOrganizationService {
     List<Organization> getOrganizationsByUserId(long userId, String name, Boolean enabled, Integer start, Integer rows);
     int countOrganizationsByUserId(long userId, String name, Boolean enabled);
     void deleteById(int id);
-    void create(Organization organization);
+    void create(Organization organization, Long userId);
     void update(Organization organization);
 }

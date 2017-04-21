@@ -71,10 +71,14 @@ public class OrganizationController {
     }
 
     @RequestMapping(value = "/organization.json", method = RequestMethod.POST)
-    public ResponseVO createOrganization(@RequestBody Organization organization) {
+    public ResponseVO createOrganization(HttpSession httpSession, @RequestBody Organization organization) {
 
+        UserVO user = UserExtension.getCurrentUser(httpSession);
         ResponseVO response = ResponseVO.buildSuccessResponse();
-        _svc.create(organization);
+        if(RoleExtension.isAdmin(user.getRole()))
+            _svc.create(organization, null);
+        else
+            _svc.create(organization, user.getId());
         return response;
     }
 
