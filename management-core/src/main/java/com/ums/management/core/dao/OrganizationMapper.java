@@ -58,5 +58,7 @@ public interface OrganizationMapper {
 
     int countOrganizations(Map<String, Object> queryMap);
 
-    List<Organization> selectOrganizationsByUserId(long userId);
+    List<Organization> selectOrganizationsByUserId(Map<String, Object> queryMap);
+
+    int countOrganizationsByUserId(Map<String, Object> queryMap);
 }

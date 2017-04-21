@@ -42,6 +42,27 @@ public class OrganizationServiceImpl implements IOrganizationService {
 	}
 
 	@Override
+	public List<Organization> getOrganizationsByUserId(long userId, String name, Boolean enabled, Integer start, Integer rows){
+		Map<String, Object> queryMap = new HashMap<>();
+		queryMap.put("userId", userId);
+		queryMap.put("name", name);
+		queryMap.put("enabled", enabled);
+
+		queryMap.put("start", start);
+		queryMap.put("rows", rows);
+		return _dao.selectOrganizationsByUserId(queryMap);
+	}
+
+	@Override
+	public int countOrganizationsByUserId(long userId, String name, Boolean enabled){
+		Map<String, Object> queryMap = new HashMap<>();
+		queryMap.put("userId", userId);
+		queryMap.put("name", name);
+		queryMap.put("enabled", enabled);
+		return _dao.countOrganizationsByUserId(queryMap);
+	}
+
+	@Override
     public void deleteById(int id){
 		_dao.deleteByPrimaryKey(id);
 	}

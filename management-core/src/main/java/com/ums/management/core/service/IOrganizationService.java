@@ -9,6 +9,8 @@ public interface IOrganizationService {
 	Organization getOrganizationById(int id);
     List<Organization> getOrganizations(String name, Boolean enabled, Integer start, Integer rows);
     int countOrganizations(String name, Boolean enabled);
+    List<Organization> getOrganizationsByUserId(long userId, String name, Boolean enabled, Integer start, Integer rows);
+    int countOrganizationsByUserId(long userId, String name, Boolean enabled);
     void deleteById(int id);
     void create(Organization organization);
     void update(Organization organization);

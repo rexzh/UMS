@@ -129,7 +129,10 @@ public class UserServiceImpl implements IUserService {
 
     @Override
     public List<Organization> getOrganizationsByUser(User user){
-        return _orgDao.selectOrganizationsByUserId(user.getId());
+        Map<String, Object> queryMap = new HashMap<>();
+        queryMap.put("userId", user.getId());
+
+        return _orgDao.selectOrganizationsByUserId(queryMap);
     }
 
     @Override

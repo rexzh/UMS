@@ -4,6 +4,7 @@ package com.ums.management.web.controller;
 import com.ums.management.core.model.Role;
 import com.ums.management.core.model.RoleMenu;
 import com.ums.management.core.service.IRoleService;
+import com.ums.management.web.utility.RoleExtension;
 import com.ums.management.web.utility.UserExtension;
 import com.ums.management.web.view.vo.ResponseVO;
 import com.ums.management.web.view.vo.RoleVO;
@@ -66,7 +67,7 @@ public class RoleController {
     @RequestMapping(value = "/role.json/{id}", method = RequestMethod.DELETE)
     public ResponseVO deleteRole(@PathVariable("id") Integer id) {
         Role role = this._svc.getRoleById(id);
-        if(role.getName().equals(Role.ADMIN)) {
+        if(RoleExtension.isAdmin(role)) {
             return ResponseVO.buildErrorResponse("Admin role can't be removed");
         }
 
