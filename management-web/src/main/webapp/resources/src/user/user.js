@@ -6,6 +6,7 @@ app.controller('UserCtrl', function($scope, $location, $L, msgbox, notify, rest)
         UserCode: $L('UserCode'),
         UserName: $L('UserName'),
         Enabled: $L('Enabled'),
+        Role: $L('Role'),
         ResetPwd: $L('ResetPassword')
     }
 

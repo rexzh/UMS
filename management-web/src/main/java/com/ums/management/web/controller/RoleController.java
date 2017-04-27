@@ -22,7 +22,7 @@ public class RoleController {
     private IRoleService _svc = null;
 
     @RequestMapping("/role.json")
-    public ResponseVO getAllRoles(){
+    public ResponseVO getAllRoles() {
         ResponseVO response = ResponseVO.buildSuccessResponse();
         response.addData("roles", this._svc.getAllRoles());
         return response;
@@ -47,7 +47,16 @@ public class RoleController {
         Role role = new Role();
         BeanUtils.copyProperties(roleVO, role);
 
-        if(UserExtension.hasEnoughPower(httpSession, role)) {
+        Role oldRole = _svc.getRoleById(role.getId());
+        if (RoleExtension.isAdmin(oldRole) || RoleExtension.isPowerUser(oldRole)) {
+            boolean b1 = !oldRole.getName().equals(role.getName());
+            boolean b2 = oldRole.getEnabled() != role.getEnabled();
+            if ((!oldRole.getName().equals(role.getName())) || (!oldRole.getEnabled().equals(role.getEnabled()))) {
+                return ResponseVO.buildErrorResponse("Built-in role can't be removed");
+            }
+        }
+
+        if (UserExtension.hasEnoughPower(httpSession, role)) {
             this._svc.update(role, roleVO.getRoleMenus());
             return ResponseVO.buildSuccessResponse();
         } else {
@@ -67,7 +76,7 @@ public class RoleController {
     @RequestMapping(value = "/role.json/{id}", method = RequestMethod.DELETE)
     public ResponseVO deleteRole(@PathVariable("id") Integer id) {
         Role role = this._svc.getRoleById(id);
-        if(RoleExtension.isAdmin(role) || RoleExtension.isPowerUser(role)) {
+        if (RoleExtension.isAdmin(role) || RoleExtension.isPowerUser(role)) {
             return ResponseVO.buildErrorResponse("Built-in role can't be removed");
         }
 

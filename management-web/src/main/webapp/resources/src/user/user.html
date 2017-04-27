@@ -40,6 +40,7 @@
                 <th>{{lconst.UserCode}}</th>
                 <th>{{lconst.UserName}}</th>
                 <th>{{lconst.Enabled}}</th>
+                <th>{{lconst.Role}}</th>
                 <th>{{const.Operation}}</th>
             </tr>
         </thead>
@@ -50,6 +51,7 @@
                 <td>{{user.code}}</td>
                 <td>{{user.name}}</td>
                 <td><div metro-checkbox ng-model="user.enabled" ng-disabled="true"></div></td>
+                <td>{{user.role.name}}</td>
                 <td class="center">
                     <a class="btn btn-primary btn-sm" ng-click="modify($index)">
                         <i class="icon-edit"></i> {{const.Modify}}

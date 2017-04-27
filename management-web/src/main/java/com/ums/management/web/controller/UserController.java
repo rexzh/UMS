@@ -15,6 +15,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpSession;
+import java.util.ArrayList;
 import java.util.List;
 
 
@@ -29,18 +30,30 @@ public class UserController {
                                   @RequestParam(value = "name", required = false) String name,
                                   @RequestParam(value = "enabled", required = false) Boolean enabled,
                                   @RequestParam(value = "page", required = false) Long page,
-                                  @RequestParam(value = "rows", required = false) Integer rows){
-        UserVO user = UserExtension.getCurrentUser(httpSession);
+                                  @RequestParam(value = "rows", required = false) Integer rows) {
+        UserVO currentUser = UserExtension.getCurrentUser(httpSession);
 
         ResponseVO response = ResponseVO.buildSuccessResponse();
         Long start = PageExtension.calcStart(page, rows);
-        if(RoleExtension.isAdmin(user.getRole())) {
-            response.addData("users", this._svc.getAllUsers(code, name, enabled, start, rows));
-            response.addData("count", this._svc.countAllUsers(code, name, enabled));
+        List<User> users = null;
+        long count = 0;
+        if (RoleExtension.isAdmin(currentUser.getRole())) {
+            users = this._svc.getAllUsers(code, name, enabled, start, rows);
+            count = this._svc.countAllUsers(code, name, enabled);
         } else {
-            response.addData("users", this._svc.getAllUsersByUserId(user.getId(), code, name, enabled, start, rows));
-            response.addData("count", this._svc.countAllUsersByUserId(user.getId(), code, name, enabled));
+            users = this._svc.getAllUsersByUserId(currentUser.getId(), code, name, enabled, start, rows);
+            count = this._svc.countAllUsersByUserId(currentUser.getId(), code, name, enabled);
         }
+        List<UserVO> list = new ArrayList<>();
+        for(User user : users) {
+            UserVO u = new UserVO();
+            BeanUtils.copyProperties(user, u);
+            Role r = _svc.getRoleByUser(user);
+            u.setRole(r);
+            list.add(u);
+        }
+        response.addData("users", list);
+        response.addData("count", count);
         return response;
     }
 
@@ -66,7 +79,7 @@ public class UserController {
         BeanUtils.copyProperties(userVO, user);
 
         Role oldRole = _svc.getRoleByUser(user);
-        if(UserExtension.hasEnoughPower(httpSession, oldRole) && UserExtension.hasEnoughPower(httpSession, userVO.getRole())) {
+        if (UserExtension.hasEnoughPower(httpSession, oldRole) && UserExtension.hasEnoughPower(httpSession, userVO.getRole())) {
             this._svc.update(user, userVO.getRole(), userVO.getOrganizations());
             return ResponseVO.buildSuccessResponse();
         } else {
@@ -80,7 +93,7 @@ public class UserController {
         BeanUtils.copyProperties(userVO, user);
 
         UserVO curUser = UserExtension.getCurrentUser(httpSession);
-        if(UserExtension.hasEnoughPower(httpSession, userVO.getRole())){
+        if (UserExtension.hasEnoughPower(httpSession, userVO.getRole())) {
             this._svc.create(user, userVO.getRole(), userVO.getOrganizations());
             return ResponseVO.buildSuccessResponse();
         } else {
@@ -93,8 +106,8 @@ public class UserController {
         User user = _svc.getUserById(id);
         Role role = _svc.getRoleByUser(user);
 
-        if(UserExtension.hasEnoughPower(httpSession, role)) {
-            if(UserExtension.getCurrentUser(httpSession).getId() != id) {
+        if (UserExtension.hasEnoughPower(httpSession, role)) {
+            if (UserExtension.getCurrentUser(httpSession).getId() != id) {
                 this._svc.deleteById(id);
                 return ResponseVO.buildSuccessResponse();
             } else {
@@ -110,7 +123,7 @@ public class UserController {
         User user = _svc.getUserById(id);
         Role role = _svc.getRoleByUser(user);
 
-        if(UserExtension.hasEnoughPower(httpSession, role)) {
+        if (UserExtension.hasEnoughPower(httpSession, role)) {
             String password = this._svc.resetPassword(id);
             ResponseVO response = ResponseVO.buildSuccessResponse();
             response.addData("password", password);
@@ -123,7 +136,7 @@ public class UserController {
     @RequestMapping(value = "/user.json/chgpwd", method = RequestMethod.PUT)
     public ResponseVO changeUserPassword(@RequestBody ChangePasswordVO chgpwd) {
         boolean result = _svc.changePassword(chgpwd.getId(), chgpwd.getOldPassword(), chgpwd.getNewPassword());
-        if(result) {
+        if (result) {
             return ResponseVO.buildSuccessResponse();
         } else {
             return ResponseVO.buildErrorResponse("Password not correct");
