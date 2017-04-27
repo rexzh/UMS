@@ -53,6 +53,7 @@ l10n.addResource('en_us', {
     "Can't delete current user": "Can't delete current user",
     "No Permission": "No Permission",
     "Built-in role can't be removed": "Built-in role can't be removed",
+    "Built-in role can't be changed": "Built-in role can't be changed",
     "Please Select": "Please Select",
     "Logout": "Logout",
     "UserRole": "User's Role",

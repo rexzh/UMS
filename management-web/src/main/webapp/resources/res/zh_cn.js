@@ -53,6 +53,7 @@ l10n.addResource('zh_cn', {
     "Can't delete current user": "不能删除当前用户",
     "No Permission": "没有权限",
     "Built-in role can't be removed": "内置角色不能删除",
+    "Built-in role can't be changed": "内置角色不能修改",
     "Please Select": "请选择",
     "Logout": "注销",
     "UserRole": "用户角色",

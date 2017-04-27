@@ -52,7 +52,7 @@ public class RoleController {
             boolean b1 = !oldRole.getName().equals(role.getName());
             boolean b2 = oldRole.getEnabled() != role.getEnabled();
             if ((!oldRole.getName().equals(role.getName())) || (!oldRole.getEnabled().equals(role.getEnabled()))) {
-                return ResponseVO.buildErrorResponse("Built-in role can't be removed");
+                return ResponseVO.buildErrorResponse("Built-in role can't be changed");
             }
         }
 
