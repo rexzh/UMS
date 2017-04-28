@@ -19,7 +19,7 @@
 	
 	<!-- 采用自动扫描方式创建mapper bean -->  
 	<bean class="org.mybatis.spring.mapper.MapperScannerConfigurer"
-		p:basePackage="com.quartzx.management.core.dao"
+		p:basePackage="com.ums.management.core.dao"
 		p:sqlSessionFactoryBeanName="sqlSessionFactory"
 		/>
 </beans>
