@@ -45,12 +45,21 @@ public class SimpleStorage implements IStorage {
 
     @Override
     public InputStream read(String uri) {
-        //TODO:
-        return null;
+        try {
+            Path file = Paths.get(rootPath, uri);
+            return Files.newInputStream(file);
+        } catch (IOException ioe) {
+            throw new CommonException("Storage error", ioe);
+        }
     }
 
     @Override
     public void delete(String uri) {
-        //TODO:
+        try {
+            Path file = Paths.get(rootPath, uri);
+            Files.delete(file);
+        } catch (IOException ioe) {
+            throw new CommonException("Storage error", ioe);
+        }
     }
 }
