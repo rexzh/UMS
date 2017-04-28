@@ -4,6 +4,7 @@ import com.ums.management.core.model.Organization;
 import com.ums.management.core.model.Role;
 import com.ums.management.core.model.User;
 import com.ums.management.core.service.IUserService;
+import com.ums.management.web.utility.ListExtension;
 import com.ums.management.web.utility.PageExtension;
 import com.ums.management.web.utility.RoleExtension;
 import com.ums.management.web.utility.UserExtension;
@@ -16,6 +17,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpSession;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 
 
@@ -45,7 +47,7 @@ public class UserController {
             count = this._svc.countAllUsersByUserId(currentUser.getId(), code, name, enabled);
         }
         List<UserVO> list = new ArrayList<>();
-        for(User user : users) {
+        for (User user : users) {
             UserVO u = new UserVO();
             BeanUtils.copyProperties(user, u);
             Role r = _svc.getRoleByUser(user);
@@ -77,11 +79,17 @@ public class UserController {
     public ResponseVO updateUser(HttpSession httpSession, @RequestBody UserVO userVO) {
         User user = new User();
         BeanUtils.copyProperties(userVO, user);
-
         Role oldRole = _svc.getRoleByUser(user);
+
         if (UserExtension.hasEnoughPower(httpSession, oldRole) && UserExtension.hasEnoughPower(httpSession, userVO.getRole())) {
-            this._svc.update(user, userVO.getRole(), userVO.getOrganizations());
-            return ResponseVO.buildSuccessResponse();
+            UserVO editor = UserExtension.getCurrentUser(httpSession);
+
+            if (ListExtension.inclusion(editor.getOrganizations(), userVO.getOrganizations(), Comparator.comparing(Organization::getId))) {
+                this._svc.update(user, userVO.getRole(), userVO.getOrganizations());
+                return ResponseVO.buildSuccessResponse();
+            } else {
+                return ResponseVO.buildErrorResponse("No Permission");
+            }
         } else {
             return ResponseVO.buildErrorResponse("No Permission");
         }
@@ -92,10 +100,14 @@ public class UserController {
         User user = new User();
         BeanUtils.copyProperties(userVO, user);
 
-        UserVO curUser = UserExtension.getCurrentUser(httpSession);
         if (UserExtension.hasEnoughPower(httpSession, userVO.getRole())) {
-            this._svc.create(user, userVO.getRole(), userVO.getOrganizations());
-            return ResponseVO.buildSuccessResponse();
+            UserVO editor = UserExtension.getCurrentUser(httpSession);
+            if (ListExtension.inclusion(editor.getOrganizations(), userVO.getOrganizations(), Comparator.comparing(Organization::getId))) {
+                this._svc.create(user, userVO.getRole(), userVO.getOrganizations());
+                return ResponseVO.buildSuccessResponse();
+            } else {
+                return ResponseVO.buildErrorResponse("No Permission");
+            }
         } else {
             return ResponseVO.buildErrorResponse("No Permission");
         }

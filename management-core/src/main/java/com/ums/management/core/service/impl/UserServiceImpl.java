@@ -10,10 +10,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.apache.commons.codec.digest.DigestUtils;
 
 
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @Service
 public class UserServiceImpl implements IUserService {
@@ -120,8 +117,6 @@ public class UserServiceImpl implements IUserService {
         ur.setRoleId(role.getId());
         _urDao.insert(ur);
 
-        //TODO: limit to my org list
-
         for(Organization org : orgs) {
             UserOrg uo = new UserOrg();
             uo.setOrgId(org.getId());
@@ -140,8 +135,6 @@ public class UserServiceImpl implements IUserService {
             _urDao.updateByPrimaryKey(ur);
         }
 
-        //TODO: limit to my org list
-        //TODO:Optimize
         _userOrgDao.deleteByUserId(user.getId());
         for(Organization org : orgs) {
             UserOrg uo = new UserOrg();
