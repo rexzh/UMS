@@ -324,6 +324,32 @@ LOCK TABLES `user_role` WRITE;
 INSERT INTO `user_role` VALUES (3,20),(4,31),(19,31),(20,58),(21,58),(22,58),(23,58);
 /*!40000 ALTER TABLE `user_role` ENABLE KEYS */;
 UNLOCK TABLES;
+
+
+--
+-- Table structure for table `file_meta`
+--
+
+DROP TABLE IF EXISTS `file_meta`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `file_meta` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `name` varchar(45) NOT NULL,
+  `uri` varchar(45) NOT NULL,
+  `type` varchar(45) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `file_meta`
+--
+
+LOCK TABLES `file_meta` WRITE;
+/*!40000 ALTER TABLE `file_meta` DISABLE KEYS */;
+/*!40000 ALTER TABLE `file_meta` ENABLE KEYS */;
+UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
 /*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
