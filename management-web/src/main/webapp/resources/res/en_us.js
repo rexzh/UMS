@@ -63,6 +63,7 @@ l10n.addResource('en_us', {
     "Warning": "Warning",
     "Attention": "Attention",
     "Unknown": "Unknown",
+    "Database": "Database",
     "ms": "ms",
     "TimeZone": "Time Zone",
     "MessageCount": "Message Count",

@@ -1,39 +1,47 @@
 package com.ums.management.web.controller;
 
-import com.ums.management.core.model.Menu;
-import com.ums.management.core.model.Organization;
-import com.ums.management.core.model.Role;
-import com.ums.management.core.model.User;
-import com.ums.management.core.service.IMenuService;
 import com.ums.management.core.service.IUserService;
-import com.ums.management.web.view.vo.LoginVO;
 import com.ums.management.web.view.vo.ResponseVO;
-import com.ums.management.web.view.vo.UserVO;
-import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
-import javax.servlet.http.HttpSession;
-import java.util.ArrayList;
-import java.util.List;
+import java.lang.management.ManagementFactory;
+import java.text.DecimalFormat;
+
+import com.sun.management.OperatingSystemMXBean;
 
 @RestController
 public class AboutController {
-	@Value("${app.env}")
-	private String env = null;
+    @Value("${app.env}")
+    private String env = null;
 
-
+    @Autowired
+    private IUserService _svc = null;
 
     @RequestMapping(value = "/about.json")
     public ResponseVO about() {
-		ResponseVO response = ResponseVO.buildSuccessResponse();
-		response.addData("env", env);
-		response.addData("version", "v0.0.1-SNAPSHOT");
+        ResponseVO response = ResponseVO.buildSuccessResponse();
+        response.addData("env", env);
+        response.addData("version", "v0.0.1-SNAPSHOT");
 
-		return response;
+        int cpu = Runtime.getRuntime().availableProcessors();
+
+        OperatingSystemMXBean mx = (com.sun.management.OperatingSystemMXBean) ManagementFactory.getOperatingSystemMXBean();
+        DecimalFormat fmt = new DecimalFormat("#.0");
+        String memory = fmt.format((float) mx.getTotalPhysicalMemorySize() / 1024 / 1024 / 1024);
+
+        response.addData("memory", memory);
+        response.addData("cpu", cpu);
+
+        try {
+            _svc.countAllUsers(null, null, null);
+            response.addData("database", "OK");
+        } catch (Exception ex) {
+            response.addData("database", "Error");
+        }
+
+        return response;
     }
 }
