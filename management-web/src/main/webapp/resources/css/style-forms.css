@@ -932,3 +932,7 @@ legend + .control-group {
 .btn.control-search {
   margin-top: -8px;
 }
+
+.label-search {
+  vertical-align: 20%;
+}

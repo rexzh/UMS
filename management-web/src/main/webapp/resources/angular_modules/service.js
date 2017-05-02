@@ -64,18 +64,13 @@
                 var path = url(arguments);
                 return {
                     get: function(map, page, rows, cfg) {
-                        var q = '?';
+                        var q = '?nocache=' + new Date().getTime();
                         if(typeof(page) != 'undefined')
-                            q += 'page=' + page + '&rows=' + (rows || 10);
+                            q += '&page=' + page + '&rows=' + (rows || 10);
                         for(var k in map) {
                             q += ('&' + k + '=' + map[k]);
                         }
-                        if(q.length == 1)
-                            q = '';
-                        if(q[1] == '&')
-                            q = '?' + q.substr(2);
                         path += q;
-                        //console.log(path);
 
                         var deferred = $q.defer();
                         $http.get(path, cfg).then(function(resp){

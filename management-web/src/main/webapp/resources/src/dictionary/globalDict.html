@@ -5,6 +5,7 @@
   <div class="box-content">
     <div class="row-fluid">
       <div class="control-group">
+        <span class="label-search">{{lconst.DictType}}</span>
         <select class="input-small" ng-change="update()" ng-options="t.name for t in types" ng-model="type">
         </select>
       </div>

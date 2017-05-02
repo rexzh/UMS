@@ -4,7 +4,8 @@ app.controller('GlobalDictCtrl', function($scope, $location, $L, rest, msgbox) {
     $scope.lconst = {
         Value: $L('Value'),
         Name: $L('Name'),
-        Comment: $L('Comment')
+        Comment: $L('Comment'),
+        DictType: $L('Dictionary Type')
     }
 
     rest.endpoint('/dictType.json').get({global: true}).then(function(resp){
