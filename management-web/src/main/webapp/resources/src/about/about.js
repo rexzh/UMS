@@ -3,13 +3,11 @@
     $scope.about = $L("About");
     $scope.name = $L("Generic Platform");
     $scope.version = $L("Version");
-    $scope.db = $L("Database");
 
     rest.endpoint('about.json').get().then(function(x){
         $scope.env = x.data.env;
         $scope.vNumber = x.data.version;
         $scope.cpu = x.data.cpu;
         $scope.memory = x.data.memory;
-        $scope.database = x.data.database;
     });
 });

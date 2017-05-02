@@ -17,9 +17,6 @@ public class AboutController {
     @Value("${app.env}")
     private String env = null;
 
-    @Autowired
-    private IUserService _svc = null;
-
     @RequestMapping(value = "/about.json")
     public ResponseVO about() {
         ResponseVO response = ResponseVO.buildSuccessResponse();
@@ -34,13 +31,6 @@ public class AboutController {
 
         response.addData("memory", memory);
         response.addData("cpu", cpu);
-
-        try {
-            _svc.countAllUsers(null, null, null);
-            response.addData("database", "OK");
-        } catch (Exception ex) {
-            response.addData("database", "Error");
-        }
 
         return response;
     }

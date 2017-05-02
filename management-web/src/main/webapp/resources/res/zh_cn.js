@@ -64,7 +64,6 @@ l10n.addResource('zh_cn', {
     "Warning": "异常",
     "Attention": "注意",
     "Unknown": "未知",
-    "Database": "数据库",
     "ms": "毫秒",
     "TimeZone": "时区",
     "MessageCount": "消息数量",
