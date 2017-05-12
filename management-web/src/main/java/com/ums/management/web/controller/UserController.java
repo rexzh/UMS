@@ -4,6 +4,7 @@ import com.ums.management.core.model.Organization;
 import com.ums.management.core.model.Role;
 import com.ums.management.core.model.User;
 import com.ums.management.core.service.IUserService;
+import com.ums.management.core.utility.CopyUtils;
 import com.ums.management.web.utility.ListExtension;
 import com.ums.management.web.utility.PageExtension;
 import com.ums.management.web.utility.RoleExtension;
@@ -46,10 +47,10 @@ public class UserController {
             users = this._svc.getAllUsersByUserId(currentUser.getId(), code, name, enabled, start, rows);
             count = this._svc.countAllUsersByUserId(currentUser.getId(), code, name, enabled);
         }
+
         List<UserVO> list = new ArrayList<>();
         for (User user : users) {
-            UserVO u = new UserVO();
-            BeanUtils.copyProperties(user, u);
+            UserVO u = CopyUtils.copyBean(user, UserVO.class);
             Role r = _svc.getRoleByUser(user);
             u.setRole(r);
             list.add(u);
@@ -66,8 +67,7 @@ public class UserController {
         Role role = this._svc.getRoleByUser(user);
         List<Organization> orgs = this._svc.getOrganizationsByUser(user);
 
-        UserVO userVO = new UserVO();
-        BeanUtils.copyProperties(user, userVO);
+        UserVO userVO = CopyUtils.copyBean(user, UserVO.class);
         userVO.setRole(role);
         userVO.setOrganizations(orgs);
 
@@ -77,8 +77,7 @@ public class UserController {
 
     @RequestMapping(value = "/user.json", method = RequestMethod.PUT)
     public ResponseVO updateUser(HttpSession httpSession, @RequestBody UserVO userVO) {
-        User user = new User();
-        BeanUtils.copyProperties(userVO, user);
+        User user = CopyUtils.copyBean(userVO, User.class);
         Role oldRole = _svc.getRoleByUser(user);
 
         if (UserExtension.hasEnoughPower(httpSession, oldRole) && UserExtension.hasEnoughPower(httpSession, userVO.getRole())) {
@@ -97,8 +96,7 @@ public class UserController {
 
     @RequestMapping(value = "/user.json", method = RequestMethod.POST)
     public ResponseVO createUser(HttpSession httpSession, @RequestBody UserVO userVO) {
-        User user = new User();
-        BeanUtils.copyProperties(userVO, user);
+        User user = CopyUtils.copyBean(userVO, User.class);
 
         if (UserExtension.hasEnoughPower(httpSession, userVO.getRole())) {
             UserVO editor = UserExtension.getCurrentUser(httpSession);

@@ -7,6 +7,7 @@ import com.ums.management.core.model.Organization;
 import com.ums.management.core.model.Role;
 import com.ums.management.core.model.User;
 import com.ums.management.core.service.IUserService;
+import com.ums.management.core.utility.CopyUtils;
 import com.ums.management.web.utility.UserExtension;
 import com.ums.management.web.view.vo.LoginVO;
 import com.ums.management.web.view.vo.UserVO;
@@ -26,23 +27,23 @@ import java.util.List;
 @RestController
 public class IndexController {
 
-	public static final String SESSION_USER = "user";
-	public static final String SESSION_MENU = "menus";
+    public static final String SESSION_USER = "user";
+    public static final String SESSION_MENU = "menus";
 
 
-	@Autowired
-	private IMenuService _menuSvc = null;
+    @Autowired
+    private IMenuService _menuSvc = null;
 
-	@Autowired
-	private IUserService _userSvc = null;
+    @Autowired
+    private IUserService _userSvc = null;
 
     @RequestMapping(value = "/index.json")
     public ResponseVO index(HttpSession httpSession) {
 
         UserVO user = UserExtension.getCurrentUser(httpSession);
-		ResponseVO response = null;
+        ResponseVO response = null;
 
-        if(user != null){
+        if (user != null) {
             response = ResponseVO.buildSuccessResponse();
             response.addData(SESSION_USER, httpSession.getAttribute(SESSION_USER));
             response.addData(SESSION_MENU, httpSession.getAttribute(SESSION_MENU));
@@ -50,50 +51,49 @@ public class IndexController {
             response = ResponseVO.buildErrorResponse("NotLogin");
         }
 
-		return response;
+        return response;
     }
 
-	@RequestMapping(value = "/index.json", method = RequestMethod.POST)
-	public ResponseVO index(HttpSession httpSession, @RequestBody LoginVO login) {
-		ResponseVO response = ResponseVO.buildSuccessResponse();
-    	User loginUser = _userSvc.login(login.getUsername(), login.getPassword());
-    	if(loginUser != null) {
-			UserVO userVO = new UserVO();
-			BeanUtils.copyProperties(loginUser, userVO);
-    		Role role = _userSvc.getRoleByUser(loginUser);
-    		userVO.setRole(role);
-    		List<Organization> orgs = _userSvc.getOrganizationsByUser(loginUser);
+    @RequestMapping(value = "/index.json", method = RequestMethod.POST)
+    public ResponseVO index(HttpSession httpSession, @RequestBody LoginVO login) {
+        ResponseVO response = ResponseVO.buildSuccessResponse();
+        User loginUser = _userSvc.login(login.getUsername(), login.getPassword());
+        if (loginUser != null) {
+            UserVO userVO = CopyUtils.copyBean(loginUser, UserVO.class);
+            Role role = _userSvc.getRoleByUser(loginUser);
+            userVO.setRole(role);
+            List<Organization> orgs = _userSvc.getOrganizationsByUser(loginUser);
             List<Organization> filteredOrgs = new ArrayList<>();
-            for(Organization org : orgs){
-                if(org.getEnabled())
+            for (Organization org : orgs) {
+                if (org.getEnabled())
                     filteredOrgs.add(org);
             }
-    		userVO.setOrganizations(filteredOrgs);
-            if(filteredOrgs.size() > 0)
+            userVO.setOrganizations(filteredOrgs);
+            if (filteredOrgs.size() > 0)
                 userVO.setCurrentOrganization(filteredOrgs.get(0));
 
-    		httpSession.setAttribute(SESSION_USER, userVO);
+            httpSession.setAttribute(SESSION_USER, userVO);
 
-    		if(role.getEnabled()) {
-				httpSession.setAttribute(SESSION_MENU, _menuSvc.getAllMenusByRole(role));
-			} else {
-				httpSession.setAttribute(SESSION_MENU, new ArrayList<Menu>());
-			}
+            if (role.getEnabled()) {
+                httpSession.setAttribute(SESSION_MENU, _menuSvc.getAllMenusByRole(role));
+            } else {
+                httpSession.setAttribute(SESSION_MENU, new ArrayList<Menu>());
+            }
 
-    		response.addData("login", true);
-		} else {
-			response.addData("login", false);
-		}
+            response.addData("login", true);
+        } else {
+            response.addData("login", false);
+        }
 
-		return response;
-	}
+        return response;
+    }
 
-	@RequestMapping(value = "/logout.json", method = RequestMethod.GET)
-	public ResponseVO logout(HttpSession httpSession) {
-		httpSession.removeAttribute(SESSION_USER);
-		httpSession.removeAttribute(SESSION_MENU);
-		return ResponseVO.buildSuccessResponse();
-	}
+    @RequestMapping(value = "/logout.json", method = RequestMethod.GET)
+    public ResponseVO logout(HttpSession httpSession) {
+        httpSession.removeAttribute(SESSION_USER);
+        httpSession.removeAttribute(SESSION_MENU);
+        return ResponseVO.buildSuccessResponse();
+    }
 
     @RequestMapping(value = "/currentOrg.json", method = RequestMethod.POST)
     public ResponseVO currentOrg(HttpSession httpSession, @RequestBody Organization org) {

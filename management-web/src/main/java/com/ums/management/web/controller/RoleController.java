@@ -4,6 +4,7 @@ package com.ums.management.web.controller;
 import com.ums.management.core.model.Role;
 import com.ums.management.core.model.RoleMenu;
 import com.ums.management.core.service.IRoleService;
+import com.ums.management.core.utility.CopyUtils;
 import com.ums.management.web.utility.RoleExtension;
 import com.ums.management.web.utility.UserExtension;
 import com.ums.management.web.view.vo.ResponseVO;
@@ -34,8 +35,7 @@ public class RoleController {
         Role role = this._svc.getRoleById(roleId);
         List<RoleMenu> roleMenus = this._svc.getRoleMenuByRole(role);
 
-        RoleVO roleVO = new RoleVO();
-        BeanUtils.copyProperties(role, roleVO);
+        RoleVO roleVO = CopyUtils.copyBean(role, RoleVO.class);
         roleVO.setRoleMenus(roleMenus);
 
         response.addData("role", roleVO);
@@ -44,8 +44,7 @@ public class RoleController {
 
     @RequestMapping(value = "/role.json", method = RequestMethod.PUT)
     public ResponseVO updateRole(HttpSession httpSession, @RequestBody RoleVO roleVO) {
-        Role role = new Role();
-        BeanUtils.copyProperties(roleVO, role);
+        Role role = CopyUtils.copyBean(roleVO, Role.class);
 
         Role oldRole = _svc.getRoleById(role.getId());
         if (RoleExtension.isAdmin(oldRole) || RoleExtension.isPowerUser(oldRole)) {
@@ -66,8 +65,7 @@ public class RoleController {
 
     @RequestMapping(value = "/role.json", method = RequestMethod.POST)
     public ResponseVO createRole(@RequestBody RoleVO roleVO) {
-        Role role = new Role();
-        BeanUtils.copyProperties(roleVO, role);
+        Role role = CopyUtils.copyBean(roleVO, Role.class);
         this._svc.create(role, roleVO.getRoleMenus());
         ResponseVO response = ResponseVO.buildSuccessResponse();
         return response;
