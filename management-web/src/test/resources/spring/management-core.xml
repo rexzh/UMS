@@ -14,7 +14,7 @@
 	<!-- 创建SqlSessionFactory，同时指定数据源-->       
 	<bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean"
 		p:dataSource-ref="dataSource"
-		p:mapperLocations="classpath:com/quartzx/management/core/mapping/*.xml"
+		p:mapperLocations="classpath:com/ums/management/core/mapping/*.xml"
 		/>
 	
 	<!-- 采用自动扫描方式创建mapper bean -->  

@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:c="http://www.springframework.org/schema/c"
+	   xmlns:tx="http://www.springframework.org/schema/tx"
+	   xmlns:aop="http://www.springframework.org/schema/aop"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-4.0.xsd
+            http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.0.xsd
+            http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx.xsd">
+
+	<!--创建jdbc数据源 -->
+
+	<bean id="dataSource" class="org.apache.tomcat.dbcp.dbcp2.BasicDataSource" destroy-method="close">
+		<property name="driverClassName" value="${datasource.jdbc.driver}" />
+		<property name="url" value="${datasource.jdbc.url}" />
+		<property name="username" value="${datasource.jdbc.username}" />
+		<property name="password" value="${datasource.jdbc.password}" />
+		<property name="initialSize" value="${datasource.size.initial}" />
+		<property name="maxTotal" value="${datasource.size.max}" />
+		<property name="maxIdle" value="${datasource.size.idle.max}" />
+		<property name="minIdle" value="${datasource.size.idle.min}" />
+	</bean>
+
+</beans>
