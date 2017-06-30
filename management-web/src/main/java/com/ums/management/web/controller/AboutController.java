@@ -17,11 +17,14 @@ public class AboutController {
     @Value("${app.env}")
     private String env = null;
 
+    @Value("${app.version}")
+    private String version = null;
+
     @RequestMapping(value = "/about.json")
     public ResponseVO about() {
         ResponseVO response = ResponseVO.buildSuccessResponse();
         response.addData("env", env);
-        response.addData("version", "v0.0.1-SNAPSHOT");
+        response.addData("version", version);
 
         int cpu = Runtime.getRuntime().availableProcessors();
 
