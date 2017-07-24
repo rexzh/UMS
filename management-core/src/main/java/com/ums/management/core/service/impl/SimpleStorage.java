@@ -9,8 +9,12 @@ import org.springframework.stereotype.Service;
 import java.io.IOException;
 import java.io.InputStream;
 import java.nio.file.*;
+import java.nio.file.attribute.FileAttribute;
+import java.nio.file.attribute.PosixFilePermission;
+import java.nio.file.attribute.PosixFilePermissions;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.Set;
 import java.util.UUID;
 
 /**
@@ -28,13 +32,21 @@ public class SimpleStorage implements IStorage {
 
         try {
             Path p = Paths.get(rootPath, dir);
-            if (Files.notExists(p))
-                Files.createDirectory(p);
+
+            if (!Files.exists(p)){
+                Set<PosixFilePermission> perms = PosixFilePermissions.fromString("rwxrwxrwx");
+                FileAttribute<Set<PosixFilePermission>> attr = PosixFilePermissions.asFileAttribute(perms);
+
+                Files.createDirectories(p, attr);
+            }
+
             String fileName = UUIDExtension.uuidToBase64(UUID.randomUUID());
             Path file = p.resolve(fileName);
+            Files.createFile(file);
 
 
-            Files.copy(stream, file);
+            Files.copy(stream, file, StandardCopyOption.REPLACE_EXISTING);
+
             String uri = Paths.get(rootPath).relativize(file).toString();
 
             return uri;

@@ -41,7 +41,7 @@ public class MenuServiceImpl implements IMenuService {
 		List<Submenu> filteredSubmenus = new ArrayList<>();
 		for(Submenu s : submenus) {
 			for(RoleMenu rm : roleMenus) {
-				if(rm.getSubmenuId() == s.getId()) {
+				if(rm.getSubmenuId().equals(s.getId())) {
 					filteredSubmenus.add(s);
 				}
 			}
@@ -49,7 +49,7 @@ public class MenuServiceImpl implements IMenuService {
 
 		for(Menu m : menus) {
 			for(Submenu sub : filteredSubmenus) {
-				if(sub.getParentId() == m.getId()) {
+				if(sub.getParentId().equals(m.getId())) {
 					m.addSubmenu(sub);
 				}
 			}
