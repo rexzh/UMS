@@ -5,7 +5,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.ums.management.web.utility.UserExtension;
-import com.ums.management.web.view.vo.UserVO;
+import com.ums.management.core.view.model.UserVO;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.web.servlet.ModelAndView;

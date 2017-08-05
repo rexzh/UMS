@@ -1,4 +1,4 @@
-package com.ums.management.web.view.vo;
+package com.ums.management.core.view.model;
 
 import com.ums.management.core.model.RoleMenu;
 

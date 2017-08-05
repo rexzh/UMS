@@ -1,7 +1,7 @@
 package com.ums.management.web.utility;
 
 import com.ums.management.core.model.Role;
-import com.ums.management.web.view.vo.RoleVO;
+import com.ums.management.core.view.model.RoleVO;
 
 /**
  * Created by zling on 2017-04-21.

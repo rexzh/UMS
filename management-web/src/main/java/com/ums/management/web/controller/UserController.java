@@ -9,10 +9,9 @@ import com.ums.management.web.utility.ListExtension;
 import com.ums.management.web.utility.PageExtension;
 import com.ums.management.web.utility.RoleExtension;
 import com.ums.management.web.utility.UserExtension;
-import com.ums.management.web.view.vo.ChangePasswordVO;
+import com.ums.management.core.view.model.ChangePasswordVO;
 import com.ums.management.web.view.vo.ResponseVO;
-import com.ums.management.web.view.vo.UserVO;
-import org.springframework.beans.BeanUtils;
+import com.ums.management.core.view.model.UserVO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 

@@ -1,14 +1,12 @@
 package com.ums.management.web.controller;
 
 import com.ums.management.core.model.Organization;
-import com.ums.management.core.model.Role;
 import com.ums.management.core.service.IOrganizationService;
 import com.ums.management.web.utility.PageExtension;
 import com.ums.management.web.utility.RoleExtension;
 import com.ums.management.web.utility.UserExtension;
 import com.ums.management.web.view.vo.ResponseVO;
-import com.ums.management.web.view.vo.RoleVO;
-import com.ums.management.web.view.vo.UserVO;
+import com.ums.management.core.view.model.UserVO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 

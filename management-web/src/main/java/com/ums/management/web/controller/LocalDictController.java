@@ -1,9 +1,7 @@
 //generate==
 package com.ums.management.web.controller;
 
-import com.ums.management.core.model.Role;
 import com.ums.management.web.utility.UserExtension;
-import com.ums.management.web.view.vo.UserVO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 

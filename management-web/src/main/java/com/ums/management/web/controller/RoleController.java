@@ -8,8 +8,7 @@ import com.ums.management.core.utility.CopyUtils;
 import com.ums.management.web.utility.RoleExtension;
 import com.ums.management.web.utility.UserExtension;
 import com.ums.management.web.view.vo.ResponseVO;
-import com.ums.management.web.view.vo.RoleVO;
-import org.springframework.beans.BeanUtils;
+import com.ums.management.core.view.model.RoleVO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
