@@ -23,7 +23,7 @@ public class FileController {
     private IFileService _svc = null;
 
     @RequestMapping(value = "/file.json", method = RequestMethod.POST)
-    public ResponseVO upload(@RequestParam("file") MultipartFile file) throws IOException {
+    public void upload(HttpServletResponse httpResponse, @RequestParam("file") MultipartFile file) throws IOException {
         FileMeta meta = new FileMeta();
         meta.setName(file.getOriginalFilename());
         meta.setType(file.getContentType());
@@ -33,7 +33,16 @@ public class FileController {
 
         ResponseVO response = ResponseVO.buildSuccessResponse();
         response.addData("file", meta);
-        return response;
+        com.fasterxml.jackson.databind.ObjectMapper m = new com.fasterxml.jackson.databind.ObjectMapper();
+        String json = m.writeValueAsString(response);
+
+        httpResponse.setContentType("text/html");
+        try(OutputStream os = httpResponse.getOutputStream()) {
+            IOUtils.write(json, os);
+
+            os.flush();
+            os.close();
+        }
     }
 
     @RequestMapping(value = "/file.json/{id}", method = RequestMethod.GET)
