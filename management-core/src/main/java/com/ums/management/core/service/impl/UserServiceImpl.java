@@ -3,6 +3,10 @@ package com.ums.management.core.service.impl;
 import com.ums.management.core.dao.*;
 import com.ums.management.core.model.*;
 import com.ums.management.core.service.IUserService;
+import com.ums.management.core.utility.CopyUtils;
+import com.ums.management.core.view.model.ChangePasswordVO;
+import com.ums.management.core.view.model.LoginVO;
+import com.ums.management.core.view.model.UserVO;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -38,26 +42,32 @@ public class UserServiceImpl implements IUserService {
     }
 
     @Override
-    public List<User> getAllUsers(String code, String name, Boolean enabled, Long start, Integer rows) {
+    public List<UserVO> getAllUsers(String code, String name, Boolean enabled, Long start, Integer rows) {
         Map<String, Object> queryMap = new HashMap<>();
-		queryMap.put("code", code);
-		queryMap.put("name", name);
-		queryMap.put("enabled", enabled);
+        queryMap.put("code", code);
+        queryMap.put("name", name);
+        queryMap.put("enabled", enabled);
 
-		queryMap.put("start", start);
-		queryMap.put("rows", rows);
+        queryMap.put("start", start);
+        queryMap.put("rows", rows);
 
         List<User> users = _userDao.selectAllUsers(queryMap);
-        for(User u : users) {
+
+        List<UserVO> result = CopyUtils.copyBeanList(users, UserVO.class);
+        for (UserVO u : result) {
             u.setSalt(null);
             u.setPassword(null);
+
+            UserRole ur = _urDao.selectByPrimaryKey(u.getId());
+            Role role = _roleDao.selectByPrimaryKey(ur.getRoleId());
+            u.setRole(role);
         }
 
-        return users;
+        return result;
     }
 
     @Override
-    public List<User> getAllUsersByUserId(long userId, String code, String name, Boolean enabled, Long start, Integer rows) {
+    public List<UserVO> getAllUsersByUserId(long userId, String code, String name, Boolean enabled, Long start, Integer rows) {
         Map<String, Object> queryMap = new HashMap<>();
         queryMap.put("code", code);
         queryMap.put("name", name);
@@ -68,12 +78,18 @@ public class UserServiceImpl implements IUserService {
         queryMap.put("rows", rows);
 
         List<User> users = _userDao.selectAllUsersByUserId(queryMap);
-        for(User u : users) {
+
+        List<UserVO> result = CopyUtils.copyBeanList(users, UserVO.class);
+        for (UserVO u : result) {
             u.setSalt(null);
             u.setPassword(null);
+
+            UserRole ur = _urDao.selectByPrimaryKey(u.getId());
+            Role role = _roleDao.selectByPrimaryKey(ur.getRoleId());
+            u.setRole(role);
         }
 
-        return users;
+        return result;
     }
 
     @Override
@@ -107,17 +123,17 @@ public class UserServiceImpl implements IUserService {
 
     @Override
     @Transactional
-    public void create(User user, Role role, List<Organization> orgs) {
+    public void create(UserVO user) {
         String salt = RandomStringUtils.randomNumeric(4);
         user.setSalt(salt);
 
-        _userDao.insert(user);
+        _userDao.insert(CopyUtils.copyBean(user, User.class));
         UserRole ur = new UserRole();
         ur.setUserId(user.getId());
-        ur.setRoleId(role.getId());
+        ur.setRoleId(user.getRole().getId());
         _urDao.insert(ur);
 
-        for(Organization org : orgs) {
+        for (Organization org : user.getOrganizations()) {
             UserOrg uo = new UserOrg();
             uo.setOrgId(org.getId());
             uo.setUserId(user.getId());
@@ -127,16 +143,16 @@ public class UserServiceImpl implements IUserService {
 
     @Override
     @Transactional
-    public void update(User user, Role role, List<Organization> orgs) {
-        _userDao.updateByPrimaryKeySelective(user);
+    public void update(UserVO user) {
+        _userDao.updateByPrimaryKeySelective(CopyUtils.copyBean(user, User.class));
         UserRole ur = _urDao.selectByPrimaryKey(user.getId());
-        if(ur.getRoleId() != role.getId()) {
-            ur.setRoleId(role.getId());
+        if (ur.getRoleId() != user.getRole().getId()) {
+            ur.setRoleId(user.getRole().getId());
             _urDao.updateByPrimaryKey(ur);
         }
 
         _userOrgDao.deleteByUserId(user.getId());
-        for(Organization org : orgs) {
+        for (Organization org : user.getOrganizations()) {
             UserOrg uo = new UserOrg();
             uo.setOrgId(org.getId());
             uo.setUserId(user.getId());
@@ -152,7 +168,7 @@ public class UserServiceImpl implements IUserService {
     }
 
     @Override
-    public List<Organization> getOrganizationsByUser(User user){
+    public List<Organization> getOrganizationsByUser(User user) {
         Map<String, Object> queryMap = new HashMap<>();
         queryMap.put("userId", user.getId());
 
@@ -170,12 +186,12 @@ public class UserServiceImpl implements IUserService {
     }
 
     @Override
-    public User login(String username, String password){
-        User user = _userDao.selectByCode(username);
-        if(user == null || user.getEnabled() == false)
+    public User login(LoginVO login) {
+        User user = _userDao.selectByCode(login.getUsername());
+        if (user == null || user.getEnabled() == false)
             return null;
-        String hash = DigestUtils.md5Hex(password + user.getSalt());
-        if(!hash.equals(user.getPassword()))
+        String hash = DigestUtils.md5Hex(login.getPassword() + user.getSalt());
+        if (!hash.equals(user.getPassword()))
             return null;
         user.setSalt(null);
         user.setPassword(null);
@@ -183,10 +199,10 @@ public class UserServiceImpl implements IUserService {
     }
 
     @Override
-    public boolean changePassword(long id, String oldPassword, String newPassword){
-        User user = _userDao.selectByPrimaryKey(id);
-        if(user.getPassword().equals(DigestUtils.md5Hex(oldPassword + user.getSalt()))) {
-            String digest = DigestUtils.md5Hex(newPassword + user.getSalt());
+    public boolean changePassword(ChangePasswordVO changePassword) {
+        User user = _userDao.selectByPrimaryKey(changePassword.getId());
+        if (user.getPassword().equals(DigestUtils.md5Hex(changePassword.getOldPassword() + user.getSalt()))) {
+            String digest = DigestUtils.md5Hex(changePassword.getNewPassword() + user.getSalt());
             user.setPassword(digest);
             _userDao.updateByPrimaryKey(user);
             return true;

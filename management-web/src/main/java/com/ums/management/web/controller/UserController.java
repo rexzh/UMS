@@ -37,7 +37,7 @@ public class UserController {
 
         ResponseVO response = ResponseVO.buildSuccessResponse();
         Long start = PageExtension.calcStart(page, rows);
-        List<User> users = null;
+        List<UserVO> users = null;
         long count = 0;
         if (RoleExtension.isAdmin(currentUser.getRole())) {
             users = this._svc.getAllUsers(code, name, enabled, start, rows);
@@ -47,14 +47,8 @@ public class UserController {
             count = this._svc.countAllUsersByUserId(currentUser.getId(), code, name, enabled);
         }
 
-        List<UserVO> list = new ArrayList<>();
-        for (User user : users) {
-            UserVO u = CopyUtils.copyBean(user, UserVO.class);
-            Role r = _svc.getRoleByUser(user);
-            u.setRole(r);
-            list.add(u);
-        }
-        response.addData("users", list);
+
+        response.addData("users", users);
         response.addData("count", count);
         return response;
     }
@@ -83,7 +77,7 @@ public class UserController {
             UserVO editor = UserExtension.getCurrentUser(httpSession);
 
             if (ListExtension.inclusion(editor.getOrganizations(), userVO.getOrganizations(), Comparator.comparing(Organization::getId))) {
-                this._svc.update(user, userVO.getRole(), userVO.getOrganizations());
+                this._svc.update(userVO);
                 return ResponseVO.buildSuccessResponse();
             } else {
                 return ResponseVO.buildErrorResponse("No Permission");
@@ -95,12 +89,10 @@ public class UserController {
 
     @RequestMapping(value = "/user.json", method = RequestMethod.POST)
     public ResponseVO createUser(HttpSession httpSession, @RequestBody UserVO userVO) {
-        User user = CopyUtils.copyBean(userVO, User.class);
-
         if (UserExtension.hasEnoughPower(httpSession, userVO.getRole())) {
             UserVO editor = UserExtension.getCurrentUser(httpSession);
             if (ListExtension.inclusion(editor.getOrganizations(), userVO.getOrganizations(), Comparator.comparing(Organization::getId))) {
-                this._svc.create(user, userVO.getRole(), userVO.getOrganizations());
+                this._svc.create(userVO);
                 return ResponseVO.buildSuccessResponse();
             } else {
                 return ResponseVO.buildErrorResponse("No Permission");
@@ -144,7 +136,7 @@ public class UserController {
 
     @RequestMapping(value = "/user.json/chgpwd", method = RequestMethod.PUT)
     public ResponseVO changeUserPassword(@RequestBody ChangePasswordVO chgpwd) {
-        boolean result = _svc.changePassword(chgpwd.getId(), chgpwd.getOldPassword(), chgpwd.getNewPassword());
+        boolean result = _svc.changePassword(chgpwd);
         if (result) {
             return ResponseVO.buildSuccessResponse();
         } else {

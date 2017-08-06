@@ -56,7 +56,7 @@ public class IndexController {
     @RequestMapping(value = "/index.json", method = RequestMethod.POST)
     public ResponseVO index(HttpSession httpSession, @RequestBody LoginVO login) {
         ResponseVO response = ResponseVO.buildSuccessResponse();
-        User loginUser = _userSvc.login(login.getUsername(), login.getPassword());
+        User loginUser = _userSvc.login(login);
         if (loginUser != null) {
             UserVO userVO = CopyUtils.copyBean(loginUser, UserVO.class);
             Role role = _userSvc.getRoleByUser(loginUser);
