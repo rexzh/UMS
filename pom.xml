@@ -228,6 +228,7 @@
 				<configuration>
 					<path>/management</path>
 					<port>8000</port>
+					<uriEncoding>utf-8</uriEncoding>
 				</configuration>
 			</plugin>
 		</plugins>

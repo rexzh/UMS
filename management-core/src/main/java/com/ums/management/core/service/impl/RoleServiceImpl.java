@@ -5,6 +5,8 @@ import com.ums.management.core.dao.RoleMenuMapper;
 import com.ums.management.core.model.Role;
 import com.ums.management.core.model.RoleMenu;
 import com.ums.management.core.service.IRoleService;
+import com.ums.management.core.utility.CopyUtils;
+import com.ums.management.core.view.model.RoleVO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -20,13 +22,12 @@ public class RoleServiceImpl implements IRoleService {
     private RoleMenuMapper _roleMenuDao = null;
 
     @Override
-    public Role getRoleById(int id) {
-        return _roleDao.selectByPrimaryKey(id);
-    }
-
-    @Override
-    public List<RoleMenu> getRoleMenuByRole(Role role) {
-        return _roleMenuDao.selectByRoleId(role.getId());
+    public RoleVO getRoleById(int id) {
+        Role role = _roleDao.selectByPrimaryKey(id);
+        List<RoleMenu> roleMenus = _roleMenuDao.selectByRoleId(role.getId());
+        RoleVO roleVO = CopyUtils.copyBean(role, RoleVO.class);
+        roleVO.setRoleMenus(roleMenus);
+        return roleVO;
     }
 
     @Override
@@ -43,9 +44,11 @@ public class RoleServiceImpl implements IRoleService {
 
     @Override
     @Transactional
-    public void create(Role role, List<RoleMenu> roleMenus) {
+    public void create(RoleVO roleVO) {
+        Role role = CopyUtils.copyBean(roleVO, Role.class);
         _roleDao.insert(role);
-        for (RoleMenu rm : roleMenus){
+
+        for (RoleMenu rm : roleVO.getRoleMenus()){
             rm.setRoleId(role.getId());
             _roleMenuDao.insert(rm);
         }
@@ -53,10 +56,11 @@ public class RoleServiceImpl implements IRoleService {
 
     @Override
     @Transactional
-    public void update(Role role, List<RoleMenu> roleMenus) {
+    public void update(RoleVO roleVO) {
+        Role role = CopyUtils.copyBean(roleVO, Role.class);
         _roleDao.updateByPrimaryKey(role);
         _roleMenuDao.deleteByRoleId(role.getId());
-        for (RoleMenu rm : roleMenus){
+        for (RoleMenu rm : roleVO.getRoleMenus()){
             _roleMenuDao.insert(rm);
         }
     }
