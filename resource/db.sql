@@ -1,6 +1,6 @@
 -- MySQL dump 10.13  Distrib 5.7.9, for Win64 (x86_64)
 --
--- Host: 127.0.0.1    Database: ums
+-- Host: localhost    Database: UMS
 -- ------------------------------------------------------
 -- Server version	5.7.11-log
 
@@ -40,6 +40,31 @@ LOCK TABLES `dict_type` WRITE;
 /*!40000 ALTER TABLE `dict_type` DISABLE KEYS */;
 INSERT INTO `dict_type` VALUES (1,'revenue','收入','',NULL),(2,'charge','支出','',NULL),(3,'level','等级','\0',NULL);
 /*!40000 ALTER TABLE `dict_type` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `file_meta`
+--
+
+DROP TABLE IF EXISTS `file_meta`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `file_meta` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `name` varchar(45) NOT NULL,
+  `uri` varchar(45) NOT NULL,
+  `type` varchar(45) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `file_meta`
+--
+
+LOCK TABLES `file_meta` WRITE;
+/*!40000 ALTER TABLE `file_meta` DISABLE KEYS */;
+/*!40000 ALTER TABLE `file_meta` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
@@ -115,7 +140,7 @@ CREATE TABLE `menu` (
   `name` varchar(64) NOT NULL,
   `display_order` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -239,8 +264,33 @@ CREATE TABLE `submenu` (
 
 LOCK TABLES `submenu` WRITE;
 /*!40000 ALTER TABLE `submenu` DISABLE KEYS */;
-INSERT INTO `submenu` VALUES (1,'User','#/user',2,1,'icon-user'),(2,'Role','#/role',2,2,'icon-user-md'),(3,'About','#/about',3,1,'icon-exclamation-sign'),(4,'Organization','#/organization',2,1,'icon-sitemap'),(21,'Submenu','#/submenu',2,20,'icon-list'),(22,'Settings','#/settings',4,50,'icon-cog'),(23,'Password Setting','#/chgpwd',4,30,'icon-key'),(24,'Dictionary Type','#/dictType',1,10,'icon-columns'),(25,'Global Dictionary','#/globalDict',1,20,'icon-list-ul'),(26,'Local Dictionary','#/localDict',1,30,'icon-list-alt'),(27,'Menu','#/menu',2,15,'icon-th-list');
+INSERT INTO `submenu` VALUES (1,'User','#/user',2,1,'icon-user'),(2,'Role','#/role',2,2,'icon-user-md'),(3,'About','#/about',3,1,'icon-exclamation-sign'),(4,'Organization','#/organization',2,1,'icon-sitemap'),(21,'Submenu','#/submenu',2,20,'icon-list'),(22,'Preference','#/settings',4,50,'icon-cog'),(23,'Password Setting','#/chgpwd',4,30,'icon-key'),(24,'Dictionary Type','#/dictType',1,10,'icon-columns'),(25,'Global Dictionary','#/globalDict',1,20,'icon-list-ul'),(26,'Local Dictionary','#/localDict',1,30,'icon-list-alt'),(27,'Menu','#/menu',2,15,'icon-th-list');
 /*!40000 ALTER TABLE `submenu` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `sys_config`
+--
+
+DROP TABLE IF EXISTS `sys_config`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `sys_config` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `cfg_key` varchar(45) NOT NULL,
+  `cfg_value` varchar(512) NOT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `key_UNIQUE` (`cfg_key`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `sys_config`
+--
+
+LOCK TABLES `sys_config` WRITE;
+/*!40000 ALTER TABLE `sys_config` DISABLE KEYS */;
+/*!40000 ALTER TABLE `sys_config` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
@@ -324,32 +374,6 @@ LOCK TABLES `user_role` WRITE;
 INSERT INTO `user_role` VALUES (3,20),(4,31),(19,31),(20,58),(21,58),(22,58),(23,58);
 /*!40000 ALTER TABLE `user_role` ENABLE KEYS */;
 UNLOCK TABLES;
-
-
---
--- Table structure for table `file_meta`
---
-
-DROP TABLE IF EXISTS `file_meta`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `file_meta` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `name` varchar(45) NOT NULL,
-  `uri` varchar(45) NOT NULL,
-  `type` varchar(45) DEFAULT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `file_meta`
---
-
-LOCK TABLES `file_meta` WRITE;
-/*!40000 ALTER TABLE `file_meta` DISABLE KEYS */;
-/*!40000 ALTER TABLE `file_meta` ENABLE KEYS */;
-UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
 /*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
@@ -360,4 +384,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2017-04-19 23:02:05
+-- Dump completed on 2017-08-09 16:10:34
