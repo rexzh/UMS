@@ -20,19 +20,19 @@ public class LoginInterceptor extends HandlerInterceptorAdapter {
 
     public boolean preHandle(HttpServletRequest request,
                              HttpServletResponse response, Object handler) throws Exception {
-        /*
+
         String requestUri = request.getRequestURI();
         String contextPath = request.getContextPath();
         String url = requestUri.substring(contextPath.length());
         String method = request.getMethod();
-
+        /*
         System.out.println("requestUri:" + requestUri);
         System.out.println("contextPath:" + contextPath);
         System.out.println("url:" + url);
         System.out.println("method:" + method);
         */
-        //if(url.startsWith("/sysConfig.json") && method.equals("GET"))
-        //    return true;
+        if(url.startsWith("/sysConfig.json") && method.equals("GET"))
+            return true;
 
         UserVO loginUser = UserExtension.getCurrentUser(request.getSession());
         if (loginUser == null) {
