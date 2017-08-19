@@ -20,12 +20,14 @@ public class SysConfigController {
         return response;
 	}
 
+	/*
 	@RequestMapping("/sysConfig.json/{id}")
     public ResponseVO getSysConfigById(@PathVariable("id") Integer sysConfigId) {
         ResponseVO response = ResponseVO.buildSuccessResponse();
         response.addData("sysConfig", _svc.getSysConfigById(sysConfigId));
         return response;
     }
+    */
 
 	@RequestMapping(value = "/sysConfig.json", method = RequestMethod.PUT)
     public ResponseVO updateSysConfig(@RequestBody SysConfig sysConfig) {
@@ -35,6 +37,7 @@ public class SysConfigController {
         return response;
     }
 
+    /*
     @RequestMapping(value = "/sysConfig.json", method = RequestMethod.POST)
     public ResponseVO createSysConfig(@RequestBody SysConfig sysConfig) {
 
@@ -50,4 +53,5 @@ public class SysConfigController {
 		_svc.deleteById(id);
         return response;
     }
+    */
 }
