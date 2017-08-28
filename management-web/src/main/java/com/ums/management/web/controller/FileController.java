@@ -2,12 +2,13 @@ package com.ums.management.web.controller;
 
 import com.ums.management.core.model.FileMeta;
 import com.ums.management.core.service.IFileService;
-import com.ums.management.core.service.IStorage;
+import com.ums.management.core.utility.JSONExtension;
 import com.ums.management.web.view.vo.ResponseVO;
 import org.apache.commons.io.IOUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
+
 
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
@@ -33,8 +34,8 @@ public class FileController {
 
         ResponseVO response = ResponseVO.buildSuccessResponse();
         response.addData("file", meta);
-        com.fasterxml.jackson.databind.ObjectMapper m = new com.fasterxml.jackson.databind.ObjectMapper();
-        String json = m.writeValueAsString(response);
+
+        String json = JSONExtension.stringify(response);
 
         httpResponse.setContentType("text/html");
         try(OutputStream os = httpResponse.getOutputStream()) {
