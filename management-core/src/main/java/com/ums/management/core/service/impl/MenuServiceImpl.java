@@ -27,9 +27,13 @@ public class MenuServiceImpl implements IMenuService {
 
 	@Override
 	public List<Menu> getAllMenusByRole(Role role) {
-		List<Menu> menus = this.getMenus(role);
-		this.removeEmptyMenus(menus);
-		return menus;
+		if(role.getEnabled()) {
+			List<Menu> menus = this.getMenus(role);
+			this.removeEmptyMenus(menus);
+			return menus;
+		} else {
+			return new ArrayList<>();
+		}
 	}
 	
 	private List<Menu> getMenus(Role role) {

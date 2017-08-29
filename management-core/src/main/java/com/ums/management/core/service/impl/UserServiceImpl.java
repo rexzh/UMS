@@ -186,7 +186,7 @@ public class UserServiceImpl implements IUserService {
     }
 
     @Override
-    public User login(LoginVO login) {
+    public UserVO login(LoginVO login) {
         User user = _userDao.selectByCode(login.getUsername());
         if (user == null || user.getEnabled() == false)
             return null;
@@ -195,7 +195,23 @@ public class UserServiceImpl implements IUserService {
             return null;
         user.setSalt(null);
         user.setPassword(null);
-        return user;
+
+        UserVO userVO = CopyUtils.copyBean(user, UserVO.class);
+
+        Role role = this.getRoleByUser(user);
+        userVO.setRole(role);
+        List<Organization> orgs = this.getOrganizationsByUser(user);
+        List<Organization> filteredOrgs = new ArrayList<>();
+        for (Organization org : orgs) {
+            if (org.getEnabled())
+                filteredOrgs.add(org);
+        }
+        userVO.setOrganizations(filteredOrgs);
+        if (filteredOrgs.size() > 0)
+            userVO.setCurrentOrganization(filteredOrgs.get(0));
+
+
+        return userVO;
     }
 
     @Override

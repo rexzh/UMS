@@ -25,10 +25,8 @@ import java.util.List;
 
 @RestController
 public class IndexController {
-
     public static final String SESSION_USER = "user";
     public static final String SESSION_MENU = "menus";
-
 
     @Autowired
     private IMenuService _menuSvc = null;
@@ -47,7 +45,7 @@ public class IndexController {
             response.addData(SESSION_USER, httpSession.getAttribute(SESSION_USER));
             response.addData(SESSION_MENU, httpSession.getAttribute(SESSION_MENU));
         } else {
-            response = ResponseVO.buildErrorResponse("NotLogin");
+            response = ResponseVO.buildErrorResponse("NotLogin").addData("code", 401);
         }
 
         return response;
@@ -56,28 +54,10 @@ public class IndexController {
     @RequestMapping(value = "/index.json", method = RequestMethod.POST)
     public ResponseVO index(HttpSession httpSession, @RequestBody LoginVO login) {
         ResponseVO response = ResponseVO.buildSuccessResponse();
-        User loginUser = _userSvc.login(login);
+        UserVO loginUser = _userSvc.login(login);
         if (loginUser != null) {
-            UserVO userVO = CopyUtils.copyBean(loginUser, UserVO.class);
-            Role role = _userSvc.getRoleByUser(loginUser);
-            userVO.setRole(role);
-            List<Organization> orgs = _userSvc.getOrganizationsByUser(loginUser);
-            List<Organization> filteredOrgs = new ArrayList<>();
-            for (Organization org : orgs) {
-                if (org.getEnabled())
-                    filteredOrgs.add(org);
-            }
-            userVO.setOrganizations(filteredOrgs);
-            if (filteredOrgs.size() > 0)
-                userVO.setCurrentOrganization(filteredOrgs.get(0));
-
-            httpSession.setAttribute(SESSION_USER, userVO);
-
-            if (role.getEnabled()) {
-                httpSession.setAttribute(SESSION_MENU, _menuSvc.getAllMenusByRole(role));
-            } else {
-                httpSession.setAttribute(SESSION_MENU, new ArrayList<Menu>());
-            }
+            httpSession.setAttribute(SESSION_USER, loginUser);
+            httpSession.setAttribute(SESSION_MENU, _menuSvc.getAllMenusByRole(loginUser.getRole()));
 
             response.addData("login", true);
         } else {

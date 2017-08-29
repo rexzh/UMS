@@ -26,6 +26,6 @@ public interface IUserService {
     List<Organization> getOrganizationsByUser(User user);
 
     String resetPassword(long id);
-    User login(LoginVO login);
+    UserVO login(LoginVO login);
     boolean changePassword(ChangePasswordVO changePassword);
 }
