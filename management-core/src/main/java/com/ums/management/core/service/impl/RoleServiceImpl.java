@@ -7,6 +7,7 @@ import com.ums.management.core.model.RoleMenu;
 import com.ums.management.core.service.IRoleService;
 import com.ums.management.core.utility.CopyUtils;
 import com.ums.management.core.view.model.RoleVO;
+import com.ums.management.core.view.model.ServiceResult;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -37,9 +38,15 @@ public class RoleServiceImpl implements IRoleService {
 
     @Override
     @Transactional
-    public void deleteById(int id) {
-        _roleMenuDao.deleteByRoleId(id);
-        _roleDao.deleteByPrimaryKey(id);
+    public ServiceResult<Integer> deleteById(int id) {
+        Role r = _roleDao.selectByPrimaryKey(id);
+        if(r.isAdmin() || r.isPowerUser()) {
+            return new ServiceResult<>(400, "Built-in role can't be removed");
+        } else {
+            _roleMenuDao.deleteByRoleId(id);
+            _roleDao.deleteByPrimaryKey(id);
+            return new ServiceResult<>(1);
+        }
     }
 
     @Override

@@ -4,6 +4,7 @@ package com.ums.management.web.controller;
 import com.ums.management.core.model.Role;
 import com.ums.management.core.service.IRoleService;
 import com.ums.management.core.utility.CopyUtils;
+import com.ums.management.core.view.model.ServiceResult;
 import com.ums.management.web.utility.UserExtension;
 import com.ums.management.web.view.vo.ResponseVO;
 import com.ums.management.core.view.model.RoleVO;
@@ -40,8 +41,8 @@ public class RoleController {
 
         Role oldRole = _svc.getRoleById(role.getId()).toRole();
         if (oldRole.isAdmin() || oldRole.isPowerUser()) {
-            boolean b1 = !oldRole.getName().equals(role.getName());
-            boolean b2 = oldRole.getEnabled() != role.getEnabled();
+            //boolean b1 = !oldRole.getName().equals(role.getName());
+            //boolean b2 = oldRole.getEnabled() != role.getEnabled();
             if ((!oldRole.getName().equals(role.getName())) || (!oldRole.getEnabled() == (role.getEnabled()))) {
                 return ResponseVO.buildErrorResponse("Built-in role can't be changed");
             }
@@ -64,12 +65,7 @@ public class RoleController {
 
     @RequestMapping(value = "/role.json/{id}", method = RequestMethod.DELETE)
     public ResponseVO deleteRole(@PathVariable("id") Integer id) {
-        Role role = this._svc.getRoleById(id).toRole();
-        if (role.isAdmin() || role.isPowerUser()) {
-            return ResponseVO.buildErrorResponse("Built-in role can't be removed");
-        }
-
-        this._svc.deleteById(id);
-        return ResponseVO.buildSuccessResponse();
+        ServiceResult<Integer> result = this._svc.deleteById(id);
+        return ResponseVO.buildResponse(result);
     }
 }
