@@ -3,7 +3,6 @@ package com.ums.management.web.controller;
 import com.ums.management.core.model.Organization;
 import com.ums.management.core.service.IOrganizationService;
 import com.ums.management.web.utility.PageExtension;
-import com.ums.management.web.utility.RoleExtension;
 import com.ums.management.web.utility.UserExtension;
 import com.ums.management.web.view.vo.ResponseVO;
 import com.ums.management.core.view.model.UserVO;
@@ -15,8 +14,8 @@ import javax.servlet.http.HttpSession;
 
 @RestController
 public class OrganizationController {
-	@Autowired
-	private IOrganizationService _svc = null;
+    @Autowired
+    private IOrganizationService _svc = null;
 
     @RequestMapping("/organization.json/byUser")
     public ResponseVO getOrganizationsByUser(HttpSession httpSession) {
@@ -24,15 +23,12 @@ public class OrganizationController {
         UserVO user = UserExtension.getCurrentUser(httpSession);
 
         ResponseVO response = ResponseVO.buildSuccessResponse();
-        if(RoleExtension.isAdmin(user.getRole()))
-            response.addData("organizations", _svc.getOrganizations(null, null, null, null));
-        else
-            response.addData("organizations", _svc.getOrganizationsByUserId(user.getId(), null, null, null, null));
+        response.addData("organizations", _svc.getOrganizations(user, null, null, null, null));
         return response;
     }
 
-	@RequestMapping("/organization.json")
-	public ResponseVO getOrganizations(HttpSession httpSession,
+    @RequestMapping("/organization.json")
+    public ResponseVO getOrganizations(HttpSession httpSession,
                                        @RequestParam(value = "name", required = false) String name,
                                        @RequestParam(value = "enabled", required = false) Boolean enabled,
                                        @RequestParam(value = "page", required = false) Integer page,
@@ -41,17 +37,11 @@ public class OrganizationController {
 
         UserVO user = UserExtension.getCurrentUser(httpSession);
 
-		ResponseVO response = ResponseVO.buildSuccessResponse();
-        if(RoleExtension.isAdmin(user.getRole())) {
-            response.addData("organizations", _svc.getOrganizations(name, enabled, start, rows));
-            response.addData("count", _svc.countOrganizations(name, enabled));
-        } else {
-            response.addData("organizations", _svc.getOrganizationsByUserId(user.getId(), name, enabled, start, rows));
-            response.addData("count", _svc.countOrganizationsByUserId(user.getId(), name, enabled));
-        }
-
+        ResponseVO response = ResponseVO.buildSuccessResponse();
+        response.addData("organizations", _svc.getOrganizations(user, name, enabled, start, rows));
+        response.addData("count", _svc.countOrganizations(user, name, enabled));
         return response;
-	}
+    }
 
     @RequestMapping("/organization.json/{id}")
     public ResponseVO getOrganizationById(@PathVariable("id") Integer organizationId) {
@@ -60,7 +50,7 @@ public class OrganizationController {
         return response;
     }
 
-	@RequestMapping(value = "/organization.json", method = RequestMethod.PUT)
+    @RequestMapping(value = "/organization.json", method = RequestMethod.PUT)
     public ResponseVO updateOrganization(@RequestBody Organization organization) {
 
         ResponseVO response = ResponseVO.buildSuccessResponse();
@@ -72,11 +62,9 @@ public class OrganizationController {
     public ResponseVO createOrganization(HttpSession httpSession, @RequestBody Organization organization) {
 
         UserVO user = UserExtension.getCurrentUser(httpSession);
+
         ResponseVO response = ResponseVO.buildSuccessResponse();
-        if(RoleExtension.isAdmin(user.getRole()))
-            _svc.create(organization, null);
-        else
-            _svc.create(organization, user.getId());
+        _svc.create(user, organization);
         return response;
     }
 

@@ -1,6 +1,8 @@
 package com.ums.management.core.view.model;
 
+import com.ums.management.core.model.Role;
 import com.ums.management.core.model.RoleMenu;
+import com.ums.management.core.utility.CopyUtils;
 
 import java.util.List;
 
@@ -58,11 +60,15 @@ public class RoleVO {
         this.enabled = enabled;
     }
 
-    public boolean isRegister() {
+    public boolean getRegister() {
         return register;
     }
 
     public void setRegister(boolean register) {
         this.register = register;
+    }
+
+    public Role toRole() {
+        return CopyUtils.copyBean(this, Role.class);
     }
 }

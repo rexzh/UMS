@@ -10,6 +10,7 @@ import com.ums.management.core.model.Organization;
 import com.ums.management.core.model.User;
 import com.ums.management.core.model.UserOrg;
 import com.ums.management.core.service.IOrganizationService;
+import com.ums.management.core.view.model.UserVO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -28,43 +29,41 @@ public class OrganizationServiceImpl implements IOrganizationService {
     }
 
     @Override
-    public List<Organization> getOrganizations(String name, Boolean enabled, Integer start, Integer rows) {
+    public List<Organization> getOrganizations(UserVO requestor, String name, Boolean enabled, Integer start, Integer rows) {
         Map<String, Object> queryMap = new HashMap<>();
-        queryMap.put("name", name);
-        queryMap.put("enabled", enabled);
+        if (requestor.getRole().isAdmin()) {
+            queryMap.put("name", name);
+            queryMap.put("enabled", enabled);
 
-        queryMap.put("start", start);
-        queryMap.put("rows", rows);
-        return _dao.selectOrganizations(queryMap);
+            queryMap.put("start", start);
+            queryMap.put("rows", rows);
+            return _dao.selectOrganizations(queryMap);
+        } else {
+            queryMap.put("userId", requestor.getId());
+            queryMap.put("name", name);
+            queryMap.put("enabled", enabled);
+
+            queryMap.put("start", start);
+            queryMap.put("rows", rows);
+            return _dao.selectOrganizationsByUserId(queryMap);
+        }
     }
 
     @Override
-    public int countOrganizations(String name, Boolean enabled) {
+    public int countOrganizations(UserVO requestor, String name, Boolean enabled) {
         Map<String, Object> queryMap = new HashMap<>();
-        queryMap.put("name", name);
-        queryMap.put("enabled", enabled);
-        return _dao.countOrganizations(queryMap);
-    }
+        if (requestor.getRole().isAdmin()) {
+            queryMap.put("name", name);
+            queryMap.put("enabled", enabled);
 
-    @Override
-    public List<Organization> getOrganizationsByUserId(long userId, String name, Boolean enabled, Integer start, Integer rows) {
-        Map<String, Object> queryMap = new HashMap<>();
-        queryMap.put("userId", userId);
-        queryMap.put("name", name);
-        queryMap.put("enabled", enabled);
+            return _dao.countOrganizations(queryMap);
+        } else {
+            queryMap.put("userId", requestor.getId());
+            queryMap.put("name", name);
+            queryMap.put("enabled", enabled);
 
-        queryMap.put("start", start);
-        queryMap.put("rows", rows);
-        return _dao.selectOrganizationsByUserId(queryMap);
-    }
-
-    @Override
-    public int countOrganizationsByUserId(long userId, String name, Boolean enabled) {
-        Map<String, Object> queryMap = new HashMap<>();
-        queryMap.put("userId", userId);
-        queryMap.put("name", name);
-        queryMap.put("enabled", enabled);
-        return _dao.countOrganizationsByUserId(queryMap);
+            return _dao.countOrganizationsByUserId(queryMap);
+        }
     }
 
     @Override
@@ -74,11 +73,11 @@ public class OrganizationServiceImpl implements IOrganizationService {
 
     @Override
     @Transactional
-    public void create(Organization organization, Long userId) {
+    public void create(UserVO requestor, Organization organization) {
         _dao.insert(organization);
-        if (userId != null) {
+        if (!requestor.getRole().isAdmin()) {
             UserOrg uo = new UserOrg();
-            uo.setUserId(userId);
+            uo.setUserId(requestor.getId());
             uo.setOrgId(organization.getId());
             _uoDao.insert(uo);
         }

@@ -7,7 +7,6 @@ import com.ums.management.core.service.IUserService;
 import com.ums.management.core.utility.CopyUtils;
 import com.ums.management.web.utility.ListExtension;
 import com.ums.management.web.utility.PageExtension;
-import com.ums.management.web.utility.RoleExtension;
 import com.ums.management.web.utility.UserExtension;
 import com.ums.management.core.view.model.ChangePasswordVO;
 import com.ums.management.web.view.vo.ResponseVO;
@@ -16,7 +15,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpSession;
-import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 
@@ -39,14 +37,13 @@ public class UserController {
         Long start = PageExtension.calcStart(page, rows);
         List<UserVO> users = null;
         long count = 0;
-        if (RoleExtension.isAdmin(currentUser.getRole())) {
+        if (currentUser.getRole().isAdmin()) {
             users = this._svc.getAllUsers(code, name, enabled, start, rows);
             count = this._svc.countAllUsers(code, name, enabled);
         } else {
             users = this._svc.getAllUsersByUserId(currentUser.getId(), code, name, enabled, start, rows);
             count = this._svc.countAllUsersByUserId(currentUser.getId(), code, name, enabled);
         }
-
 
         response.addData("users", users);
         response.addData("count", count);

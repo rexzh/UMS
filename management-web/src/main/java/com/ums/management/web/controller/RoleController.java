@@ -2,10 +2,8 @@ package com.ums.management.web.controller;
 
 
 import com.ums.management.core.model.Role;
-import com.ums.management.core.model.RoleMenu;
 import com.ums.management.core.service.IRoleService;
 import com.ums.management.core.utility.CopyUtils;
-import com.ums.management.web.utility.RoleExtension;
 import com.ums.management.web.utility.UserExtension;
 import com.ums.management.web.view.vo.ResponseVO;
 import com.ums.management.core.view.model.RoleVO;
@@ -13,7 +11,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpSession;
-import java.util.List;
 
 
 @RestController
@@ -41,8 +38,8 @@ public class RoleController {
     public ResponseVO updateRole(HttpSession httpSession, @RequestBody RoleVO roleVO) {
         Role role = CopyUtils.copyBean(roleVO, Role.class);
 
-        RoleVO oldRole = _svc.getRoleById(role.getId());
-        if (RoleExtension.isAdmin(oldRole) || RoleExtension.isPowerUser(oldRole)) {
+        Role oldRole = _svc.getRoleById(role.getId()).toRole();
+        if (oldRole.isAdmin() || oldRole.isPowerUser()) {
             boolean b1 = !oldRole.getName().equals(role.getName());
             boolean b2 = oldRole.getEnabled() != role.getEnabled();
             if ((!oldRole.getName().equals(role.getName())) || (!oldRole.getEnabled() == (role.getEnabled()))) {
@@ -67,8 +64,8 @@ public class RoleController {
 
     @RequestMapping(value = "/role.json/{id}", method = RequestMethod.DELETE)
     public ResponseVO deleteRole(@PathVariable("id") Integer id) {
-        RoleVO role = this._svc.getRoleById(id);
-        if (RoleExtension.isAdmin(role) || RoleExtension.isPowerUser(role)) {
+        Role role = this._svc.getRoleById(id).toRole();
+        if (role.isAdmin() || role.isPowerUser()) {
             return ResponseVO.buildErrorResponse("Built-in role can't be removed");
         }
 
