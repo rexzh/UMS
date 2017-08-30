@@ -12,11 +12,8 @@ import java.util.List;
 public interface IUserService {
     User getUserById(long id);
 
-    List<UserVO> getAllUsers(String code, String name, Boolean enabled, Long start, Integer rows);
-    long countAllUsers(String code, String name, Boolean enabled);
-
-    List<UserVO> getAllUsersByUserId(long userId, String code, String name, Boolean enabled, Long start, Integer rows);
-    long countAllUsersByUserId(long userId, String code, String name, Boolean enabled);
+    List<UserVO> getAllUsers(UserVO requestor, String code, String name, Boolean enabled, Long start, Integer rows);
+    long countAllUsers(UserVO requestor, String code, String name, Boolean enabled);
 
     void deleteById(long id);
     void create(UserVO user);

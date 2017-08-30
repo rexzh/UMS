@@ -37,23 +37,9 @@ public class RoleController {
 
     @RequestMapping(value = "/role.json", method = RequestMethod.PUT)
     public ResponseVO updateRole(HttpSession httpSession, @RequestBody RoleVO roleVO) {
-        Role role = CopyUtils.copyBean(roleVO, Role.class);
 
-        Role oldRole = _svc.getRoleById(role.getId()).toRole();
-        if (oldRole.isAdmin() || oldRole.isPowerUser()) {
-            //boolean b1 = !oldRole.getName().equals(role.getName());
-            //boolean b2 = oldRole.getEnabled() != role.getEnabled();
-            if ((!oldRole.getName().equals(role.getName())) || (!oldRole.getEnabled() == (role.getEnabled()))) {
-                return ResponseVO.buildErrorResponse("Built-in role can't be changed");
-            }
-        }
-
-        if (UserExtension.hasEnoughPower(httpSession, role)) {
-            this._svc.update(roleVO);
-            return ResponseVO.buildSuccessResponse();
-        } else {
-            return ResponseVO.buildErrorResponse("No permission");
-        }
+        ServiceResult result = this._svc.update(UserExtension.getCurrentUser(httpSession), roleVO);
+        return ResponseVO.buildResponse(result);
     }
 
     @RequestMapping(value = "/role.json", method = RequestMethod.POST)
@@ -65,7 +51,7 @@ public class RoleController {
 
     @RequestMapping(value = "/role.json/{id}", method = RequestMethod.DELETE)
     public ResponseVO deleteRole(@PathVariable("id") Integer id) {
-        ServiceResult<Integer> result = this._svc.deleteById(id);
+        ServiceResult result = this._svc.deleteById(id);
         return ResponseVO.buildResponse(result);
     }
 }

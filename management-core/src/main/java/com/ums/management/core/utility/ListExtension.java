@@ -1,4 +1,4 @@
-package com.ums.management.web.utility;
+package com.ums.management.core.utility;
 
 import java.util.Comparator;
 import java.util.List;

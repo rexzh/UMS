@@ -42,16 +42,30 @@ public class UserServiceImpl implements IUserService {
     }
 
     @Override
-    public List<UserVO> getAllUsers(String code, String name, Boolean enabled, Long start, Integer rows) {
+    public List<UserVO> getAllUsers(UserVO requestor, String code, String name, Boolean enabled, Long start, Integer rows) {
         Map<String, Object> queryMap = new HashMap<>();
-        queryMap.put("code", code);
-        queryMap.put("name", name);
-        queryMap.put("enabled", enabled);
+        List<User> users;
 
-        queryMap.put("start", start);
-        queryMap.put("rows", rows);
+        if(requestor.getRole().isAdmin()) {
+            queryMap.put("code", code);
+            queryMap.put("name", name);
+            queryMap.put("enabled", enabled);
 
-        List<User> users = _userDao.selectAllUsers(queryMap);
+            queryMap.put("start", start);
+            queryMap.put("rows", rows);
+
+            users = _userDao.selectAllUsers(queryMap);
+        } else {
+            queryMap.put("code", code);
+            queryMap.put("name", name);
+            queryMap.put("enabled", enabled);
+            queryMap.put("userId", requestor.getId());
+
+            queryMap.put("start", start);
+            queryMap.put("rows", rows);
+
+            users = _userDao.selectAllUsersByUserId(queryMap);
+        }
 
         List<UserVO> result = CopyUtils.copyBeanList(users, UserVO.class);
         for (UserVO u : result) {
@@ -66,51 +80,26 @@ public class UserServiceImpl implements IUserService {
         return result;
     }
 
+
+
     @Override
-    public List<UserVO> getAllUsersByUserId(long userId, String code, String name, Boolean enabled, Long start, Integer rows) {
+    public long countAllUsers(UserVO requestor, String code, String name, Boolean enabled) {
         Map<String, Object> queryMap = new HashMap<>();
-        queryMap.put("code", code);
-        queryMap.put("name", name);
-        queryMap.put("enabled", enabled);
-        queryMap.put("userId", userId);
 
-        queryMap.put("start", start);
-        queryMap.put("rows", rows);
+        if(requestor.getRole().isAdmin()) {
+            queryMap.put("code", code);
+            queryMap.put("name", name);
+            queryMap.put("enabled", enabled);
 
-        List<User> users = _userDao.selectAllUsersByUserId(queryMap);
+            return _userDao.countAllUsers(queryMap);
+        } else {
+            queryMap.put("code", code);
+            queryMap.put("name", name);
+            queryMap.put("enabled", enabled);
+            queryMap.put("userId", requestor.getId());
 
-        List<UserVO> result = CopyUtils.copyBeanList(users, UserVO.class);
-        for (UserVO u : result) {
-            u.setSalt(null);
-            u.setPassword(null);
-
-            UserRole ur = _urDao.selectByPrimaryKey(u.getId());
-            Role role = _roleDao.selectByPrimaryKey(ur.getRoleId());
-            u.setRole(role);
+            return _userDao.countAllUsersByUserId(queryMap);
         }
-
-        return result;
-    }
-
-    @Override
-    public long countAllUsers(String code, String name, Boolean enabled) {
-        Map<String, Object> queryMap = new HashMap<>();
-        queryMap.put("code", code);
-        queryMap.put("name", name);
-        queryMap.put("enabled", enabled);
-
-        return _userDao.countAllUsers(queryMap);
-    }
-
-    @Override
-    public long countAllUsersByUserId(long userId, String code, String name, Boolean enabled) {
-        Map<String, Object> queryMap = new HashMap<>();
-        queryMap.put("code", code);
-        queryMap.put("name", name);
-        queryMap.put("enabled", enabled);
-        queryMap.put("userId", userId);
-
-        return _userDao.countAllUsersByUserId(queryMap);
     }
 
     @Override

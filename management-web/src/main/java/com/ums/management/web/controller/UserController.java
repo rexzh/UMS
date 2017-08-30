@@ -5,7 +5,8 @@ import com.ums.management.core.model.Role;
 import com.ums.management.core.model.User;
 import com.ums.management.core.service.IUserService;
 import com.ums.management.core.utility.CopyUtils;
-import com.ums.management.web.utility.ListExtension;
+import com.ums.management.core.utility.ListExtension;
+import com.ums.management.core.utility.RoleMatrix;
 import com.ums.management.web.utility.PageExtension;
 import com.ums.management.web.utility.UserExtension;
 import com.ums.management.core.view.model.ChangePasswordVO;
@@ -35,18 +36,9 @@ public class UserController {
 
         ResponseVO response = ResponseVO.buildSuccessResponse();
         Long start = PageExtension.calcStart(page, rows);
-        List<UserVO> users = null;
-        long count = 0;
-        if (currentUser.getRole().isAdmin()) {
-            users = this._svc.getAllUsers(code, name, enabled, start, rows);
-            count = this._svc.countAllUsers(code, name, enabled);
-        } else {
-            users = this._svc.getAllUsersByUserId(currentUser.getId(), code, name, enabled, start, rows);
-            count = this._svc.countAllUsersByUserId(currentUser.getId(), code, name, enabled);
-        }
 
-        response.addData("users", users);
-        response.addData("count", count);
+        response.addData("users", this._svc.getAllUsers(currentUser, code, name, enabled, start, rows));
+        response.addData("count", this._svc.countAllUsers(currentUser, code, name, enabled));
         return response;
     }
 
@@ -70,7 +62,7 @@ public class UserController {
         User user = CopyUtils.copyBean(userVO, User.class);
         Role oldRole = _svc.getRoleByUser(user);
 
-        if (UserExtension.hasEnoughPower(httpSession, oldRole) && UserExtension.hasEnoughPower(httpSession, userVO.getRole())) {
+        if (RoleMatrix.hasEnoughPower(UserExtension.getCurrentUser(httpSession).getRole(), oldRole) && RoleMatrix.hasEnoughPower(UserExtension.getCurrentUser(httpSession).getRole(), userVO.getRole())) {
             UserVO editor = UserExtension.getCurrentUser(httpSession);
 
             if (ListExtension.inclusion(editor.getOrganizations(), userVO.getOrganizations(), Comparator.comparing(Organization::getId))) {
@@ -86,7 +78,7 @@ public class UserController {
 
     @RequestMapping(value = "/user.json", method = RequestMethod.POST)
     public ResponseVO createUser(HttpSession httpSession, @RequestBody UserVO userVO) {
-        if (UserExtension.hasEnoughPower(httpSession, userVO.getRole())) {
+        if (RoleMatrix.hasEnoughPower(UserExtension.getCurrentUser(httpSession).getRole(), userVO.getRole())) {
             UserVO editor = UserExtension.getCurrentUser(httpSession);
             if (ListExtension.inclusion(editor.getOrganizations(), userVO.getOrganizations(), Comparator.comparing(Organization::getId))) {
                 this._svc.create(userVO);
@@ -104,7 +96,7 @@ public class UserController {
         User user = _svc.getUserById(id);
         Role role = _svc.getRoleByUser(user);
 
-        if (UserExtension.hasEnoughPower(httpSession, role)) {
+        if (RoleMatrix.hasEnoughPower(UserExtension.getCurrentUser(httpSession).getRole(), role)) {
             if (UserExtension.getCurrentUser(httpSession).getId() != id) {
                 this._svc.deleteById(id);
                 return ResponseVO.buildSuccessResponse();
@@ -121,7 +113,7 @@ public class UserController {
         User user = _svc.getUserById(id);
         Role role = _svc.getRoleByUser(user);
 
-        if (UserExtension.hasEnoughPower(httpSession, role)) {
+        if (RoleMatrix.hasEnoughPower(UserExtension.getCurrentUser(httpSession).getRole(), role)) {
             String password = this._svc.resetPassword(id);
             ResponseVO response = ResponseVO.buildSuccessResponse();
             response.addData("password", password);

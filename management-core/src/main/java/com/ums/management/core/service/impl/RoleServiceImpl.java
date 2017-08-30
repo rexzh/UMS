@@ -6,8 +6,10 @@ import com.ums.management.core.model.Role;
 import com.ums.management.core.model.RoleMenu;
 import com.ums.management.core.service.IRoleService;
 import com.ums.management.core.utility.CopyUtils;
+import com.ums.management.core.utility.RoleMatrix;
 import com.ums.management.core.view.model.RoleVO;
 import com.ums.management.core.view.model.ServiceResult;
+import com.ums.management.core.view.model.UserVO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -38,14 +40,14 @@ public class RoleServiceImpl implements IRoleService {
 
     @Override
     @Transactional
-    public ServiceResult<Integer> deleteById(int id) {
+    public ServiceResult<Void> deleteById(int id) {
         Role r = _roleDao.selectByPrimaryKey(id);
         if(r.isAdmin() || r.isPowerUser()) {
             return new ServiceResult<>(400, "Built-in role can't be removed");
         } else {
             _roleMenuDao.deleteByRoleId(id);
             _roleDao.deleteByPrimaryKey(id);
-            return new ServiceResult<>(1);
+            return new ServiceResult<>(null);
         }
     }
 
@@ -63,12 +65,26 @@ public class RoleServiceImpl implements IRoleService {
 
     @Override
     @Transactional
-    public void update(RoleVO roleVO) {
+    public ServiceResult<Void> update(UserVO requestor, RoleVO roleVO) {
+        Role roleToEdit = roleVO.toRole();
+
+        if(!RoleMatrix.hasEnoughPower(requestor.getRole(), roleToEdit)) {
+            return new ServiceResult<>(403, "No permission");
+        }
+
+        Role oldRole = _roleDao.selectByPrimaryKey(roleToEdit.getId());
+        if (oldRole.isAdmin() || oldRole.isPowerUser()) {
+            if ((!oldRole.getName().equals(roleToEdit.getName())) || (!oldRole.getEnabled() == (roleToEdit.getEnabled()))) {
+                return new ServiceResult<>(403, "Built-in role can't be changed");
+            }
+        }
+
         Role role = CopyUtils.copyBean(roleVO, Role.class);
         _roleDao.updateByPrimaryKey(role);
         _roleMenuDao.deleteByRoleId(role.getId());
         for (RoleMenu rm : roleVO.getRoleMenus()){
             _roleMenuDao.insert(rm);
         }
+        return new ServiceResult<>(null);
     }
 }
