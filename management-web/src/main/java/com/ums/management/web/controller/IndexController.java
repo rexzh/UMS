@@ -2,13 +2,9 @@ package com.ums.management.web.controller;
 
 import javax.servlet.http.HttpSession;
 
-import com.ums.management.core.model.Menu;
 import com.ums.management.core.model.Organization;
-import com.ums.management.core.model.Role;
-import com.ums.management.core.model.User;
 import com.ums.management.core.service.IUserService;
-import com.ums.management.core.utility.CopyUtils;
-import com.ums.management.web.utility.UserExtension;
+import com.ums.management.web.utility.SessionExtension;
 import com.ums.management.core.view.model.LoginVO;
 import com.ums.management.core.view.model.UserVO;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,14 +16,11 @@ import org.springframework.web.bind.annotation.RestController;
 import com.ums.management.core.service.IMenuService;
 import com.ums.management.web.view.vo.ResponseVO;
 
-import java.util.ArrayList;
-import java.util.List;
+import static com.ums.management.web.utility.SessionExtension.SESSION_MENU;
+import static com.ums.management.web.utility.SessionExtension.SESSION_USER;
 
 @RestController
 public class IndexController {
-    public static final String SESSION_USER = "user";
-    public static final String SESSION_MENU = "menus";
-
     @Autowired
     private IMenuService _menuSvc = null;
 
@@ -37,7 +30,7 @@ public class IndexController {
     @RequestMapping(value = "/index.json")
     public ResponseVO index(HttpSession httpSession) {
 
-        UserVO user = UserExtension.getCurrentUser(httpSession);
+        UserVO user = SessionExtension.getCurrentUser(httpSession);
         ResponseVO response = null;
 
         if (user != null) {
@@ -76,7 +69,7 @@ public class IndexController {
 
     @RequestMapping(value = "/currentOrg.json", method = RequestMethod.POST)
     public ResponseVO currentOrg(HttpSession httpSession, @RequestBody Organization org) {
-        UserVO user = UserExtension.getCurrentUser(httpSession);
+        UserVO user = SessionExtension.getCurrentUser(httpSession);
         user.setCurrentOrganization(org);
         return ResponseVO.buildSuccessResponse();
     }

@@ -4,8 +4,11 @@ import com.ums.management.core.dao.*;
 import com.ums.management.core.model.*;
 import com.ums.management.core.service.IUserService;
 import com.ums.management.core.utility.CopyUtils;
+import com.ums.management.core.utility.ListExtension;
+import com.ums.management.core.utility.RoleMatrix;
 import com.ums.management.core.view.model.ChangePasswordVO;
 import com.ums.management.core.view.model.LoginVO;
+import com.ums.management.core.view.model.ServiceResult;
 import com.ums.management.core.view.model.UserVO;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,11 +37,21 @@ public class UserServiceImpl implements IUserService {
     private UserOrgMapper _userOrgDao = null;
 
     @Override
-    public User getUserById(long id) {
+    public UserVO getUserById(long id) {
         User u = _userDao.selectByPrimaryKey(id);
         u.setSalt(null);
         u.setPassword(null);
-        return u;
+
+        UserRole ur = _urDao.selectByPrimaryKey(id);
+        Role role = _roleDao.selectByPrimaryKey(ur.getRoleId());
+
+        List<Organization> orgs = this.getOrganizationsByUser(u);
+
+        UserVO userVO = CopyUtils.copyBean(u, UserVO.class);
+        userVO.setRole(role);
+        userVO.setOrganizations(orgs);
+
+        return userVO;
     }
 
     @Override
@@ -46,7 +59,7 @@ public class UserServiceImpl implements IUserService {
         Map<String, Object> queryMap = new HashMap<>();
         List<User> users;
 
-        if(requestor.getRole().isAdmin()) {
+        if (requestor.getRole().isAdmin()) {
             queryMap.put("code", code);
             queryMap.put("name", name);
             queryMap.put("enabled", enabled);
@@ -81,12 +94,11 @@ public class UserServiceImpl implements IUserService {
     }
 
 
-
     @Override
     public long countAllUsers(UserVO requestor, String code, String name, Boolean enabled) {
         Map<String, Object> queryMap = new HashMap<>();
 
-        if(requestor.getRole().isAdmin()) {
+        if (requestor.getRole().isAdmin()) {
             queryMap.put("code", code);
             queryMap.put("name", name);
             queryMap.put("enabled", enabled);
@@ -104,48 +116,84 @@ public class UserServiceImpl implements IUserService {
 
     @Override
     @Transactional
-    public void deleteById(long id) {
-        _urDao.deleteByPrimaryKey(id);
-        _userOrgDao.deleteByUserId(id);
-        _userDao.deleteByPrimaryKey(id);
-    }
+    public ServiceResult<Void> deleteById(UserVO editor, long id) {
+        User user = _userDao.selectByPrimaryKey(id);
+        Role role = this.getRoleByUser(user);
 
-    @Override
-    @Transactional
-    public void create(UserVO user) {
-        String salt = RandomStringUtils.randomNumeric(4);
-        user.setSalt(salt);
+        if (RoleMatrix.hasEnoughPower(editor.getRole(), role)) {
+            if (editor.getId() != id) {
 
-        _userDao.insert(CopyUtils.copyBean(user, User.class));
-        UserRole ur = new UserRole();
-        ur.setUserId(user.getId());
-        ur.setRoleId(user.getRole().getId());
-        _urDao.insert(ur);
+                _urDao.deleteByPrimaryKey(id);
+                _userOrgDao.deleteByUserId(id);
+                _userDao.deleteByPrimaryKey(id);
 
-        for (Organization org : user.getOrganizations()) {
-            UserOrg uo = new UserOrg();
-            uo.setOrgId(org.getId());
-            uo.setUserId(user.getId());
-            _userOrgDao.insert(uo);
+                return new ServiceResult<>(null);
+            } else {
+                return new ServiceResult<>(403, "Can't delete current user");
+            }
+        } else {
+            return new ServiceResult<>(403, "No Permission");
         }
     }
 
     @Override
     @Transactional
-    public void update(UserVO user) {
-        _userDao.updateByPrimaryKeySelective(CopyUtils.copyBean(user, User.class));
-        UserRole ur = _urDao.selectByPrimaryKey(user.getId());
-        if (ur.getRoleId() != user.getRole().getId()) {
-            ur.setRoleId(user.getRole().getId());
-            _urDao.updateByPrimaryKey(ur);
-        }
+    public ServiceResult<Void> create(UserVO editor, UserVO user) {
+        if (RoleMatrix.hasEnoughPower(editor.getRole(), user.getRole())) {
+            if (ListExtension.inclusion(editor.getOrganizations(), user.getOrganizations(), Comparator.comparing(Organization::getId))) {
 
-        _userOrgDao.deleteByUserId(user.getId());
-        for (Organization org : user.getOrganizations()) {
-            UserOrg uo = new UserOrg();
-            uo.setOrgId(org.getId());
-            uo.setUserId(user.getId());
-            _userOrgDao.insert(uo);
+                String salt = RandomStringUtils.randomNumeric(4);
+                user.setSalt(salt);
+
+                _userDao.insert(CopyUtils.copyBean(user, User.class));
+                UserRole ur = new UserRole();
+                ur.setUserId(user.getId());
+                ur.setRoleId(user.getRole().getId());
+                _urDao.insert(ur);
+
+                for (Organization org : user.getOrganizations()) {
+                    UserOrg uo = new UserOrg();
+                    uo.setOrgId(org.getId());
+                    uo.setUserId(user.getId());
+                    _userOrgDao.insert(uo);
+                }
+
+                return new ServiceResult<>(null);
+            } else {
+                return new ServiceResult<>(403, "No Permission");
+            }
+        } else {
+            return new ServiceResult<>(403, "No Permission");
+        }
+    }
+
+    @Override
+    @Transactional
+    public ServiceResult<Void> update(UserVO editor, UserVO user) {
+        Role oldRole = this.getRoleByUser(user.toUser());
+
+        if (RoleMatrix.hasEnoughPower(editor.getRole(), oldRole) && RoleMatrix.hasEnoughPower(editor.getRole(), user.getRole())) {
+            if (ListExtension.inclusion(editor.getOrganizations(), user.getOrganizations(), Comparator.comparing(Organization::getId))) {
+                _userDao.updateByPrimaryKeySelective(user.toUser());
+                UserRole ur = _urDao.selectByPrimaryKey(user.getId());
+                if (ur.getRoleId() != user.getRole().getId()) {
+                    ur.setRoleId(user.getRole().getId());
+                    _urDao.updateByPrimaryKey(ur);
+                }
+
+                _userOrgDao.deleteByUserId(user.getId());
+                for (Organization org : user.getOrganizations()) {
+                    UserOrg uo = new UserOrg();
+                    uo.setOrgId(org.getId());
+                    uo.setUserId(user.getId());
+                    _userOrgDao.insert(uo);
+                }
+                return new ServiceResult<>(null);
+            } else {
+                return new ServiceResult<>(403, "No Permission");
+            }
+        } else {
+            return new ServiceResult<>(403, "No Permission");
         }
     }
 
@@ -165,13 +213,20 @@ public class UserServiceImpl implements IUserService {
     }
 
     @Override
-    public String resetPassword(long id) {
-        User user = _userDao.selectByPrimaryKey(id);
-        String password = RandomStringUtils.randomNumeric(6);
-        String hash = DigestUtils.md5Hex(password + user.getSalt());
-        user.setPassword(hash);
-        _userDao.updateByPrimaryKey(user);
-        return password;
+    public ServiceResult<String> resetPassword(UserVO editor, long id) {
+        UserVO userVO = this.getUserById(id);
+
+        if (RoleMatrix.hasEnoughPower(editor.getRole(), userVO.getRole())) {
+            User user = _userDao.selectByPrimaryKey(id);
+            String password = RandomStringUtils.randomNumeric(6);
+            String hash = DigestUtils.md5Hex(password + user.getSalt());
+            user.setPassword(hash);
+            _userDao.updateByPrimaryKey(user);
+            ServiceResult<String> result = new ServiceResult<String>(password);
+            return result;
+        } else {
+            return new ServiceResult<>(403, "No Permission");
+        }
     }
 
     @Override

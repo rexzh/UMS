@@ -4,7 +4,7 @@ package com.ums.management.web.interceptor;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import com.ums.management.web.utility.UserExtension;
+import com.ums.management.web.utility.SessionExtension;
 import com.ums.management.core.view.model.UserVO;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -34,7 +34,7 @@ public class LoginInterceptor extends HandlerInterceptorAdapter {
         if(url.startsWith("/sysConfig.json") && method.equals("GET"))
             return true;
 
-        UserVO loginUser = UserExtension.getCurrentUser(request.getSession());
+        UserVO loginUser = SessionExtension.getCurrentUser(request.getSession());
         if (loginUser == null) {
             
             response.setStatus(401);

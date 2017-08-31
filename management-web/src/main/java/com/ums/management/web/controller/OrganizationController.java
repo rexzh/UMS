@@ -3,7 +3,7 @@ package com.ums.management.web.controller;
 import com.ums.management.core.model.Organization;
 import com.ums.management.core.service.IOrganizationService;
 import com.ums.management.web.utility.PageExtension;
-import com.ums.management.web.utility.UserExtension;
+import com.ums.management.web.utility.SessionExtension;
 import com.ums.management.web.view.vo.ResponseVO;
 import com.ums.management.core.view.model.UserVO;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,7 +20,7 @@ public class OrganizationController {
     @RequestMapping("/organization.json/byUser")
     public ResponseVO getOrganizationsByUser(HttpSession httpSession) {
 
-        UserVO user = UserExtension.getCurrentUser(httpSession);
+        UserVO user = SessionExtension.getCurrentUser(httpSession);
 
         ResponseVO response = ResponseVO.buildSuccessResponse();
         response.addData("organizations", _svc.getOrganizations(user, null, null, null, null));
@@ -35,7 +35,7 @@ public class OrganizationController {
                                        @RequestParam(value = "rows", required = false) Integer rows) {
         Integer start = PageExtension.calcStart(page, rows);
 
-        UserVO user = UserExtension.getCurrentUser(httpSession);
+        UserVO user = SessionExtension.getCurrentUser(httpSession);
 
         ResponseVO response = ResponseVO.buildSuccessResponse();
         response.addData("organizations", _svc.getOrganizations(user, name, enabled, start, rows));
@@ -61,7 +61,7 @@ public class OrganizationController {
     @RequestMapping(value = "/organization.json", method = RequestMethod.POST)
     public ResponseVO createOrganization(HttpSession httpSession, @RequestBody Organization organization) {
 
-        UserVO user = UserExtension.getCurrentUser(httpSession);
+        UserVO user = SessionExtension.getCurrentUser(httpSession);
 
         ResponseVO response = ResponseVO.buildSuccessResponse();
         _svc.create(user, organization);

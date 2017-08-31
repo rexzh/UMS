@@ -2,6 +2,8 @@ package com.ums.management.core.view.model;
 
 import com.ums.management.core.model.Organization;
 import com.ums.management.core.model.Role;
+import com.ums.management.core.model.User;
+import com.ums.management.core.utility.CopyUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -109,5 +111,9 @@ public class UserVO {
 
     public void setCurrentOrganization(Organization currentOrganization) {
         this.currentOrganization = currentOrganization;
+    }
+
+    public User toUser(){
+        return CopyUtils.copyBean(this, User.class);
     }
 }

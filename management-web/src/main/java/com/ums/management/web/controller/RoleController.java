@@ -1,11 +1,9 @@
 package com.ums.management.web.controller;
 
 
-import com.ums.management.core.model.Role;
 import com.ums.management.core.service.IRoleService;
-import com.ums.management.core.utility.CopyUtils;
 import com.ums.management.core.view.model.ServiceResult;
-import com.ums.management.web.utility.UserExtension;
+import com.ums.management.web.utility.SessionExtension;
 import com.ums.management.web.view.vo.ResponseVO;
 import com.ums.management.core.view.model.RoleVO;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -38,7 +36,7 @@ public class RoleController {
     @RequestMapping(value = "/role.json", method = RequestMethod.PUT)
     public ResponseVO updateRole(HttpSession httpSession, @RequestBody RoleVO roleVO) {
 
-        ServiceResult result = this._svc.update(UserExtension.getCurrentUser(httpSession), roleVO);
+        ServiceResult result = this._svc.update(SessionExtension.getCurrentUser(httpSession), roleVO);
         return ResponseVO.buildResponse(result);
     }
 

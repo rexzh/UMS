@@ -7,11 +7,11 @@ import com.ums.management.core.view.model.UserVO;
 import javax.servlet.http.HttpSession;
 
 
-public class UserExtension {
-
-    
+public class SessionExtension {
+    public static final String SESSION_USER = "user";
+    public static final String SESSION_MENU = "menus";
 
     public static UserVO getCurrentUser(HttpSession session) {
-        return (UserVO)session.getAttribute(IndexController.SESSION_USER);
+        return (UserVO)session.getAttribute(SESSION_USER);
     }
 }

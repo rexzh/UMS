@@ -5,24 +5,26 @@ import com.ums.management.core.model.Role;
 import com.ums.management.core.model.User;
 import com.ums.management.core.view.model.ChangePasswordVO;
 import com.ums.management.core.view.model.LoginVO;
+import com.ums.management.core.view.model.ServiceResult;
 import com.ums.management.core.view.model.UserVO;
 
+import javax.xml.ws.Service;
 import java.util.List;
 
 public interface IUserService {
-    User getUserById(long id);
+    UserVO getUserById(long id);
 
     List<UserVO> getAllUsers(UserVO requestor, String code, String name, Boolean enabled, Long start, Integer rows);
     long countAllUsers(UserVO requestor, String code, String name, Boolean enabled);
 
-    void deleteById(long id);
-    void create(UserVO user);
-    void update(UserVO user);
+    ServiceResult<Void> deleteById(UserVO editor, long id);
+    ServiceResult<Void> create(UserVO editor, UserVO user);
+    ServiceResult<Void> update(UserVO editor, UserVO user);
 
     Role getRoleByUser(User user);
     List<Organization> getOrganizationsByUser(User user);
 
-    String resetPassword(long id);
+    ServiceResult<String> resetPassword(UserVO editor, long id);
     UserVO login(LoginVO login);
     boolean changePassword(ChangePasswordVO changePassword);
 }

@@ -1,7 +1,7 @@
 //generate==
 package com.ums.management.web.controller;
 
-import com.ums.management.web.utility.UserExtension;
+import com.ums.management.web.utility.SessionExtension;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -28,7 +28,7 @@ public class LocalDictController {
     @RequestMapping("/localDict.json/byCode/{code}")
     public ResponseVO getLocalDictByCode(HttpSession httpSession, @PathVariable(value = "code") String typeCode) {
         ResponseVO response = ResponseVO.buildSuccessResponse();
-        int orgId = UserExtension.getCurrentUser(httpSession).getCurrentOrganization().getId();
+        int orgId = SessionExtension.getCurrentUser(httpSession).getCurrentOrganization().getId();
         response.addData("localDict", _svc.getLocalDictByCodeAndOrgId(typeCode, orgId));
         return response;
     }
