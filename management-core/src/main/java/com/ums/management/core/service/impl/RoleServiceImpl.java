@@ -65,10 +65,10 @@ public class RoleServiceImpl implements IRoleService {
 
     @Override
     @Transactional
-    public ServiceResult<Void> update(UserVO requestor, RoleVO roleVO) {
+    public ServiceResult<Void> update(UserVO editor, RoleVO roleVO) {
         Role roleToEdit = roleVO.toRole();
 
-        if(!RoleMatrix.hasEnoughPower(requestor.getRole(), roleToEdit)) {
+        if(!RoleMatrix.hasEnoughPower(editor.getRole(), roleToEdit)) {
             return new ServiceResult<>(403, "No permission");
         }
 

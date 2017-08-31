@@ -14,5 +14,5 @@ public interface IRoleService {
 
     ServiceResult<Void> deleteById(int id);
     void create(RoleVO role);
-    ServiceResult<Void> update(UserVO requestor, RoleVO role);
+    ServiceResult<Void> update(UserVO editor, RoleVO role);
 }

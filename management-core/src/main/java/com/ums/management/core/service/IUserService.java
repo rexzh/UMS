@@ -14,8 +14,8 @@ import java.util.List;
 public interface IUserService {
     UserVO getUserById(long id);
 
-    List<UserVO> getAllUsers(UserVO requestor, String code, String name, Boolean enabled, Long start, Integer rows);
-    long countAllUsers(UserVO requestor, String code, String name, Boolean enabled);
+    List<UserVO> getAllUsers(UserVO editor, String code, String name, Boolean enabled, Long start, Integer rows);
+    long countAllUsers(UserVO editor, String code, String name, Boolean enabled);
 
     ServiceResult<Void> deleteById(UserVO editor, long id);
     ServiceResult<Void> create(UserVO editor, UserVO user);

@@ -29,9 +29,9 @@ public class OrganizationServiceImpl implements IOrganizationService {
     }
 
     @Override
-    public List<Organization> getOrganizations(UserVO requestor, String name, Boolean enabled, Integer start, Integer rows) {
+    public List<Organization> getOrganizations(UserVO editor, String name, Boolean enabled, Integer start, Integer rows) {
         Map<String, Object> queryMap = new HashMap<>();
-        if (requestor.getRole().isAdmin()) {
+        if (editor.getRole().isAdmin()) {
             queryMap.put("name", name);
             queryMap.put("enabled", enabled);
 
@@ -39,7 +39,7 @@ public class OrganizationServiceImpl implements IOrganizationService {
             queryMap.put("rows", rows);
             return _dao.selectOrganizations(queryMap);
         } else {
-            queryMap.put("userId", requestor.getId());
+            queryMap.put("userId", editor.getId());
             queryMap.put("name", name);
             queryMap.put("enabled", enabled);
 
@@ -50,15 +50,15 @@ public class OrganizationServiceImpl implements IOrganizationService {
     }
 
     @Override
-    public int countOrganizations(UserVO requestor, String name, Boolean enabled) {
+    public int countOrganizations(UserVO editor, String name, Boolean enabled) {
         Map<String, Object> queryMap = new HashMap<>();
-        if (requestor.getRole().isAdmin()) {
+        if (editor.getRole().isAdmin()) {
             queryMap.put("name", name);
             queryMap.put("enabled", enabled);
 
             return _dao.countOrganizations(queryMap);
         } else {
-            queryMap.put("userId", requestor.getId());
+            queryMap.put("userId", editor.getId());
             queryMap.put("name", name);
             queryMap.put("enabled", enabled);
 
@@ -73,11 +73,11 @@ public class OrganizationServiceImpl implements IOrganizationService {
 
     @Override
     @Transactional
-    public void create(UserVO requestor, Organization organization) {
+    public void create(UserVO editor, Organization organization) {
         _dao.insert(organization);
-        if (!requestor.getRole().isAdmin()) {
+        if (!editor.getRole().isAdmin()) {
             UserOrg uo = new UserOrg();
-            uo.setUserId(requestor.getId());
+            uo.setUserId(editor.getId());
             uo.setOrgId(organization.getId());
             _uoDao.insert(uo);
         }

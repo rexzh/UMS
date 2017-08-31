@@ -55,11 +55,11 @@ public class UserServiceImpl implements IUserService {
     }
 
     @Override
-    public List<UserVO> getAllUsers(UserVO requestor, String code, String name, Boolean enabled, Long start, Integer rows) {
+    public List<UserVO> getAllUsers(UserVO editor, String code, String name, Boolean enabled, Long start, Integer rows) {
         Map<String, Object> queryMap = new HashMap<>();
         List<User> users;
 
-        if (requestor.getRole().isAdmin()) {
+        if (editor.getRole().isAdmin()) {
             queryMap.put("code", code);
             queryMap.put("name", name);
             queryMap.put("enabled", enabled);
@@ -72,7 +72,7 @@ public class UserServiceImpl implements IUserService {
             queryMap.put("code", code);
             queryMap.put("name", name);
             queryMap.put("enabled", enabled);
-            queryMap.put("userId", requestor.getId());
+            queryMap.put("userId", editor.getId());
 
             queryMap.put("start", start);
             queryMap.put("rows", rows);
@@ -95,10 +95,10 @@ public class UserServiceImpl implements IUserService {
 
 
     @Override
-    public long countAllUsers(UserVO requestor, String code, String name, Boolean enabled) {
+    public long countAllUsers(UserVO editor, String code, String name, Boolean enabled) {
         Map<String, Object> queryMap = new HashMap<>();
 
-        if (requestor.getRole().isAdmin()) {
+        if (editor.getRole().isAdmin()) {
             queryMap.put("code", code);
             queryMap.put("name", name);
             queryMap.put("enabled", enabled);
@@ -108,7 +108,7 @@ public class UserServiceImpl implements IUserService {
             queryMap.put("code", code);
             queryMap.put("name", name);
             queryMap.put("enabled", enabled);
-            queryMap.put("userId", requestor.getId());
+            queryMap.put("userId", editor.getId());
 
             return _userDao.countAllUsersByUserId(queryMap);
         }

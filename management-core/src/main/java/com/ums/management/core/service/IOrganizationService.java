@@ -9,12 +9,12 @@ import java.util.List;
 public interface IOrganizationService {
 	Organization getOrganizationById(int id);
 
-    List<Organization> getOrganizations(UserVO requestor, String name, Boolean enabled, Integer start, Integer rows);
-    int countOrganizations(UserVO requestor, String name, Boolean enabled);
+    List<Organization> getOrganizations(UserVO editor, String name, Boolean enabled, Integer start, Integer rows);
+    int countOrganizations(UserVO editor, String name, Boolean enabled);
 
     void deleteById(int id);
 
-    void create(UserVO requestor, Organization organization);
+    void create(UserVO editor, Organization organization);
 
     void update(Organization organization);
 }
