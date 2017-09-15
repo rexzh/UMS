@@ -34,10 +34,18 @@ public class SimpleStorage implements IStorage {
             Path p = Paths.get(rootPath, dir);
 
             if (!Files.exists(p)){
-                Set<PosixFilePermission> perms = PosixFilePermissions.fromString("rwxrwxrwx");
-                FileAttribute<Set<PosixFilePermission>> attr = PosixFilePermissions.asFileAttribute(perms);
+                String os = System.getProperty("os.name");
+                if(os.toLowerCase().indexOf("win") >= 0) {
+                    Files.createDirectories(p);
+                } else {
+                    Set<PosixFilePermission> perms = PosixFilePermissions.fromString("rwxrwxrwx");
+                    FileAttribute<Set<PosixFilePermission>> attr = PosixFilePermissions.asFileAttribute(perms);
 
-                Files.createDirectories(p, attr);
+                    Files.createDirectories(p, attr);
+                }
+                logger.info("folder created");
+            } else {
+                logger.info("folder exist");
             }
 
             String fileName = UUIDExtension.uuidToBase64(UUID.randomUUID());
