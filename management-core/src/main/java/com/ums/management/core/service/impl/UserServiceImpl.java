@@ -145,9 +145,10 @@ public class UserServiceImpl implements IUserService {
                 String salt = RandomStringUtils.randomNumeric(4);
                 user.setSalt(salt);
 
-                _userDao.insert(CopyUtils.copyBean(user, User.class));
+                User u = CopyUtils.copyBean(user, User.class);
+                _userDao.insert(u);
                 UserRole ur = new UserRole();
-                ur.setUserId(user.getId());
+                ur.setUserId(u.getId());
                 ur.setRoleId(user.getRole().getId());
                 _urDao.insert(ur);
 
