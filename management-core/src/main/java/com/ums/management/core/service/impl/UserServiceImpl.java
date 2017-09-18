@@ -155,7 +155,7 @@ public class UserServiceImpl implements IUserService {
                 for (Organization org : user.getOrganizations()) {
                     UserOrg uo = new UserOrg();
                     uo.setOrgId(org.getId());
-                    uo.setUserId(user.getId());
+                    uo.setUserId(u.getId());
                     _userOrgDao.insert(uo);
                 }
 
