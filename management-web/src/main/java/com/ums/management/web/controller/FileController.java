@@ -63,7 +63,7 @@ public class FileController {
     }
 
     @RequestMapping(value = "/file.json/{id}", method = RequestMethod.POST)
-    public ResponseVO replace(@PathVariable("id") int id, @RequestParam("file") MultipartFile file) throws IOException {
+    public void replace(HttpServletResponse httpResponse, @PathVariable("id") int id, @RequestParam("file") MultipartFile file) throws IOException {
         FileMeta meta = _svc.getFileMetaById(id);
         meta.setName(file.getOriginalFilename());
         meta.setType(file.getContentType());
@@ -72,7 +72,18 @@ public class FileController {
             _svc.replace(meta, is);
         }
 
-        return ResponseVO.buildSuccessResponse();
+        ResponseVO response = ResponseVO.buildSuccessResponse();
+        response.addData("file", meta);
+
+        String json = JSONExtension.stringify(response);
+
+        httpResponse.setContentType("text/html");
+        try(OutputStream os = httpResponse.getOutputStream()) {
+            IOUtils.write(json, os);
+
+            os.flush();
+            os.close();
+        }
     }
 
     @RequestMapping(value = "/file.json/{id}", method = RequestMethod.DELETE)
