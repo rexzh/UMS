@@ -1,6 +1,9 @@
 package com.ums.management.core.dao;
 
 import com.ums.management.core.model.FileMeta;
+import org.apache.ibatis.annotations.Param;
+
+import java.util.List;
 
 public interface FileMetaMapper {
     /**
@@ -50,4 +53,7 @@ public interface FileMetaMapper {
      * @mbggenerated Mon Apr 24 11:36:26 CST 2017
      */
     int updateByPrimaryKey(FileMeta record);
+
+    List<FileMeta> selectAll(@Param("name") String name, @Param("type") String type, @Param("start") int start, @Param("rows") int rows);
+    int countAll();
 }

@@ -3,6 +3,7 @@ package com.ums.management.web.controller;
 import com.ums.management.core.model.FileMeta;
 import com.ums.management.core.service.IFileService;
 import com.ums.management.core.utility.JSONExtension;
+import com.ums.management.web.utility.PageExtension;
 import com.ums.management.web.view.vo.ResponseVO;
 import org.apache.commons.io.IOUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -91,5 +92,19 @@ public class FileController {
         _svc.deleteFile(id);
 
         return ResponseVO.buildSuccessResponse();
+    }
+
+    @RequestMapping(value = "/file.json", method = RequestMethod.GET)
+    public ResponseVO list(@RequestParam(value = "name", required = false) String name,
+                           @RequestParam(value = "type", required = false) String type,
+                           @RequestParam(value = "page", required = false) Integer page,
+                           @RequestParam(value = "rows", required = false) Integer rows) {
+        if(page == null)
+            page = 1;
+        Integer start = PageExtension.calcStart(page, rows);
+        ResponseVO responseVO = ResponseVO.buildSuccessResponse();
+        responseVO.addData("files", _svc.list(name, type, start, rows));
+        responseVO.addData("count", _svc.count());
+        return responseVO;
     }
 }

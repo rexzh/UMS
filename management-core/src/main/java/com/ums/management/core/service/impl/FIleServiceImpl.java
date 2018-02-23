@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
 import java.io.InputStream;
+import java.util.List;
 
 /**
  * Created by Rex on 2017/4/28.
@@ -57,5 +58,15 @@ public class FIleServiceImpl implements IFileService {
         String uri = _storage.save(stream);
         meta.setUri(uri);
         _metaDao.updateByPrimaryKey(meta);
+    }
+
+    @Override
+    public List<FileMeta> list(String name, String type, int start, int rows) {
+        return _metaDao.selectAll(name, type, start, rows);
+    }
+
+    @Override
+    public int count() {
+        return _metaDao.countAll();
     }
 }
