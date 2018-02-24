@@ -3,6 +3,7 @@ package com.ums.management.web.controller;
 import com.ums.management.core.model.FileMeta;
 import com.ums.management.core.service.IFileService;
 import com.ums.management.core.utility.JSONExtension;
+import com.ums.management.core.view.model.ServiceResult;
 import com.ums.management.web.utility.PageExtension;
 import com.ums.management.web.view.vo.ResponseVO;
 import org.apache.commons.io.IOUtils;
@@ -70,28 +71,46 @@ public class FileController {
         meta.setType(file.getContentType());
 
         try (InputStream is = file.getInputStream()) {
-            _svc.replace(meta, is);
-        }
+            ServiceResult result = _svc.replace(meta, is);
 
-        ResponseVO response = ResponseVO.buildSuccessResponse();
-        response.addData("file", meta);
+            ResponseVO response;
 
-        String json = JSONExtension.stringify(response);
+            if(result.getSuccess()) {
+                response = ResponseVO.buildSuccessResponse();
+                if(result.getCode() == 404) {
+                    response.addData("warning", result.getReason());
+                }
+            } else {
+                response = ResponseVO.buildErrorResponse(result.getReason());
+            }
 
-        httpResponse.setContentType("text/html");
-        try(OutputStream os = httpResponse.getOutputStream()) {
-            IOUtils.write(json, os);
+            response.addData("file", meta);
 
-            os.flush();
-            os.close();
+            String json = JSONExtension.stringify(response);
+
+            httpResponse.setContentType("text/html");
+            try (OutputStream os = httpResponse.getOutputStream()) {
+                IOUtils.write(json, os);
+
+                os.flush();
+                os.close();
+            }
         }
     }
 
     @RequestMapping(value = "/file.json/{id}", method = RequestMethod.DELETE)
     public ResponseVO delete(@PathVariable("id") int id) {
-        _svc.deleteFile(id);
+        ServiceResult result = _svc.deleteFile(id);
+        if(result.getSuccess()) {
+            ResponseVO response = ResponseVO.buildSuccessResponse();
 
-        return ResponseVO.buildSuccessResponse();
+            if(result.getCode() == 404) {
+                response.addData("warning", result.getReason());
+            }
+            return response;
+        } else {
+            return ResponseVO.buildErrorResponse(result.getReason());
+        }
     }
 
     @RequestMapping(value = "/file.json", method = RequestMethod.GET)

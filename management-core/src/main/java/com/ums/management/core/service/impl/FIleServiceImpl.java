@@ -4,6 +4,8 @@ import com.ums.management.core.dao.FileMetaMapper;
 import com.ums.management.core.model.FileMeta;
 import com.ums.management.core.service.IFileService;
 import com.ums.management.core.service.IStorage;
+import com.ums.management.core.utility.CommonException;
+import com.ums.management.core.view.model.ServiceResult;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
@@ -42,9 +44,17 @@ public class FIleServiceImpl implements IFileService {
     }
 
     @Override
-    public void deleteFile(int id) {
+    public ServiceResult deleteFile(int id) {
+        ServiceResult<Void> result = new ServiceResult(null);
         FileMeta meta = _metaDao.selectByPrimaryKey(id);
-        _storage.delete(meta.getUri());
+        _metaDao.deleteByPrimaryKey(id);
+        try {
+            _storage.delete(meta.getUri());
+        } catch (CommonException ex) {
+            result.setCode(404);
+            result.setReason("File not found");
+        }
+        return result;
     }
 
     @Override
@@ -53,11 +63,20 @@ public class FIleServiceImpl implements IFileService {
     }
 
     @Override
-    public void replace(FileMeta meta, InputStream stream) {
-        _storage.delete(meta.getUri());
+    public ServiceResult replace(FileMeta meta, InputStream stream) {
+        ServiceResult<Void> result = new ServiceResult(null);
+        try {
+            _storage.delete(meta.getUri());
+        } catch (CommonException ex) {
+            result.setCode(404);
+            result.setReason("File not found");
+        }
+
         String uri = _storage.save(stream);
         meta.setUri(uri);
         _metaDao.updateByPrimaryKey(meta);
+
+        return result;
     }
 
     @Override
