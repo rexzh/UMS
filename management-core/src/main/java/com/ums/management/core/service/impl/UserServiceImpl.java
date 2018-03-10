@@ -174,7 +174,7 @@ public class UserServiceImpl implements IUserService {
         Role oldRole = this.getRoleByUser(user.toUser());
 
         if (RoleMatrix.hasEnoughPower(editor.getRole(), oldRole) && RoleMatrix.hasEnoughPower(editor.getRole(), user.getRole())) {
-            if (ListExtension.inclusion(editor.getOrganizations(), user.getOrganizations(), Comparator.comparing(Organization::getId))) {
+            if (editor.getRole().isAdmin() || ListExtension.inclusion(editor.getOrganizations(), user.getOrganizations(), Comparator.comparing(Organization::getId))) {
                 _userDao.updateByPrimaryKeySelective(user.toUser());
                 UserRole ur = _urDao.selectByPrimaryKey(user.getId());
                 if (ur.getRoleId() != user.getRole().getId()) {
