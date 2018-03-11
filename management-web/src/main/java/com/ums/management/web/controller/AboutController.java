@@ -20,8 +20,8 @@ public class AboutController {
     @Value("${app.version}")
     private String version = null;
 
-    @RequestMapping(value = "/about.json")
-    public ResponseVO about() {
+    @RequestMapping(value = "/system.json")
+    public ResponseVO system() {
         ResponseVO response = ResponseVO.buildSuccessResponse();
         response.addData("env", env);
         response.addData("version", version);
@@ -34,6 +34,15 @@ public class AboutController {
 
         response.addData("memory", memory);
         response.addData("cpu", cpu);
+
+        return response;
+    }
+
+    @RequestMapping(value = "/about.json")
+    public ResponseVO about() {
+        ResponseVO response = ResponseVO.buildSuccessResponse();
+
+        response.addData("powered by", "quartzx");
 
         return response;
     }
