@@ -52,7 +52,7 @@ public class MsgL10nController {
 
 
     @RequestMapping(value = "/msgL10n.json", method = RequestMethod.POST)
-    public ResponseVO createMsgL10n(@RequestBody List<MsgL10n> msgL10ns) {
+    public ResponseVO saveMsgL10n(@RequestBody List<MsgL10n> msgL10ns) {
 
         ResponseVO response = ResponseVO.buildSuccessResponse();
         _svc.saveMsgL10n(msgL10ns);
