@@ -277,7 +277,12 @@ public class UserServiceImpl implements IUserService {
 
     @Override
     public UserExt getProfile(long id) {
-        return _userExtDao.selectByPrimaryKey(id);
+        UserExt ext = _userExtDao.selectByPrimaryKey(id);
+        if(ext == null) {
+            ext = new UserExt();
+            ext.setUserId(id);
+        }
+        return ext;
     }
 
     @Override
