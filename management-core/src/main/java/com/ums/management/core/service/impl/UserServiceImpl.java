@@ -36,6 +36,9 @@ public class UserServiceImpl implements IUserService {
     @Autowired
     private UserOrgMapper _userOrgDao = null;
 
+    @Autowired
+    private UserExtMapper _userExtDao = null;
+
     @Override
     public UserVO getUserById(long id) {
         User u = _userDao.selectByPrimaryKey(id);
@@ -269,6 +272,21 @@ public class UserServiceImpl implements IUserService {
             return true;
         } else {
             return false;
+        }
+    }
+
+    @Override
+    public UserExt getProfile(long id) {
+        return _userExtDao.selectByPrimaryKey(id);
+    }
+
+    @Override
+    public ServiceResult<Void> updateProfile(User self, UserExt ext) {
+        if(self.getId().equals(ext.getUserId())) {
+            _userExtDao.updateByPrimaryKey(ext);
+            return new ServiceResult<>(null);
+        } else {
+            return new ServiceResult<>(403, "No Permission");
         }
     }
 }

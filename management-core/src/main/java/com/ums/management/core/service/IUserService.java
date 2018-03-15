@@ -3,6 +3,7 @@ package com.ums.management.core.service;
 import com.ums.management.core.model.Organization;
 import com.ums.management.core.model.Role;
 import com.ums.management.core.model.User;
+import com.ums.management.core.model.UserExt;
 import com.ums.management.core.view.model.ChangePasswordVO;
 import com.ums.management.core.view.model.LoginVO;
 import com.ums.management.core.view.model.ServiceResult;
@@ -27,4 +28,7 @@ public interface IUserService {
     ServiceResult<String> resetPassword(UserVO editor, long id);
     UserVO login(LoginVO login);
     boolean changePassword(ChangePasswordVO changePassword);
+
+    UserExt getProfile(long id);
+    ServiceResult<Void> updateProfile(User self, UserExt ext);
 }

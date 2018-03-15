@@ -1,5 +1,6 @@
 package com.ums.management.web.controller;
 
+import com.ums.management.core.model.UserExt;
 import com.ums.management.core.service.IUserService;
 import com.ums.management.core.view.model.ServiceResult;
 import com.ums.management.web.utility.PageExtension;
@@ -87,5 +88,21 @@ public class UserController {
         } else {
             return ResponseVO.buildErrorResponse("Password not correct");
         }
+    }
+
+    @RequestMapping(value = "/profile.json", method = RequestMethod.GET)
+    public ResponseVO getProfile(HttpSession session) {
+        UserVO u = SessionExtension.getCurrentUser(session);
+        ResponseVO response = ResponseVO.buildSuccessResponse();
+        response.addData("profile", this._svc.getProfile(u.getId()));
+        return response;
+    }
+
+    @RequestMapping(value = "/profile.json", method = RequestMethod.PUT)
+    public ResponseVO updateProfile(HttpSession session, @RequestBody UserExt ext) {
+        UserVO u = SessionExtension.getCurrentUser(session);
+        ServiceResult result = this._svc.updateProfile(u.toUser(), ext);
+
+        return ResponseVO.buildResponse(result);
     }
 }
