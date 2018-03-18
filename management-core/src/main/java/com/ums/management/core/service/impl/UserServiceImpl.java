@@ -288,7 +288,13 @@ public class UserServiceImpl implements IUserService {
     @Override
     public ServiceResult<Void> updateProfile(User self, UserExt ext) {
         if(self.getId().equals(ext.getUserId())) {
-            _userExtDao.updateByPrimaryKey(ext);
+            UserExt entity = _userExtDao.selectByPrimaryKey(ext.getUserId());
+            if(entity == null) {
+                _userExtDao.insert(ext);
+            } else {
+                _userExtDao.updateByPrimaryKey(ext);
+            }
+
             return new ServiceResult<>(null);
         } else {
             return new ServiceResult<>(403, "No Permission");
