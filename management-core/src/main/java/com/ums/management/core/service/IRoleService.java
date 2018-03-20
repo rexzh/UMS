@@ -13,6 +13,6 @@ public interface IRoleService {
     List<Role> getAllRoles();
 
     ServiceResult<Void> deleteById(int id);
-    void create(RoleVO role);
+    ServiceResult<Void> create(UserVO editor, RoleVO role);
     ServiceResult<Void> update(UserVO editor, RoleVO role);
 }

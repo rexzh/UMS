@@ -53,7 +53,10 @@ public class RoleServiceImpl implements IRoleService {
 
     @Override
     @Transactional
-    public void create(RoleVO roleVO) {
+    public ServiceResult<Void> create(UserVO editor, RoleVO roleVO) {
+        if(!editor.getRole().isAdmin()) {
+            return new ServiceResult<>(403, "No permission");
+        }
         Role role = CopyUtils.copyBean(roleVO, Role.class);
         _roleDao.insert(role);
 
@@ -61,6 +64,8 @@ public class RoleServiceImpl implements IRoleService {
             rm.setRoleId(role.getId());
             _roleMenuDao.insert(rm);
         }
+
+        return new ServiceResult<>(null);
     }
 
     @Override

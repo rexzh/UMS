@@ -142,7 +142,8 @@ public class UserServiceImpl implements IUserService {
     @Override
     @Transactional
     public ServiceResult<Void> create(UserVO editor, UserVO user) {
-        if (RoleMatrix.hasEnoughPower(editor.getRole(), user.getRole())) {
+        Role targetRole = this.getRoleByUser(user.toUser());
+        if (RoleMatrix.hasEnoughPower(editor.getRole(), targetRole)) {
             if (ListExtension.inclusion(editor.getOrganizations(), user.getOrganizations(), Comparator.comparing(Organization::getId))) {
 
                 String salt = RandomStringUtils.randomNumeric(4);

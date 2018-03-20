@@ -41,9 +41,9 @@ public class RoleController {
     }
 
     @RequestMapping(value = "/role.json", method = RequestMethod.POST)
-    public ResponseVO createRole(@RequestBody RoleVO roleVO) {
-        this._svc.create(roleVO);
-        ResponseVO response = ResponseVO.buildSuccessResponse();
+    public ResponseVO createRole(HttpSession session, @RequestBody RoleVO roleVO) {
+        ServiceResult result = this._svc.create(SessionExtension.getCurrentUser(session), roleVO);
+        ResponseVO response = ResponseVO.buildResponse(result);
         return response;
     }
 
