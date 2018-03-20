@@ -128,6 +128,7 @@ public class UserServiceImpl implements IUserService {
 
                 _urDao.deleteByPrimaryKey(id);
                 _userOrgDao.deleteByUserId(id);
+                _userExtDao.deleteByPrimaryKey(id);
                 _userDao.deleteByPrimaryKey(id);
 
                 return ServiceResult.SUCCESS;
