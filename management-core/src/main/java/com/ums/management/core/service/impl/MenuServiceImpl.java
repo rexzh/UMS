@@ -12,6 +12,8 @@ import com.ums.management.core.model.Role;
 import com.ums.management.core.model.RoleMenu;
 import com.ums.management.core.model.Submenu;
 import com.ums.management.core.service.IMenuService;
+import com.ums.management.core.view.model.ServiceResult;
+import com.ums.management.core.view.model.UserVO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -88,34 +90,54 @@ public class MenuServiceImpl implements IMenuService {
 		return _menuDao.selectMenus();
 	}
 
+
 	@Override
-	public void deleteSubmenuById(int id) {
+	public ServiceResult<Void> deleteSubmenuById(UserVO editor, int id) {
+		if(!editor.getRole().isAdmin())
+			return ServiceResult.NO_PERMISSION;
+
 		_submenuDao.deleteByPrimaryKey(id);
+		return ServiceResult.SUCCESS;
 	}
 
 	@Override
-	public void updateSubmenu(Submenu submenu) {
+	public ServiceResult<Void> updateSubmenu(UserVO editor, Submenu submenu) {
+		if(!editor.getRole().isAdmin())
+			return ServiceResult.NO_PERMISSION;
 		_submenuDao.updateByPrimaryKey(submenu);
+		return ServiceResult.SUCCESS;
 	}
 
 	@Override
-	public void createSubmenu(Submenu submenu) {
+	public ServiceResult<Void> createSubmenu(UserVO editor, Submenu submenu) {
+		if(!editor.getRole().isAdmin())
+			return ServiceResult.NO_PERMISSION;
 		_submenuDao.insert(submenu);
+		return ServiceResult.SUCCESS;
 	}
 
 	@Override
-	public void deleteMenuById(int id){
+	public ServiceResult<Void> deleteMenuById(UserVO editor, int id){
+		if(!editor.getRole().isAdmin())
+			return ServiceResult.NO_PERMISSION;
 		_menuDao.deleteByPrimaryKey(id);
+		return ServiceResult.SUCCESS;
 	}
 
 	@Override
-	public void createMenu(Menu menu){
+	public ServiceResult<Void> createMenu(UserVO editor, Menu menu){
+		if(!editor.getRole().isAdmin())
+			return ServiceResult.NO_PERMISSION;
 		_menuDao.insert(menu);
+		return ServiceResult.SUCCESS;
 	}
 
 	@Override
-	public void updateMenu(Menu menu){
+	public ServiceResult<Void> updateMenu(UserVO editor, Menu menu){
+		if(!editor.getRole().isAdmin())
+			return ServiceResult.NO_PERMISSION;
 		_menuDao.updateByPrimaryKey(menu);
+		return ServiceResult.SUCCESS;
 	}
 
 	@Override

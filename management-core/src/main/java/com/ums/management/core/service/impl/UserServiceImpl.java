@@ -130,19 +130,19 @@ public class UserServiceImpl implements IUserService {
                 _userOrgDao.deleteByUserId(id);
                 _userDao.deleteByPrimaryKey(id);
 
-                return new ServiceResult<>(null);
+                return ServiceResult.SUCCESS;
             } else {
                 return new ServiceResult<>(403, "Can't delete current user");
             }
         } else {
-            return new ServiceResult<>(403, "No Permission");
+            return ServiceResult.NO_PERMISSION;
         }
     }
 
     @Override
     @Transactional
     public ServiceResult<Void> create(UserVO editor, UserVO user) {
-        Role targetRole = this.getRoleByUser(user.toUser());
+        Role targetRole = _roleDao.selectByPrimaryKey(user.getRole().getId());
         if (RoleMatrix.hasEnoughPower(editor.getRole(), targetRole)) {
             if (ListExtension.inclusion(editor.getOrganizations(), user.getOrganizations(), Comparator.comparing(Organization::getId))) {
 
@@ -163,12 +163,12 @@ public class UserServiceImpl implements IUserService {
                     _userOrgDao.insert(uo);
                 }
 
-                return new ServiceResult<>(null);
+                return ServiceResult.SUCCESS;
             } else {
-                return new ServiceResult<>(403, "No Permission");
+                return ServiceResult.NO_PERMISSION;
             }
         } else {
-            return new ServiceResult<>(403, "No Permission");
+            return ServiceResult.NO_PERMISSION;
         }
     }
 
@@ -193,12 +193,12 @@ public class UserServiceImpl implements IUserService {
                     uo.setUserId(user.getId());
                     _userOrgDao.insert(uo);
                 }
-                return new ServiceResult<>(null);
+                return ServiceResult.SUCCESS;
             } else {
-                return new ServiceResult<>(403, "No Permission");
+                return ServiceResult.NO_PERMISSION;
             }
         } else {
-            return new ServiceResult<>(403, "No Permission");
+            return ServiceResult.NO_PERMISSION;
         }
     }
 
@@ -230,7 +230,7 @@ public class UserServiceImpl implements IUserService {
             ServiceResult<String> result = new ServiceResult<String>(password);
             return result;
         } else {
-            return new ServiceResult<>(403, "No Permission");
+            return ServiceResult.NO_PERMISSION;
         }
     }
 
@@ -296,9 +296,9 @@ public class UserServiceImpl implements IUserService {
                 _userExtDao.updateByPrimaryKey(ext);
             }
 
-            return new ServiceResult<>(null);
+            return ServiceResult.SUCCESS;
         } else {
-            return new ServiceResult<>(403, "No Permission");
+            return ServiceResult.NO_PERMISSION;
         }
     }
 }

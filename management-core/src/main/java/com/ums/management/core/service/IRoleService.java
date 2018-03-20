@@ -12,7 +12,7 @@ public interface IRoleService {
     RoleVO getRoleById(int id);
     List<Role> getAllRoles();
 
-    ServiceResult<Void> deleteById(int id);
+    ServiceResult<Void> deleteById(UserVO editor, int id);
     ServiceResult<Void> create(UserVO editor, RoleVO role);
     ServiceResult<Void> update(UserVO editor, RoleVO role);
 }

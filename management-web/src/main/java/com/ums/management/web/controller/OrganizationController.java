@@ -51,28 +51,26 @@ public class OrganizationController {
     }
 
     @RequestMapping(value = "/organization.json", method = RequestMethod.PUT)
-    public ResponseVO updateOrganization(@RequestBody Organization organization) {
+    public ResponseVO updateOrganization(HttpSession session, @RequestBody Organization organization) {
 
         ResponseVO response = ResponseVO.buildSuccessResponse();
-        _svc.update(organization);
+        _svc.update(SessionExtension.getCurrentUser(session), organization);
         return response;
     }
 
     @RequestMapping(value = "/organization.json", method = RequestMethod.POST)
     public ResponseVO createOrganization(HttpSession httpSession, @RequestBody Organization organization) {
 
-        UserVO user = SessionExtension.getCurrentUser(httpSession);
-
         ResponseVO response = ResponseVO.buildSuccessResponse();
-        _svc.create(user, organization);
+        _svc.create(SessionExtension.getCurrentUser(httpSession), organization);
         return response;
     }
 
     @RequestMapping(value = "/organization.json/{id}", method = RequestMethod.DELETE)
-    public ResponseVO deleteOrganization(@PathVariable("id") Integer id) {
+    public ResponseVO deleteOrganization(HttpSession session, @PathVariable("id") Integer id) {
 
         ResponseVO response = ResponseVO.buildSuccessResponse();
-        _svc.deleteById(id);
+        _svc.deleteById(SessionExtension.getCurrentUser(session), id);
         return response;
     }
 }

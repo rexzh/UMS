@@ -11,4 +11,8 @@ public class RoleMatrix {
         } else
             return true;
     }
+
+    public static boolean hasEnoughPower(Role editor) {
+        return editor.isAdmin() || editor.isPowerUser();
+    }
 }

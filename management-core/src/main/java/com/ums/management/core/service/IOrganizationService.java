@@ -2,6 +2,7 @@ package com.ums.management.core.service;
 
 import com.ums.management.core.model.Organization;
 import com.ums.management.core.model.User;
+import com.ums.management.core.view.model.ServiceResult;
 import com.ums.management.core.view.model.UserVO;
 
 import java.util.List;
@@ -12,9 +13,9 @@ public interface IOrganizationService {
     List<Organization> getOrganizations(UserVO editor, String name, Boolean enabled, Integer start, Integer rows);
     int countOrganizations(UserVO editor, String name, Boolean enabled);
 
-    void deleteById(int id);
+    ServiceResult<Void> deleteById(UserVO editor, int id);
 
-    void create(UserVO editor, Organization organization);
+    ServiceResult<Void> create(UserVO editor, Organization organization);
 
-    void update(Organization organization);
+    ServiceResult<Void> update(UserVO editor, Organization organization);
 }

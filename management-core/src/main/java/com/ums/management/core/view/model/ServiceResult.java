@@ -51,4 +51,7 @@ public class ServiceResult<TResult> {
     public void setResult(TResult result) {
         this.result = result;
     }
+
+    public static ServiceResult NO_PERMISSION = new ServiceResult(403, "No Permission");
+    public static ServiceResult SUCCESS = new ServiceResult(null);
 }

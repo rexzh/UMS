@@ -48,8 +48,8 @@ public class RoleController {
     }
 
     @RequestMapping(value = "/role.json/{id}", method = RequestMethod.DELETE)
-    public ResponseVO deleteRole(@PathVariable("id") Integer id) {
-        ServiceResult result = this._svc.deleteById(id);
+    public ResponseVO deleteRole(HttpSession session, @PathVariable("id") Integer id) {
+        ServiceResult result = this._svc.deleteById(SessionExtension.getCurrentUser(session), id);
         return ResponseVO.buildResponse(result);
     }
 }

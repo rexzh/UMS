@@ -6,6 +6,7 @@ import com.ums.management.core.model.Role;
 import com.ums.management.core.model.RoleMenu;
 import com.ums.management.core.service.IRoleService;
 import com.ums.management.core.utility.CopyUtils;
+import com.ums.management.core.utility.ListExtension;
 import com.ums.management.core.utility.RoleMatrix;
 import com.ums.management.core.view.model.RoleVO;
 import com.ums.management.core.view.model.ServiceResult;
@@ -14,6 +15,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Comparator;
 import java.util.List;
 
 @Service
@@ -40,41 +42,56 @@ public class RoleServiceImpl implements IRoleService {
 
     @Override
     @Transactional
-    public ServiceResult<Void> deleteById(int id) {
+    public ServiceResult<Void> deleteById(UserVO editor, int id) {
+        if((!editor.getRole().isAdmin()) && (!editor.getRole().isPowerUser())) {
+            return ServiceResult.NO_PERMISSION;
+        }
+
         Role r = _roleDao.selectByPrimaryKey(id);
-        if(r.isAdmin() || r.isPowerUser()) {
+        if (r.isAdmin() || r.isPowerUser()) {
             return new ServiceResult<>(400, "Built-in role can't be removed");
         } else {
             _roleMenuDao.deleteByRoleId(id);
             _roleDao.deleteByPrimaryKey(id);
-            return new ServiceResult<>(null);
+            return ServiceResult.SUCCESS;
         }
     }
 
     @Override
     @Transactional
     public ServiceResult<Void> create(UserVO editor, RoleVO roleVO) {
-        if(!editor.getRole().isAdmin()) {
-            return new ServiceResult<>(403, "No permission");
+        if (!RoleMatrix.hasEnoughPower(editor.getRole()))
+            return ServiceResult.NO_PERMISSION;
+
+        RoleVO editorRole = this.getRoleById(editor.getRole().getId());
+        if (editor.getRole().isPowerUser() &&
+                (!ListExtension.inclusion(editorRole.getRoleMenus(), roleVO.getRoleMenus(), Comparator.comparing(RoleMenu::getSubmenuId)))) {
+            return ServiceResult.NO_PERMISSION;
         }
+
         Role role = CopyUtils.copyBean(roleVO, Role.class);
         _roleDao.insert(role);
 
-        for (RoleMenu rm : roleVO.getRoleMenus()){
+        for (RoleMenu rm : roleVO.getRoleMenus()) {
             rm.setRoleId(role.getId());
             _roleMenuDao.insert(rm);
         }
 
-        return new ServiceResult<>(null);
+        return ServiceResult.SUCCESS;
     }
 
     @Override
     @Transactional
     public ServiceResult<Void> update(UserVO editor, RoleVO roleVO) {
         Role roleToEdit = roleVO.toRole();
+        if (!RoleMatrix.hasEnoughPower(editor.getRole(), roleToEdit)) {
+            return ServiceResult.NO_PERMISSION;
+        }
 
-        if(!RoleMatrix.hasEnoughPower(editor.getRole(), roleToEdit)) {
-            return new ServiceResult<>(403, "No permission");
+        RoleVO editorRole = this.getRoleById(editor.getRole().getId());
+        if (editor.getRole().isPowerUser() &&
+                (!ListExtension.inclusion(editorRole.getRoleMenus(), roleVO.getRoleMenus(), Comparator.comparing(RoleMenu::getSubmenuId)))) {
+            return ServiceResult.NO_PERMISSION;
         }
 
         Role oldRole = _roleDao.selectByPrimaryKey(roleToEdit.getId());
@@ -87,9 +104,9 @@ public class RoleServiceImpl implements IRoleService {
         Role role = CopyUtils.copyBean(roleVO, Role.class);
         _roleDao.updateByPrimaryKey(role);
         _roleMenuDao.deleteByRoleId(role.getId());
-        for (RoleMenu rm : roleVO.getRoleMenus()){
+        for (RoleMenu rm : roleVO.getRoleMenus()) {
             _roleMenuDao.insert(rm);
         }
-        return new ServiceResult<>(null);
+        return ServiceResult.SUCCESS;
     }
 }
