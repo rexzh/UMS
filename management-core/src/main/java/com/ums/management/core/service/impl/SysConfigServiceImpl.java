@@ -5,6 +5,9 @@ import java.util.List;
 import java.util.HashMap;
 import java.util.Map;
 
+import com.ums.management.core.utility.RoleMatrix;
+import com.ums.management.core.view.model.ServiceResult;
+import com.ums.management.core.view.model.UserVO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -28,6 +31,7 @@ public class SysConfigServiceImpl implements ISysConfigService {
 		return _dao.selectSysConfigs();
 	}
 
+	/*
 	@Override
     public void deleteById(int id){
 		_dao.deleteByPrimaryKey(id);
@@ -37,9 +41,15 @@ public class SysConfigServiceImpl implements ISysConfigService {
     public void create(SysConfig sysConfig){
 		_dao.insert(sysConfig);
 	}
+	*/
 
 	@Override
-    public void update(SysConfig sysConfig){
-		_dao.updateByPrimaryKey(sysConfig);
+    public ServiceResult<Void> update(UserVO editor, SysConfig sysConfig){
+		if(!RoleMatrix.hasEnoughPower(editor.getRole())) {
+			return ServiceResult.NO_PERMISSION;
+		} else {
+			_dao.updateByPrimaryKey(sysConfig);
+			return ServiceResult.SUCCESS;
+		}
 	}
 }
