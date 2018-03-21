@@ -260,6 +260,8 @@ public class UserServiceImpl implements IUserService {
         if (filteredOrgs.size() > 0)
             userVO.setCurrentOrganization(filteredOrgs.get(0));
 
+        UserExt ext = _userExtDao.selectByPrimaryKey(user.getId());
+        userVO.setAvatar(ext.getPic());
 
         return userVO;
     }

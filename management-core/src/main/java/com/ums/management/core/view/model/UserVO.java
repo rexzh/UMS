@@ -26,6 +26,9 @@ public class UserVO {
     private String password;
 
 
+    private String avatar;
+
+
     public long getId() {
         return id;
     }
@@ -75,6 +78,14 @@ public class UserVO {
         this.password = password;
     }
 
+    public String getAvatar() {
+        return avatar;
+    }
+
+    public void setAvatar(String avatar) {
+        this.avatar = avatar;
+    }
+
     private Role role;
 
     public Role getRole(){ return role; }
@@ -116,4 +127,6 @@ public class UserVO {
     public User toUser(){
         return CopyUtils.copyBean(this, User.class);
     }
+
+
 }
