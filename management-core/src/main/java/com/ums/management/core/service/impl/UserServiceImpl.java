@@ -261,7 +261,8 @@ public class UserServiceImpl implements IUserService {
             userVO.setCurrentOrganization(filteredOrgs.get(0));
 
         UserExt ext = _userExtDao.selectByPrimaryKey(user.getId());
-        userVO.setAvatar(ext.getPic());
+        if (ext != null)
+            userVO.setAvatar(ext.getPic());
 
         return userVO;
     }
@@ -282,7 +283,7 @@ public class UserServiceImpl implements IUserService {
     @Override
     public UserExt getProfile(long id) {
         UserExt ext = _userExtDao.selectByPrimaryKey(id);
-        if(ext == null) {
+        if (ext == null) {
             ext = new UserExt();
             ext.setUserId(id);
         }
@@ -291,9 +292,9 @@ public class UserServiceImpl implements IUserService {
 
     @Override
     public ServiceResult<Void> updateProfile(User self, UserExt ext) {
-        if(self.getId().equals(ext.getUserId())) {
+        if (self.getId().equals(ext.getUserId())) {
             UserExt entity = _userExtDao.selectByPrimaryKey(ext.getUserId());
-            if(entity == null) {
+            if (entity == null) {
                 _userExtDao.insert(ext);
             } else {
                 _userExtDao.updateByPrimaryKey(ext);
