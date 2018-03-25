@@ -9,7 +9,8 @@
             ">
 	
 	<context:annotation-config />
-	<context:component-scan base-package="com.quartzx.management.core.**" />
+	<context:component-scan base-package="com.ums.management.core.**" />
+	<context:property-placeholder location="classpath:application.properties"/>
 
 	<!-- 创建SqlSessionFactory，同时指定数据源-->       
 	<bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean"
